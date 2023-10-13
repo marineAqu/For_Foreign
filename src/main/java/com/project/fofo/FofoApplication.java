@@ -10,7 +10,5 @@ public class FofoApplication {
 		SpringApplication.run(FofoApplication.class, args);
 	}
 
-	//테스트용 주석 코드
-	
-	//어떻고 저떻고
+	//김도연 풀 푸시 확인용
 }
