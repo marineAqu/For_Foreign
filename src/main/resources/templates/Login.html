@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/Login.css">
+    <title>Login</title>
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+</style>
+
+<body>
+<div class="splash">
+  <img class="fade-in" src="/images/FoFo.png">
+</div>
+
+<img src="/images/Border(LeftTop).png" style="float: left;">
+<img src="/images/Border(RightTop).png" style="float: right;">
+<div style="clear:both;"></div>
+
+<div style="position: absolute; top: 50%; left: 50%; transform: translate( -50%, -50% ); width:100%;">
+  <div class="LoginForm">
+    <img src="/images/HangingScroll.png" class="HangingScroll">
+
+    <div class="LoginTextForm">
+      <form action="/login_process" method="post">
+        <h1>Login</h1>
+        <input type="text" id="uid" name="uid" placeholder="Id">
+        <br>
+        <input type="password" id="password" name="password" placeholder="Password">
+        <br>
+        <button type="submit" class="LoginButton">Login</button>
+      </form>
+
+      <form method="post" action="/oauth2/authorization/google">
+        <button type="submit" class="GoogleButton"><img src="/images/Google_icon.png" style="width: 20px; margin-right: 10px;">Login with Google</button>
+      </form>
+
+      <form method="get" action="/join" style="margin-top:5px;">
+        <b style="font-size: 14px;">Don't have a account?</b>
+        <br>
+        <a type="submit" href="/join">Sigh Up</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<img src="/images/Border(LeftBottom).png" style="position: absolute; bottom: 10px; left: 10px;">
+<img src="/images/Border(RightBottom).png" style="position: absolute; bottom: 10px; right: 10px;">
+
+<script>
+  const splash = document.querySelector('.splash');
+  document.addEventListener('DOMContentLoaded', (e)=> {
+    setTimeout(()=>{
+      splash.classList.add('display-none');
+    }, 2000);
+  });
+</script>
+</body>
+</html>
