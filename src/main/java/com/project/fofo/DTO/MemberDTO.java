@@ -27,5 +27,8 @@ public class MemberDTO {
         this.uid = uid;
         this.password = password;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> e3765f37bea5b8b0f2881f46c8a2339086f83f14
 }

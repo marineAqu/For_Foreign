@@ -1,6 +1,7 @@
 package com.project.fofo.controller;
 
 import com.project.fofo.DTO.MemberDTO;
+import com.project.fofo.auth.PrincipalDetailsService;
 import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.repository.MemberRepository;
 import com.project.fofo.service.MemberService;
@@ -24,13 +25,9 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/home")
-    public String homePage(Model model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String uid = ((UserDetails) principal).getUsername();
-        MemlistEntity user = memberService.findByMember(uid);
-        model.addAttribute("user", user);
-        return "Home";
+    @GetMapping("/main")
+    public String mainPage() {
+        return "Main";
     }
 
     @GetMapping("/myPage")
