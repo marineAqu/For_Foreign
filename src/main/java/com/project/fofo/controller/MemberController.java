@@ -24,9 +24,14 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/main")
-    public String mainPage() {
-        return "Main";
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
+        model.addAttribute("user", user);
+        return "Home";
     }
 
     @GetMapping("/myPage")

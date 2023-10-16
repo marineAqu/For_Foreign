@@ -32,13 +32,11 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginProcessingUrl("/login_process")
                         .defaultSuccessUrl("/home", true)
-                        .defaultSuccessUrl("/main", true)
                         .failureForwardUrl("/login"));
         http
                 .oauth2Login(login -> login
                         .loginPage("/login") // 구글 로그인이 완료된 뒤의 후처리가 필요
                         .defaultSuccessUrl("/home", true)
-                        .defaultSuccessUrl("/main", true)
                         .failureUrl("/login")
                         .userInfoEndpoint() // 로그인 완료 후 회원 정보 받기
                         .userService(oAuth2MemberService));
