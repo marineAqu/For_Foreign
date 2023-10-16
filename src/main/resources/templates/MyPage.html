@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/MyPage.css">
+    <title>MyPage</title>
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+</style>
+
+<body>
+<img onclick="history.back()" src="/images/Back.png" style="width: 30px; margin-top: 5px; margin-left: 5px;">
+
+<div style="text-align: center; margin-top: -30px;">
+  <h1>My Page</h1>
+  <img src="/images/Belt.png" style="width: 90%">
+</div>
+
+<br>
+
+<div class="container">
+  <img src="/images/Circle.png" class="circle">
+  <h2>Profile</h2>
+  <form action="/myPage/modify" style="margin-left: 10px;">
+    <input type="image" src="/images/Edit.png" style="width: 25px; margin-top: 7px;">
+  </form>
+</div>
+
+<h3 style="margin-left: 50px;" th:text="${user.userName}"></h3>
+<h3 style="margin-left: 50px;" th:text="${user.uid}"></h3>
+
+<div class="container">
+  <img src="/images/Circle.png" class="circle">
+  <h2>Rank</h2>
+</div>
+<h3 style="margin-left: 50px;">My Rank</h3>
+<a href="/overallRank" style="text-decoration-line: none; color: #4A7E67;"><h3 style="margin-left: 50px;">Overall Rank</h3></a>
+
+<div class="logout">
+  <img src="/images/Circle.png" class="circle">
+  <a href="/logout" style="text-decoration-line: none; color: #4A7E67;"><h2>Logout</h2></a>
+</div>
+</body>
+</html>

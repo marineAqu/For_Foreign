@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: #F2E8D5;
+}
+table {
+    border-spacing: 0px 15px;
+}
+tr{
+    background-color: #ffffff;
+    box-shadow: 1px 4px 4px gray;
+    border-radius: 0px 10px 10px 0px;
+}
+.rank, .totalCount{
+    text-align: center;
+}
+.rank{
+    width: 15%;
+}
+.totalCount{
+    width: 20%;
+    border-radius: 0px 10px 10px 0px;
+}

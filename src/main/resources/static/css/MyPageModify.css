@@ -1,0 +1,52 @@
+body{
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: #F2E8D5;
+}
+.container {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100vw;
+    height: 50px;
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+}
+.logout {
+    background-color: rgba(182, 208, 195, 0.5);
+    width: 100vw;
+    height: 50px;
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+}
+.circle{
+    width: 25px;
+    max-width: 100%; /* 이미지 크기 조절 */
+    margin-right: 10px; /* 이미지와 텍스트 사이 여백 설정 */
+    margin-left: 5px;
+}
+.modify{
+    width: 81%;
+    height: 40px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background-color: #B6D0C3;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+}
+#name, #uid, #password{
+    margin-left: 10px;
+    width: 80%;
+    height: 40px;
+    background-color: #F2E8D5;
+    box-shadow: 0px 0px 7px 2px #DECEAE inset;
+    outline: none;
+    border-radius: 5px;
+    border: 0;
+    text-indent: 10px;
+    margin-bottom: 5px;
+}
+input, textarea, button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}

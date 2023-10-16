@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+  <title>FOFO</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- tesseract.js CDN -->
+  <script src='https://unpkg.com/tesseract.js@2.1.4/dist/tesseract.min.js'></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.1.5/tesseract.min.js"
+          integrity="sha512-QMGuBW4cKAKmxjxukfPlQqFL8Tc2yYWTBhg9o8fKx06BGZrNXMmafjtnmXthGasytcaIILHRrg5N5Hw0yOuSjw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossorigin="anonymous"></script>
+  <script type="module">
+
+  </script>
+  <script>
+    window.onload = function() {
+        // URL에서 result 매개변수 값을 가져오기
+            var urlParams = new URLSearchParams(window.location.search);
+            var resultValue = urlParams.get('result');
+
+        // result 요소에 값을 표시
+            var resultDisplayElement = document.getElementById('resultDisplay');
+            resultDisplayElement.innerHTML = decodeURIComponent(resultValue);
+            document.getElementById("inputText").value = decodeURIComponent(resultValue);
+        };
+  </script>
+  <script>
+    // 전역변수 txt 선언
+    var txt;
+
+    // 페이지 로딩 시 실행되는 함수
+    $(function () {
+
+         var source = "ko";
+         var target = "en";
+
+        // 번역하기 버튼을 클릭하면 번역 요청을 보냄
+        $("#translator").on("click", function () {
+
+            var inputText = $("#inputText").val(); // 사용자가 입력한 텍스트 가져오기
+            var data = {
+                "text": inputText,
+                "source": source,
+                "target": target
+            }
+            console.log("ajax전");
+
+            $.ajax({
+                url: "/transword",
+                type: "GET",
+                data: data,
+                dataType: "text",
+                success: function (translationResult) {
+                    $("#transText").val(translationResult);
+                    console.log("translationResult의 값 ",translationResult);
+
+                     var analyzeText;
+
+                        // if 문을 통해 analyzeText 값 설정
+                        if (source == "en") {
+                            analyzeText = translationResult;
+                        } else {
+                            analyzeText = inputText;
+                        }
+
+
+                    // 번역된 내용을 형태소 분석하는 요청
+                    $.ajax({
+                        url: "/analyze",
+                        type: "POST",
+                        data: JSON.stringify({ "translatedText": analyzeText }), // JSON 형식으로 데이터 보내기
+                        contentType: "application/json", // 데이터 형식 설정
+                        success: function (response) {//컨트롤러에서 결과값 받아옴
+                            console.log("형태소 분석 성공:", response);
+
+                            // 번역 이미지 버튼 요소 가져오기
+                            //const translateButton = document.getElementById("translateButton");
+
+                            // 테이블의 tbody 요소를 선택
+                            var tableBody = $("#morphologyTable tbody");
+                            tableBody.empty(); // 기존 내용을 비워줌
+
+
+                            // response.first는 형태소 분석 결과, analysisResult.second는 번역 결과입니다.
+                            var analysisResult = response.first;
+                            var translatedText = response.second;
+
+
+                            console.log("전달받은 형태소 analysisResult:", analysisResult);
+                            console.log("전달받은 영어 번역 translatedText:", translatedText);
+
+
+                            // analysisResult와 translatedText 배열을 순회하며 각 단어를 테이블에 추가
+                            console.log(analysisResult.length, translatedText.length);
+
+                            var wordsToAdd = analysisResult.split(',');
+                            var EwordsToAdd = translatedText.split(',');
+
+                            var wordsToAdd = analysisResult.split(',');
+                            var EwordsToAdd = translatedText.split(',');
+
+                            // wordsToAdd와 EwordsToAdd 배열을 기반으로 테이블에 행을 추가
+                            for (var i = 0; i < Math.max(wordsToAdd.length, EwordsToAdd.length); i++) {
+                                var koreanWord = wordsToAdd[i] ? wordsToAdd[i].trim() : '';
+                                var englishWord = EwordsToAdd[i] ? EwordsToAdd[i].trim() : '';
+
+                                var row = $("<tr><td>" + koreanWord + "</td><td>" + englishWord + "</td></tr>");
+                                tableBody.append(row);
+
+                                // 이미지 버튼 생성
+                                var imgButton = $("<img src='images/plus.png' alt='버튼 이미지'>");
+
+                                // 이미지 크기 조정 (예: 너비 50픽셀)
+                                imgButton.css({
+                                    width: '20px',
+                                });
+
+                                // 버튼에 대한 클릭 이벤트 추가
+                                imgButton.on("click", function() {
+                                    // 버튼이 클릭되었을 때 수행할 작업을 여기에 추가
+                                    console.log("버튼이 클릭되었습니다.");
+                                });
+
+                                // 옆 열에 버튼 추가
+                                var buttonCell = $("<td></td>");
+                                buttonCell.append(imgButton);
+                                row.append(buttonCell);
+                            }
+
+                        },
+                        error: function (error) {
+                            console.error("형태소 분석 오류:", error);
+                        }
+                    });
+                    },
+
+            error: function (error) {
+            console.error("번역 오류:", error); // 오류 남ㅜㅠㅜ
+            }
+            });
+        });
+
+        // 스위치 버튼 JavaScript 코드
+         $(document).ready(function () {
+                $("#switchButton").click(function () {
+                    //버튼이 클릭되었을 때 실행할 코드
+                    var temp = source;
+                    source = target;
+                    target = temp;
+
+                    //sourceLanguage와 targetLanguage를 바꿈
+                    var sourceLang = $("#sourceLanguage").text();
+                    var targetLang = $("#targetLanguage").text();
+
+                    $("#sourceLanguage").text(targetLang);
+                    $("#targetLanguage").text(sourceLang);
+                });
+
+            // 번역 버튼 클릭 이벤트 처리
+        });
+
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+            const inputText = document.getElementById("inputText");
+            const inputBoxButton = document.getElementById("inputBoxButton");
+            // const sourceLang = document.getElementById("sourceLang").textContent.trim(); // sourceLang의 값을 얻어옴
+
+            inputBoxButton.addEventListener("click", function() {
+                const textToSpeak = inputText.value;
+                // const userLanguage = window.navigator.language;  // 사용자 브라우저 설정의 언어를 가져옴
+                console.log(textToSpeak);
+                // 언어에 따라 음성 합성 언어 설정
+<!--                    let lang;-->
+<!--                    if (sourceLang  === "English") {-->
+<!--                        lang = "en-US"; // 영어인 경우-->
+<!--                    } else {-->
+<!--                        lang = "ko-KO"; // 다른 언어인 경우 기본값으로 설정-->
+<!--                    }-->
+                speak(textToSpeak, {
+                    rate: 1,
+                    pitch: 1.2,
+                    lang: "ko-KO"
+                });
+            });
+
+            const transText = document.getElementById("transText");
+            const transBoxButton = document.getElementById("transBoxButton");
+
+            transBoxButton.addEventListener("click", function() {
+                const textToSpeak = transText.value;
+                console.log(textToSpeak);
+                speak(textToSpeak, {
+                    rate: 1,
+                    pitch: 1.2,
+                    lang: "en-US"
+                });
+            });
+
+            function speak(text, opt_prop) {
+                if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+                    alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+                    return;
+                }
+
+                window.speechSynthesis.cancel();
+
+                const prop = opt_prop || {};
+
+                const speechMsg = new SpeechSynthesisUtterance();
+                speechMsg.rate = prop.rate || 1;
+                speechMsg.pitch = prop.pitch || 1;
+                speechMsg.lang = prop.lang || "ko-KR";
+                speechMsg.text = text;
+
+                window.speechSynthesis.speak(speechMsg);
+            }
+
+        });
+
+  </script>
+
+  <style>
+    /* 스타일링을 위한 CSS */
+    body {
+        background-color: #F2E8D5;
+    }
+     .image-container {
+        position: relative;
+        display: block;
+    }
+    .text-overlay {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+    }
+    .image-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px;
+    display: inline-block;
+    width: 5%;
+    height: 5%;
+    background-image: url('images/plus.png');
+    background-size: cover;
+    text-decoration: none;
+    transform: translate(300%, 10%);
+}
+ /* 스크롤 가능한 컨테이너의 스타일 */
+    .scrollable-container {
+        width: 350px;
+        height: 500px;
+        overflow: auto;
+    }
+ /* 스타일을 이용해 그림자 효과를 적용합니다. */
+    input.shadowed {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border: none;  테두리 제거
+        box-shadow: inset 1px 1px 5px 1px rgba(0.3, 0.3, 0.3, 0.3);
+        padding: 10px;
+
+    }
+    .btn-block {
+        color: white;
+        display: block;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        text-align: center;
+        border-radius: 8px;
+        background-color: #4A7E67;
+        border: none;
+        box-shadow:0 5px 2px rgba(0, 0, 0, 0.2);
+    }
+    #morphologyTable {
+        text-align: center;
+        margin: 0 auto;
+        transform: translate(12%, 40%);
+    }
+     .switch-button {
+        width: 35px;
+        height: auto;
+        cursor: pointer;
+        transform: translate(420%, 125%);
+    }
+    .TTSInput {
+        width: 35px;
+        height: auto;
+        cursor: pointer;
+        transform: translate(170%, 150%);
+    }
+    .Button {
+        width: 35px;
+        height: auto;
+        cursor: pointer;
+        transform: translate(280%, 130%);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <br>
+  <img onclick="history.back()" src="/images/Back.png" style="width: 30px; margin-top: 5px; margin-left: 5px;">
+
+  <p style="text-align: center; font-size:200%"><b>Translated Image</b></p>
+
+  <div style="text-align : center;">
+    <img src="images/Belt.png" style="width: 90%">
+  </div>
+
+  <div class="text-overlay">
+
+    <img src="/images/Switch.png" class="switch-button" id="switchButton" alt="Switch Button" style="cursor: pointer;">
+
+    <img src="/images/TTSSmall.png" class="TTSInput" style="cursor: pointer;" id="inputBoxButton" alt="단어 음성 듣기">
+
+    <div>
+      <p style="font-size:25px"><strong id="sourceLanguage">Korean</strong></p>
+    </div>
+
+    <p style="overflow: auto;">
+    <div id="resultDisplay" style="display: none;"></div>
+    <input type="text" id="inputText" class="shadowed" style="width: 300px; height: 100px; font-size: 15px; overflow:auto;">
+    </p>
+
+    <img src="/images/TTSSmall.png" class="Button" style="cursor: pointer;" id="transBoxButton" alt="단어 음성 듣기">
+
+    <div>
+      <p style="font-size:25px"><strong id="targetLanguage">English</strong></p>
+    </div>
+
+    <p class="container">
+      <input type="text" id="transText" class="shadowed" placeholder="Translation" style="width:300px;height:100px;font-size:15px;overflow:auto;">
+    </p>
+
+    <input type="button" class="btn-block" id="translator" name="translator" value="Translate">
+
+    <br>
+
+
+    <div id="morphologyTable">
+      <table border="0" style="position:fixed;">
+        <thead>
+        <tr>
+          <th>단어</th>
+          <th>word interpretation</th>
+          <th>add</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</div>
+
+</body>
+</html>

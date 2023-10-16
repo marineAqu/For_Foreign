@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/Join.css">
+    <title>Join</title>
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+</style>
+
+<body>
+<img src="/images/Border(LeftTop).png" style="float: left;">
+<img src="/images/Border(RightTop).png" style="float: right;">
+<div style="clear:both;"></div>
+
+<div style="position: absolute; top: 50%; left: 50%; transform: translate( -50%, -50% ); width:100%;">
+    <div class="JoinForm">
+
+        <img src="/images/HangingScroll.png" class="HangingScroll">
+
+        <div class="JoinTextForm">
+            <form action="/join" method="post">
+                <h1>Sigh Up</h1>
+                <input type="text" id="name" name="userName" placeholder="Name" required="">
+                <br>
+                <input type="text" id="uid" name="uid" placeholder="Id" required="">
+                <br>
+                <input type="password" id="password" name="password" placeholder="Password" required="">
+                <br>
+                <div th:text="${duplicateID}" style="font-size: 14px; color: red;"></div>
+                <div th:text="${passwordError}" style="font-size: 13px; color: red;"></div>
+                <button type="submit">Create Account</button>
+            </form>
+
+            <form action="/login_process" style="margin-top:5px;">
+                <b style="font-size: 14px;">Already have an account?</b>
+                <br>
+                <a type="submit" href="/login">Sigh In</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<img src="/images/Border(LeftBottom).png" style="position:fixed; bottom: 10px; left: 15px;">
+<img src="/images/Border(RightBottom).png" style="position:fixed; bottom: 10px; right: 15px;">
+</body>
+</html>
