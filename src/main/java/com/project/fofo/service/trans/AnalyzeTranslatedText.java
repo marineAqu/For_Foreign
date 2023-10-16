@@ -19,7 +19,7 @@ public class AnalyzeTranslatedText {
         List<Token> tokenList = analyzeResultList.getTokenList();
 
         for (Token token : tokenList) {
-            if (token.getPos().startsWith("N")) { // NNP인 경우에만 추가
+            if (token.getPos().startsWith("N")) { // NNP인 경우에만 추가.
                 analysisResult.append(token.getMorph()).append("\n");
             }
             else analysisResult.append("");

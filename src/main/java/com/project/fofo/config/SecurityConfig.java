@@ -17,11 +17,6 @@ public class SecurityConfig {
 
     private final OAuth2MemberService oAuth2MemberService;
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e3765f37bea5b8b0f2881f46c8a2339086f83f14
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -36,20 +31,14 @@ public class SecurityConfig {
                         .usernameParameter("uid")
                         .passwordParameter("password")
                         .loginProcessingUrl("/login_process")
-<<<<<<< HEAD
                         .defaultSuccessUrl("/home", true)
-=======
                         .defaultSuccessUrl("/main", true)
->>>>>>> e3765f37bea5b8b0f2881f46c8a2339086f83f14
                         .failureForwardUrl("/login"));
         http
                 .oauth2Login(login -> login
                         .loginPage("/login") // 구글 로그인이 완료된 뒤의 후처리가 필요
-<<<<<<< HEAD
                         .defaultSuccessUrl("/home", true)
-=======
                         .defaultSuccessUrl("/main", true)
->>>>>>> e3765f37bea5b8b0f2881f46c8a2339086f83f14
                         .failureUrl("/login")
                         .userInfoEndpoint() // 로그인 완료 후 회원 정보 받기
                         .userService(oAuth2MemberService));

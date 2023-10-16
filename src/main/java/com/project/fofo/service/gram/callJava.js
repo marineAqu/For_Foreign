@@ -1,4 +1,5 @@
  function fetchRandomGrammar() {
+        //자바호출
         fetch('/randgram')
             .then(response => response.text())
             .then(data => {

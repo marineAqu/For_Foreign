@@ -1,7 +1,6 @@
 package com.project.fofo.controller;
 
 import com.project.fofo.DTO.MemberDTO;
-import com.project.fofo.auth.PrincipalDetailsService;
 import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.repository.MemberRepository;
 import com.project.fofo.service.MemberService;

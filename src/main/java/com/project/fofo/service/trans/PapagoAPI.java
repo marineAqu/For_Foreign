@@ -18,8 +18,8 @@ public class PapagoAPI {
 
         System.out.println("api 함수 실행");
 
-        String clientId = "CmKLXOeRTKf_HgLyvdaE"; // "애플리케이션 클라이언트 아이디값";
-        String clientSecret = "mAsqZ4zNvv"; // "애플리케이션 클라이언트 시크릿값";
+        String clientId = "CmKLXOeRTKf_HgLyvdaE"; // "애플리케이션 클라이언트 아이디 값";
+        String clientSecret = "mAsqZ4zNvv"; // "애플리케이션 클라이언트 시크릿 값";
 
         String apiURL = "https://openapi.naver.com/v1/papago/n2mt"; // 검색 url
         String text;

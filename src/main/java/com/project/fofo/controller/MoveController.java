@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MoveController {
 
-
+    //페이지 이동
     @GetMapping("camera")
     public String cameraPage() {
         return "Camera";

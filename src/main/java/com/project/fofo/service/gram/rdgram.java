@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 @RestController
-public class rdgram {
+public class rdgram { //랜덤으로 문법 가져오기
     private static String RandomGrammar = "";
     private static String examplestr="";
     private static String examplenow="";

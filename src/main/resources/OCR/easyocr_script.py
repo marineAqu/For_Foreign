@@ -9,7 +9,7 @@ from PIL import ImageFont, ImageDraw, Image
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
-#추가: 받은 사진을 ocr하기 위해서
+#추가: 받은 사진을 ocr하기 위해서.
 image_path = sys.argv[1]
 
 reader = easyocr.Reader(['ko', 'en'])

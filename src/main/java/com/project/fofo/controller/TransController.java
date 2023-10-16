@@ -52,7 +52,7 @@ public class TransController {
             translatedText2Builder.append(word).append(", ");
         }
         String translatedText2String = translatedText2Builder.toString();
-        // 마지막 콤마와 공백 제거
+        // 마지막 콤마,공백 제거
         translatedText2String = translatedText2String.substring(0, translatedText2String.length() - 2);
 
 

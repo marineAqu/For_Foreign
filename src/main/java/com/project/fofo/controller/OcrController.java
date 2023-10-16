@@ -30,7 +30,7 @@ public class OcrController {
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         String result = "오류 발생";
-        // EasyOCR 호출
+        // EasyOCR  호출
         try{
             System.out.println("트라이");
             result = runEasyOCR(filePath.toString());
