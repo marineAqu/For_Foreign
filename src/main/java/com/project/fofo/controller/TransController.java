@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +18,12 @@ import static java.lang.System.out;
 @Controller
 @Slf4j
 public class TransController {
+
+    @GetMapping("/translator")
+    public String translator() {
+            return "board/Trans";
+        }
+
     // "/analyze" 엔드포인트에서 POST 요청을 처리하는 컨트롤러 메서드
     @RequestMapping(value = "/analyze", method = RequestMethod.POST)
     @ResponseBody
