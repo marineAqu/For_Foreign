@@ -81,7 +81,7 @@
                                     var tableBody = $("#morphologyTable tbody");
                                     tableBody.empty(); // 기존 내용을 비워줌
 
-                                    // response.first는 형태소 분석 결과, analysisResult.second는 영어 번역 결과입니다.
+                                    // response.first는 형태소 분석 결과, analysisResult.second는 영어 번역 결과
                                     var analysisResult = response.first;
                                     var translatedText = response.second;
 
@@ -89,8 +89,6 @@
                                     console.log("전달받은 형태소 analysisResult:", analysisResult);
                                     console.log("전달받은 영어 번역 translatedText:", translatedText);
 
-
-                                    // analysisResult와 translatedText 배열을 순회하며 각 단어를 테이블에 추가
                                     console.log(analysisResult.length, translatedText.length);
 
                                     var wordsToAdd = analysisResult.split(',');
@@ -99,7 +97,6 @@
                                     var wordsToAdd = analysisResult.split(',');
                                     var EwordsToAdd = translatedText.split(',');
 
-                                    // wordsToAdd와 EwordsToAdd 배열을 기반으로 테이블에 행을 추가
                                     for (var i = 0; i < Math.max(wordsToAdd.length, EwordsToAdd.length); i++) {
                                         var koreanWord = wordsToAdd[i] ? wordsToAdd[i].trim() : '';
                                         var englishWord = EwordsToAdd[i] ? EwordsToAdd[i].trim() : '';
@@ -107,22 +104,17 @@
                                         var row = $("<tr><td>" + koreanWord + "</td><td>" + englishWord + "</td></tr>");
                                         tableBody.append(row);
 
-                                        // 이미지 버튼 생성
-                                        var imgButton = $("<img src='images/plus.png' alt='버튼 이미지'>");
+                                        var imgButton = $("<img src='images/Plus.png' alt='버튼 이미지'>");
 
-                                        // 이미지 크기 조정 (예: 너비 50픽셀, 높이 50픽셀)
                                         imgButton.css({
                                             width: '20px',
                                             height: '20px'
                                         });
 
-                                        // 버튼에 대한 클릭 이벤트 추가
                                         imgButton.on("click", function() {
-                                            // 버튼이 클릭되었을 때 수행할 작업을 여기에 추가
                                             console.log("버튼이 클릭되었습니다.");
                                         });
 
-                                        // 옆 열에 버튼 추가
                                         var buttonCell = $("<td></td>");
                                         buttonCell.append(imgButton);
                                         row.append(buttonCell);
@@ -144,7 +136,6 @@
                 // 스위치 버튼 JavaScript 코드
                 $(document).ready(function () {
                     $("#switchButton").click(function () {
-                        //버튼이 클릭되었을 때 실행할 코드를 여기에 추가
                         var temp = source;
                         source = target;
                         target = temp;
@@ -164,20 +155,11 @@
             document.addEventListener("DOMContentLoaded", function() {
                 const inputText = document.getElementById("inputText");
                 const inputBoxButton = document.getElementById("inputBoxButton");
-                //const sourceLang = document.getElementById("sourceLang").textContent.trim(); // sourceLang의 값을 얻어옴
+
 
                 inputBoxButton.addEventListener("click", function() {
                     const textToSpeak = inputText.value;
-                    //const userLanguage = window.navigator.language;  // 사용자 브라우저 설정의 언어를 가져옴
                     console.log(textToSpeak);
-                    // 언어에 따라 음성 합성 언어 설정
-                    /*let lang;
-                    if (sourceLang  === "English") {
-                        lang = "en-US"; // 영어인 경우
-                    } else {
-                        lang = "ko-KO"; // 다른 언어인 경우 기본값으로 설정
-                    }*/
-
                     speak(textToSpeak, {
                         rate: 1,
                         pitch: 1.2,
@@ -220,92 +202,75 @@
             });
 
 
-
-
         </script>
     <style>
-        /* 스타일링을 위한 CSS */
         .image-container {
-            position: relative; /* 포지션을 상대 위치로 설정 */
-            display: block; /* 인라인 블록 요소로 설정 */
+            position: relative;
+            display: block;
         }
         .text-overlay {
-            position: absolute; /* 포지션을 절대 위치로 설정 */
-            top: 40%; /* 위에서 50% 위치로 조정 */
-            left: 50%; /* 왼쪽에서 50% 위치로 조정 */
-            transform: translate(-50%, -50%); /* 중앙 정렬 */
-
-            padding: 10px; /* 텍스트 주위의 패딩 설정 */
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
         }
         .image-button {
-        display: inline-flex; /* 버튼과 텍스트를 가로로 나란히 표시 */
-        align-items: center; /* 수직 가운데 정렬 */
-        padding: 10px; /* 버튼 내부 여백 설정 (선택 사항) */
+        display: inline-flex;
+        align-items: center;
+        padding: 10px;
         display: inline-block;
         width: 5%;
         height: 5%;
-        background-image: url('images/plus.png');
+        background-image: url('images/Plus.png');
         background-size: cover;
         text-decoration: none;
-        //transform: translate(85px, 2px);
         transform: translate(300%, 10%);
     }
-     /* 스크롤 가능한 컨테이너의 스타일 */
         .scrollable-container {
-            width: 350px; /* 원하는 너비 설정 */
-            height: 500px; /* 원하는 높이 설정 */
-            overflow: auto; /* 스크롤 가능한 요소로 만듦 */
+            width: 350px;
+            height: 500px;
+            overflow: auto;
         }
-     /* 스타일을 이용해 그림자 효과를 적용합니다. */
         input.shadowed {
             appearance: none;
             -moz-appearance: none;
             -webkit-appearance: none;
             border: none;  테두리 제거
-            /*box-shadow: inset 0 0 5px #333;*/
-            //box-shadow:5px 5px 2px rgba(0.8, 0.8, 0.8, 0.8) inset; /*x축, y축, 그림자 두께, 그림자 색상, [그림자 방향]*/
-            //box-shadow:5px 5px 2px rgba(0.2, 0.2, 0.2, 0.2) inset;
             box-shadow: inset 1px 1px 5px 1px rgba(0.3, 0.3, 0.3, 0.3);
             padding: 10px; /* 내용과 테두리 사이 여백 */
-            /*width: 200px;  너비 조정 */
-            /*height: 30px;  높이 조정 */
-            /*font-size: 16px;  폰트 크기 조정 */
         }
         .btn-block {
             color: white;
             display: block;
             padding-top: 5%;
             padding-bottom: 5%;
-            //margin-left: auto;
-            //margin-right: auto;
             text-align: center;
-            //border-radius: 50%;
             border-radius: 8px;
             background-color: #4A7E67;
             border: none;
             box-shadow:0 5px 2px rgba(0, 0, 0, 0.2);
-            //box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         }
         #morphologyTable {
-            text-align: center; /* 가로 가운데 정렬 */
-            margin: 0 auto; /* 가로 중앙 정렬을 위해 margin 사용 */
+            text-align: center;
+            margin: 0 auto;
             transform: translate(12%, 40%);
         }
          .switch-button {
-            width: 35px; /* 원하는 너비로 조절 */
-            height: auto; /* 높이를 자동으로 조절하여 원래 비율을 유지합니다. */
+            width: 35px;
+            height: auto;
             cursor: pointer;
             transform: translate(420%, 125%);
         }
         .TTSInput {
-            width: 35px; /* 원하는 너비로 조절 */
-            height: auto; /* 높이를 자동으로 조절하여 원래 비율을 유지합니다. */
+            width: 35px;
+            height: auto;
             cursor: pointer;
             transform: translate(170%, 150%);
         }
         .Button {
-            width: 35px; /* 원하는 너비로 조절 */
-            height: auto; /* 높이를 자동으로 조절하여 원래 비율을 유지합니다. */
+            width: 35px;
+            height: auto;
             cursor: pointer;
             transform: translate(280%, 130%);
         }
@@ -340,10 +305,6 @@
         </p>
 
 
-
-        <!--<div style="float: left; margin-right: 10px; ">
-            <img src="/images/TTSSmall.png" class="Button" style="cursor: pointer;" id="transBoxButton" alt="단어 음성 듣기">
-        </div>-->
         <img src="/images/TTSSmall.png" class="Button" style="cursor: pointer;" id="transBoxButton" alt="단어 음성 듣기">
 
         <div>
@@ -358,19 +319,7 @@
 
         <input type="button" class="btn-block" id="translator" name="translator" value="Translate">
 
-
-
         <br>
-<!--        <span style="text-align : center; display:inline-block; font-size:20px;">단어</span>
-        <span style="text-align : center; display:inline-block; font-size:20px;">word interpretation</span>
-
-        <a href="/post" class="image-button"></a>-->
-
-
-<!--
-        <div class="text-overlay">
-        <div class="scrollable-container">-->
-        <!-- HTML 테이블을 표시할 div 요소 -->
 
         <div id="morphologyTable">
             <table border="0" style="position:fixed;">
