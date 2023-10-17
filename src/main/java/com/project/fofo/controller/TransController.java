@@ -21,7 +21,7 @@ public class TransController {
 
     @GetMapping("/translator")
     public String translator() {
-        return "board/Trans";
+        return "Trans";
     }
 
     // "/analyze" 엔드포인트에서 POST 요청을 처리하는 컨트롤러 메서드
