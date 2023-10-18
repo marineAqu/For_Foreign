@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>단어 - 목록</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#bookmarkCheckbox').on('change', function() {
+                if ($(this).is(':checked')) {
+                    // 체크박스가 체크되면 서버로 요청을 보내어 데이터베이스 값을 업데이트
+                    var isChecked = $(this).is(':checked');
+                    var bookmarkValue = isChecked ? 'y' : 'n';
+                    $.ajax({
+                        type: 'POST',
+                        url: '/updateBookmark', // 실제 업데이트를 처리할 엔드포인트 URL
+                        data: {
+                            bookmarked: bookmarkValue  // 체크박스가 체크되었음을 서버에 전달
+                        },
+                        success: function(response) {
+                            // 업데이트가 성공했을 때 수행할 동작
+                            console.log('업데이트 성공');
+                        },
+                        error: function(error) {
+                            // 업데이트가 실패했을 때 수행할 동작
+                            console.log('업데이트 실패');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* 스타일링을 위한 CSS */
+        .image-container {
+            position: relative; /* 포지션을 상대 위치로 설정 */
+            display: inline-block; /* 인라인 블록 요소로 설정 */
+        }
+        .text-overlay {
+            position: absolute; /* 포지션을 절대 위치로 설정 */
+            top: 50%; /* 위에서 50% 위치로 조정 */
+            left: 55%; /* 왼쪽에서 50% 위치로 조정 */
+            transform: translate(-50%, -50%); /* 중앙 정렬 */
+
+            padding: 10px; /* 텍스트 주위의 패딩 설정 */
+        }
+         /* 이미지 스타일링 */
+        .image-container img {
+            display: block;
+            margin-right 0;
+            transform: translate(5px, 10px);
+            width: 400px; /* 이미지의 가로 크기를 200px로 설정 */
+            height: 550px; /* 이미지의 세로 크기를 200px로 설정 */
+        }
+        /* 스크롤 가능한 컨테이너의 스타일 */
+        .scrollable-container {
+            width: 350px; /* 원하는 너비 설정 */
+            height: 500px; /* 원하는 높이 설정 */
+            overflow: auto; /* 스크롤 가능한 요소로 만듦 */
+        }
+        .table {
+	        width: 500px;
+	        table-layout: fixed;
+        }
+        .image-button {
+        display: inline-flex; /* 버튼과 텍스트를 가로로 나란히 표시 */
+        align-items: center; /* 수직 가운데 정렬 */
+        transform: translate(2px, 5px);
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background-image: url('images/add.png');
+        background-size: cover;
+        text-decoration: none;
+    }
+     .image-button span {
+        margin-left: 10px; /* 텍스트와 버튼 사이 여백 설정 (선택 사항) */
+    }
+    .image-button2 {
+        display: inline-flex; /* 버튼과 텍스트를 가로로 나란히 표시 */
+        align-items: center; /* 수직 가운데 정렬 */
+        padding: 10px; /* 버튼 내부 여백 설정 (선택 사항) */
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-image: url('images/Back.png');
+        background-size: cover;
+        text-decoration: none;
+    }
+    </style>
+
+</head>
+
+<body style="background-color:#F2E8D5">
+
+<div class="container">
+
+    <a href="/board" class="image-button2"></a>
+
+
+    <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
+
+    <div style="text-align : center;">
+        <img src="images/Belt.png">
+    </div>
+
+
+    <div class="image-container">
+        <img src="images/OpenBook.jpg" alt="단어 리스트 이미지" >
+        <div class="text-overlay">
+            <a href="/post" class="image-button"></a>
+            <div class="scrollable-container">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <!--<th scope="col">num</th>-->
+                        <th scope="col">eng</th>
+                        <th scope="col">kor</th>
+                        <th scope="col">bookmark</th>
+
+                    </tr>
+                    </thead>
+<!--
+                    <tbody>
+                    <tr th:each="board : ${boardList}">
+                        <!--<td th:text="${board.num}"></td>-
+                        <td>
+                            <a th:text="${board.enWord}" th:href="@{/Detail(num=${board.no})}"></a>
+                        </td>
+
+                        <td>
+                            <span th:text="${board.koWord}"></span>
+                        </td>
+
+                        <td>
+                            <input type="checkbox" id="bookmarkCheckbox" name="color" value="bookmark">
+                        </td>
+                    </tr>
+                    </tbody>
+-->
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
