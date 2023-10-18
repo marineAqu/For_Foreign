@@ -36,24 +36,28 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @RequestMapping(value="/board", method = {RequestMethod.GET, RequestMethod.POST})
-    public String boardAction2(@ModelAttribute WordsEntity boardDto, Model model) {
-        if (boardDto != null) {
-            // 1. Dto를 Entity로 변환
-            WordsEntity board = boardDto.toEntity();
+    @RequestMapping(value="/board", method = RequestMethod.POST)
+    public String handlePostRequest(@ModelAttribute WordsEntity boardDto) {
+        // 1. Dto를 Entity로 변환
+        WordsEntity board = boardDto.toEntity();
 
-            // 2. Repository에게 Entity를 DB 안에 저장
-            WordsEntity saved = boardRepository.save(board);
-        }
+        // 2. Repository에게 Entity를 DB 안에 저장
+        WordsEntity saved = boardRepository.save(board);
 
-        // 3. 모든 단어를 가져온다
+        // 리다이렉트를 사용하여 GET 요청으로 이동
+        return "redirect:/board";
+    }
+
+    @RequestMapping(value="/board", method = RequestMethod.GET)
+    public String showBoard(Model model) {
+        // 1. 모든 단어를 가져온다
         List<WordsEntity> boardEntityList = boardRepository.findAll();
 
-        // 4. 가져온 단어 묶음을 뷰로 전달
+        // 2. 가져온 단어 묶음을 뷰로 전달
         model.addAttribute("boardList", boardEntityList);
 
-        // 5. 뷰 페이지를 설정
-        return "Index"; // 뷰 템플릿 이름을 반환
+        // 3. 뷰 페이지를 설정
+        return "Index";
     }
 
 
