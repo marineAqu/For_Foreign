@@ -18,7 +18,6 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         const korArea = document.getElementById("korArea");
-        //const btnRead = document.getElementById("btn-readddddd");
         const korButton = document.getElementById("korButton");
 
         korButton.addEventListener("click", function() {
@@ -33,7 +32,6 @@
 
 
         const engArea = document.getElementById("engArea");
-        //const btnRead = document.getElementById("btn-readddddd");
         const engButton = document.getElementById("engButton");
 
         engButton.addEventListener("click", function() {
@@ -48,7 +46,6 @@
 
 
         const korsenArea = document.getElementById("korsenArea");
-        //const btnRead = document.getElementById("btn-readddddd");
         const korsenButton = document.getElementById("korsenButton");
 
         korsenButton.addEventListener("click", function() {
@@ -63,7 +60,6 @@
 
 
         const engsenArea = document.getElementById("engsenArea");
-        //const btnRead = document.getElementById("btn-readddddd");
         const engsenButton = document.getElementById("engsenButton");
 
         engsenButton.addEventListener("click", function() {
@@ -97,56 +93,39 @@
     });
 
 
-    // 이벤트 영역
-    /*const selectLang = document.getElementById("select-lang")
-    const text = document.getElementById("text")
-    const btnRead = document.getElementById("btn-read")
-
-    btnRead.addEventListener("click", e => {
-        console.log(text.value);
-        speak(text.value, {
-            rate: 1,
-            pitch: 1.2,
-            lang: selectLang.options[selectLang.selectedIndex].value
-        })
-    })*/
 </script>
 
     <style>
-        /* 스타일링을 위한 CSS */
         .image-container {
-            position: relative; /* 포지션을 상대 위치로 설정 */
-            display: inline-block; /* 인라인 블록 요소로 설정 */
+            position: relative;
+            display: inline-block;
             height: 200%;
         }
         .text-overlay {
-            position: absolute; /* 포지션을 절대 위치로 설정 */
-            top: 0%; /* 위에서 50% 위치로 조정 */
-            left: 10%; /* 왼쪽에서 50% 위치로 조정 */
-            //transform: translate(-50%, -50%); /* 중앙 정렬 */
-
-            padding: 10px; /* 텍스트 주위의 패딩 설정 */
+            position: absolute;
+            top: 0%;
+            left: 10%;
+            padding: 10px;
         }
         .booklamp img {
-            display: block; /* 이미지를 블록 요소로 설정합니다. */
-            margin-right: 0; /* 오른쪽 여백을 없앱니다. */
-            width: 80%; /* 이미지의 가로 크기를 200px로 설정 */
-            height: 100%; /* 이미지의 세로 크기를 200px로 설정 */
-            transform: translate(80px, -45px); /*가로 세로*/
+            display: block;
+            margin-right: 0;
+            width: 80%;
+            height: 100%;
+            transform: translate(80px, -45px);
         }
-         /* 이미지 스타일링 */
         .image-container img {
             display: block;
             margin: 0;
             padding: 0;
             transform: translate(0px, -45px);
-            width: 400px; /* 이미지의 가로 크기를 200px로 설정 */
-            height: 590px; /* 이미지의 세로 크기를 200px로 설정 */
+            width: 400px;
+            height: 590px;
         }
         .image-button {
-        display: inline-flex; /* 버튼과 텍스트를 가로로 나란히 표시 */
-        align-items: center; /* 수직 가운데 정렬 */
-        padding: 10px; /* 버튼 내부 여백 설정 (선택 사항) */
+        display: inline-flex;
+        align-items: center;
+        padding: 10px;
         display: inline-block;
         width: 40px;
         height: 40px;
@@ -159,9 +138,9 @@
         display: inline-flex;
         padding: 10px;
         display: inline-block;
-        width: 10%; /* 원하는 너비로 조절 */
-        height: 10%; /* 원하는 높이로 조절 */
-        background-size: contain; /* 이미지가 요소에 맞도록 조절 */
+        width: 10%;
+        height: 10%;
+        background-size: contain;
         text-decoration: none;
     }
     #engButton {
@@ -169,7 +148,6 @@
         width: auto;
         cursor: pointer;
         position: relative;
-        //bottom: 500%;
         transform: translate(0%, 10%);
     }
      #korsenButton {
@@ -177,7 +155,6 @@
         width: auto;
         cursor: pointer;
         position: relative;
-        //bottom: 500%;
         transform: translate(0%, -30%);
     }
      #engsenButton {
@@ -185,7 +162,6 @@
         width: auto;
         cursor: pointer;
         position: relative;
-        //bottom: 500%;
         transform: translate(0%, -70%);
     }
 
@@ -250,22 +226,6 @@
 
         </div>
     </div>
-
-
-    <!--
-    <p align="right"><img src="/images/book.png"
-                          style="width: 100%; height:100%; margin-right:-20px;" >
-
-    <p style="font-size:200%" th:text="${board.kor}"></p>
-
-    <p th:text="${board.pron}">, </p>
-
-    <p th:text="${board.eng}"></p>
--->
-
-
-
-
 
 
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
