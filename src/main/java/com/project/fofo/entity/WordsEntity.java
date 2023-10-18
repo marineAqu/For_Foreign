@@ -1,14 +1,21 @@
 package com.project.fofo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 @Entity
 @Setter
 @Getter
 @Table(name = "Words")
+@Data
+@Builder
+@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@ToString
 public class WordsEntity {
+    public WordsEntity() { }
     @Id // pk 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long no; //단어 번호
@@ -34,9 +41,33 @@ public class WordsEntity {
     @Column
     private char partSpeech; //품사
 
-    @Column
-    private char checkStatus; //사용자 체크
+    @Column(name = "check_status")
+    private char checkStatus= 'n'; //사용자 체크
 
-    @Column
-    private char checkQuiz; //사용자에게 보이지 않는 체크
+    @Column(name = "check_quiz")
+    private char checkQuiz= 'n';  //사용자에게 보이지 않는 체크
+
+    public Long getNo() {
+       return no;
+    }
+
+    public void setPartSpeech(char  partSpeech) {
+        this.partSpeech = partSpeech;
+    }
+
+    public WordsEntity toEntity() {
+
+        WordsEntity build = WordsEntity.builder()
+                        .no(no)
+                        .koWord(koWord)
+                        .enWord(enWord)
+                        .partSpeech(partSpeech)
+                        .pronSymbol(pronSymbol)
+                        .koSentence(koSentence)
+                        .enSentence(enSentence)
+                        .checkStatus(checkStatus)
+                        .checkQuiz(checkQuiz)
+                        .build();
+                return build;
+        }
 }

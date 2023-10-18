@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>단어detail.html - 목록</title>
+    <title>단어 - 상세</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
 
@@ -162,7 +162,7 @@
         width: auto;
         cursor: pointer;
         position: relative;
-        transform: translate(0%, -70%);
+        transform: translate(0%, -30%);
     }
 
     </style>
@@ -183,7 +183,8 @@
 
 
     <div class="image-container">
-        <img src="/images/book2.jpg" alt="단어 상세 설명 이미지"  >
+        <img src="/images/OpenBook.png" alt="단어 상세 설명 이미지" style="width: 200%"  >
+
         <div class="text-overlay">
             <p id="korArea" style="font-size:50px" th:text="${board.koWord}"></p>
             <p><br></p>
@@ -223,8 +224,8 @@
                 <p id= "engsenArea" style="font-size:20px" th:text="${board.enSentence}"></p>
             </div>
 
-
         </div>
+
     </div>
 
 

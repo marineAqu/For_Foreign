@@ -14,7 +14,7 @@
         }
         .text-overlay {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
 
@@ -27,29 +27,26 @@
             height: 610px;
         }
         .image-button {
-        display: inline-flex;
-        align-items: center;
-        padding: 10px;
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        background-image: url('images/Back.png');
-        background-size: cover;
-        text-decoration: none;
-    }
-    .btn-block {
-                color: white;
-                display: block;
-                padding-top: 5%;
-                padding-bottom: 5%;
-                //margin-left: auto;
-                //margin-right: auto;
-                text-align: center;
-                //border-radius: 50%;
-                border-radius: 8px;
-                background-color: #11264F;
-                border: none;
-            }
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-image: url('images/Back.png');
+            background-size: cover;
+            text-decoration: none;
+        }
+        .btn-block {
+            color: white;
+            display: block;
+            padding-top: 5%;
+            padding-bottom: 5%;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #11264F;
+            border: none;
+        }
     </style>
 
 </head>
@@ -62,42 +59,42 @@
     <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
 
     <div style="text-align : center;">
-        <img src="images/line3.png">
+        <img src="images/Belt.png" style="width: 90%">
     </div>
 
 
     <div class="image-container">
-        <img src="/images/book2.jpg" alt="단어 추가 이미지"  >
+        <img src="/images/OpenBook.png" alt="단어 추가 이미지" style="width: 200%" >
         <div class="text-overlay">
             <form action="/board" method="post" enctype="multipart/form-data">
                 <div>
                     <p style="font-size:20px">
                         <strong>Word</strong>
-                        <input type="text" name="eng" >
+                        <input type="text" name="enWord" >
                     </p>
                 </div>
 
                 <p style="font-size:20px">
                     <strong>Meaning of a word</strong>
-                    <input type="text" name="kor">
+                    <input type="text" name="koWord">
                 </p>
                 <p style="font-size:20px">
                     <strong>Pronunciation</strong>
-                    <input type="text" name="pron">
+                    <input type="text" name="pronSymbol">
                 </p>
                 <p style="font-size:20px">
                     <strong>Part of speech</strong>
-                    <input type="checkbox" name="part" value="1">noun
-                    <input type="checkbox" name="part" value="2">verb
-                    <input type="checkbox" name="part" value="3">adjective
+                    <input type="checkbox" name="partSpeech" value="1">noun
+                    <input type="checkbox" name="partSpeech" value="2">verb
+                    <input type="checkbox" name="partSpeech" value="3">adjective
                 </p>
                 <p style="font-size:20px">
                     <strong>Korean sentence</strong>
-                    <input type="text" name="sen">
+                    <input type="text" name="koSentence">
                 </p>
                 <p style="font-size:20px">
                     <strong>English sentence</strong>
-                    <input type="text" name="esen">
+                    <input type="text" name="enSentence">
                 </p>
 
                 <p>
@@ -106,8 +103,6 @@
             </form>
         </div>
     </div>
-
-
 
 </div>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
