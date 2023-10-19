@@ -155,7 +155,7 @@ public class QuizController {
                                           HttpSession session) {
 
         //@RequestParam("tf") boolean tf 를 추가
-        //TODO: 틀렸는지 맞았는지에 따라 check_quiz(체크)값 바꾸는 로직 추가 - if문으로 맞앗으면 quizDTO.setCh("y") 식으로: 160~161 코드
+        //TOD O: 틀렸는지 맞았는지에 따라 check_quiz(체크)값 바꾸는 로직 추가 - if문으로 맞앗으면 quizDTO.setCh("y") 식으로: 160~161 코드
         QuizDTO quizDTO;
         quizDTO = quizService.SearchByNo(quizNum);
         System.out.println("엔서체크 컨트롤러에서 quizDTO의 getEnWord:"+session.getAttribute(quizDTO.getEnWord())); //setCh 오류로 인한 테스트
