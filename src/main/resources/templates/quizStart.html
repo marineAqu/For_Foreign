@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<script src="http://code.jquery.com/jquery-1.12.3.min.js" type="text/javascript"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>퀴즈</title>
+  <style>
+        .login-page {
+            background: #F2E8D5;
+            padding: 0 0;
+            margin: auto;
+        }
+
+        .base {
+            text-align: center;
+            position: relative;
+        }
+
+        .timer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -90%);
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+        .form {
+            /*
+            z-index: 1;
+            margin: 0 auto 100px;
+            padding: 45px;
+            */
+            text-align: center;
+        }
+
+        .quizTitle {
+            position: relative;
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        .quizTitleText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -160%);
+            color: #000000;
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+        .quizTitleIndex {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(-80%, 0%);
+            color: #000000;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #4A7E67;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .backImg {
+            width: 70px;
+            height: 70px;
+        }
+
+        .SuCloud {
+            width: 163px;
+            height: 63px;
+        }
+
+        .btnBundle {
+            margin-top: 70px;
+            display: inline-block;
+            text-align: center;
+            width: 300px;
+        }
+
+        .tOrF {
+            visibility: hidden;
+            display: inline;
+            font-size: 90px;
+            position: absolute;
+            font-weight: bolder;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease;
+            z-index: 6;
+        }
+
+        .aniO {
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1.3);
+            background-image: linear-gradient(to bottom, #52E5E7 10%, #130CB7 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .aniX {
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1.3);
+            background-image: linear-gradient(to bottom, #F05F57 10%, #360940 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F2E8D5">
+<img src="images/Back.png" class="backImg">
+
+<div class="base">
+  <img src="images/SunCloud_0902fix4.png" class="SuCloud">
+  <p class="timer" id="timer" th:text="${setTimer}"></p>
+</div>
+
+<div class="form">
+  <div class="quizTitle">
+    <div id="tOrF" class="tOrF">O</div>
+    <img src="images/OpenBook_Quiz.png">
+    <!--수정해야할듯
+ <p class="quizTitleIndex" id="quizIndex" th:text="${quizIndex}">1 / 3</p>
+ span 두개써서-->
+    <div class="quizTitleIndex">
+      <span id="nowIndex" th:text="${nowIndex}"></span>
+      <span> / </span>
+      <span id="totIndex" th:text="${totIndex}"></span>
+    </div>
+    <p class="quizTitleText" id="quizText" th:text="${quizTitle}">퀴즈 문제</p>
+  </div>
+
+  <br>
+  <div class="btnBundle">
+    <a class="button" data-role="button" id="answer1" onclick="handleAnswerClickOne(event)"
+       th:text="${A1}">버튼1</a>
+    <a class="button" data-role="button" id="answer2" onclick="handleAnswerClickTwo(event)"
+       th:text="${A2}">버튼2</a>
+    <a class="button" data-role="button" id="answer3" onclick="handleAnswerClickThr(event)"
+       th:text="${A3}">버튼3</a>
+  </div>
+</div>
+
+<a id="corIndex" style="color: #F2E8D5;" th:text="${corIndex}"></a>
+<a id="quizNum" style="color: #F2E8D5;" th:text="${quizNum}"></a>
+<a id="vocaNo" style="color: #F2E8D5;" th:text="${vocaNo}"></a>
+</body>
+<script>
+    document.getElementById("corIndex").style.display = "none";
+    document.getElementById("quizNum").style.display = "none";
+    document.getElementById("vocaNo").style.display = "none";
+    var corIndex = document.getElementById('corIndex').innerText;
+    const quizNum = document.getElementById('quizNum').innerText;
+    const vocaNo = document.getElementById('vocaNo').innerText;
+    const nowIndex = document.getElementById('nowIndex').innerText;
+    const totIndex = document.getElementById('totIndex').innerText;
+    const answer1 = document.getElementById('answer1');
+    const answer2 = document.getElementById('answer2');
+    const answer3 = document.getElementById('answer3');
+    const tOrF = document.getElementById('tOrF');
+
+    //다음 퀴즈로 넘어가는 함수
+    function answerCheck() {
+        //quizNum은 전역변수라서 전해주지 않아도 괜찮음
+        //tf는 인자로 넘겨주거나 전역변수로 설정할 필요 있음
+        $.ajax(
+            {
+                type: "post",
+                url: "answerCheck",
+                data: {
+                    "quizNum": quizNum,
+                    "tf": false
+                },
+                success: function (res) {
+                    if (nowIndex == totIndex) window.location.href = "/endOfQuiz";
+                    else window.location.href = "quizStart?vocaNo=" + parseInt(vocaNo) + "&setTimer=" + parseInt(setTimer) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
+                },
+                error: function (err) {
+                    alert("통신 상의 에러가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+    }
+
+    //이하 타이머 관련 코드
+    const timerElement = document.getElementById('timer');
+
+
+    let timeLeft = parseInt(timerElement.innerText); // 초기 타이머 시간 (초 단위)
+    const setTimer = timeLeft; //다음 퀴즈에도 타이머 숫자를 넘겨줘야 하므로. 설정된 타이머 값을 넘김
+    //타이머 설정
+    let timerInterval; // 타이머를 제어할 변수
+
+
+
+    function updateTimer() {
+        timerElement.textContent = timeLeft;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(timerInterval);
+
+            answerCheck();
+        }
+    }
+
+    // 이미 실행 중인 타이머가 있을 경우를 대비하여 clearInterval 실행
+    clearInterval(timerInterval);
+
+    //타이머가 0으로 설정되어 있으면 타이머를 설정하지 않음
+    if (parseInt(setTimer) === 0) {
+        timerElement.textContent = '';
+    }
+    else {
+        // 1초마다 updateTimer 함수를 호출하여 타이머 갱신
+        timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // 타이머 시작시 한 번은 수동으로 업데이트
+    }
+
+
+    //첫번째 버튼 클릭 시
+    function handleAnswerClickOne(event) {
+         //타이머 정지
+         clearInterval(timerInterval);
+
+        if (corIndex == 0) {
+            tOrF.innerText = "O";
+            tOrF.classList.add("aniO");
+
+            answer1.style.backgroundColor = '#4DE3A1';
+
+            //2초 뒤 다음 퀴즈로 넘어감
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+
+        }
+        else {
+            if (corIndex == 1) answer2.style.backgroundColor = '#4DE3A1';
+            else if (corIndex == 2) answer3.style.backgroundColor = '#4DE3A1';
+
+            answer1.style.backgroundColor = '#DE6161';
+            //사용자가 선택한 버튼을 빨간 색으로 표시
+
+            tOrF.innerText = "X";
+            tOrF.classList.add("aniX");
+
+            //2초 뒤 실행
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+        }
+    }
+
+    //두번째 버튼 클릭 시
+    function handleAnswerClickTwo(event) {
+
+        //타이머 정지
+         clearInterval(timerInterval);
+
+        if (corIndex == 1) {
+            answer2.style.backgroundColor = '#4DE3A1';
+            tOrF.innerText = "O";
+            tOrF.classList.add("aniO");
+
+            //2초 뒤 실행
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+
+        }
+        else {
+            if (corIndex == 0) answer1.style.backgroundColor = '#4DE3A1';
+            else if (corIndex == 2) answer3.style.backgroundColor = '#4DE3A1';
+
+            answer2.style.backgroundColor = '#DE6161';
+
+            tOrF.innerText = "X";
+            tOrF.classList.add("aniX");
+
+            //2초 뒤 실행
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+        }
+    }
+
+    //세번째 버튼 클릭 시
+    function handleAnswerClickThr(event) {
+
+        //타이머 정지
+         clearInterval(timerInterval);
+
+        if (corIndex == 2) {
+            answer3.style.backgroundColor = '#4DE3A1';
+            tOrF.innerText = "O";
+            tOrF.classList.add("aniO");
+
+            //2초 뒤 실행
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+
+        }
+        else {
+            if (corIndex == 0) answer1.style.backgroundColor = '#4DE3A1';
+            else if (corIndex == 1) answer2.style.backgroundColor = '#4DE3A1';
+
+            answer3.style.backgroundColor = '#DE6161';
+
+            tOrF.innerText = "X";
+            tOrF.classList.add("aniX");
+
+            //2초 뒤 실행
+            setTimeout(function () {
+                answerCheck();
+            }, 2000);
+        }
+    }
+
+</script>
+
+</html>
