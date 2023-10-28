@@ -13,6 +13,7 @@ java {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -34,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation 'com.github.shin285:KOMORAN:3.3.9'
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
