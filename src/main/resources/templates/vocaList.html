@@ -162,13 +162,13 @@
                 <td>
                     <div class="bookdiv" id="startButton">
                         <img src="images/ClosedBook.png" class="closeBook">
-                        <span class="bookName" th:text="${vocalist.vocaName}">title</span>
+                        <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
                     </div>
                 </td>
                 <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
                     <div class="bookdiv">
                         <img src="images/ClosedBook.png" class="closeBook">
-                        <span class="bookName" th:text="${bookLis[iterStat.index + 1].vocaName}">title</span>
+                        <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
                     </div>
                 </td>
             </tr>
