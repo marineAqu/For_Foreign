@@ -46,11 +46,11 @@ public class WordsEntity {
     @Column
     private char partSpeech; //품사
 
-    @Column(name = "check_status")
-    private char checkStatus= 'n'; //사용자 체크
+    @Column
+    private char checkStatus; //사용자 체크
 
-    @Column(name = "check_quiz")
-    private char checkQuiz= 'n';  //사용자에게 보이지 않는 체크
+    @Column
+    private char checkQuiz;  //사용자에게 보이지 않는 체크
 
     public Long getNo() {
        return no;
