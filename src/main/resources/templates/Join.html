@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--
+작성자: 김민정
+파일명: Join
+설명: 회원 가입 페이지
+-->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,6 +37,7 @@
                 <br>
                 <input type="password" id="password" name="password" placeholder="Password" required="">
                 <br>
+                <div th:text="${duplicateName}" style="font-size: 14px; color: red;"></div>
                 <div th:text="${duplicateID}" style="font-size: 14px; color: red;"></div>
                 <div th:text="${passwordError}" style="font-size: 13px; color: red;"></div>
                 <button type="submit">Create Account</button>

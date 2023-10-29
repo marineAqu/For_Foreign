@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--
+작성자: 김민정
+파일명: MyPageModify
+설명: (23번) 회원 정보를 수정하는 페이지
+-->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,23 +22,24 @@
 <img onclick="history.back()" src="/images/Back.png" style="width: 30px; margin-top: 5px; margin-left: 5px;">
 
 <div style="text-align: center; margin-top: -30px;">
-  <h1>My Page</h1>
-  <img src="/images/Belt.png" style="width: 90%">
+    <h1>My Page</h1>
+    <img src="/images/Belt.png" style="width: 90%">
 </div>
 
 <br>
 
 <div class="container">
-  <img src="/images/Circle.png" class="circle">
-  <h2>Profile</h2>
+    <img src="/images/Circle.png" class="circle">
+    <h2>Profile</h2>
 </div>
 
 <form action="/myPage/modify" method="post">
-  <input style="margin-top: 5px" type="text" id="name" name="name" th:value="${user.userName}"><br>
-  <input type="text" id="uid" th:value="${user.uid}" readonly><br>
-  <input type="password" id="password" name="password" placeholder="Password(Must be more than 8 characters)"><br>
-  <div th:text="${passwordError}" style="color: red;"></div>
-  <input class="modify" type="submit" value="Edit">
+    <input style="margin-top: 5px" type="text" id="name" name="name" th:value="${user.userName}"><br>
+    <input type="text" id="uid" th:value="${user.uid}" readonly><br>
+    <input type="password" id="password" name="password" placeholder="Password(Must be more than 8 characters)"><br>
+    <div th:text="${duplicateName}" style="color: red;"></div>
+    <div th:text="${passwordError}" style="color: red;"></div>
+    <input class="modify" type="submit" value="Edit">
 </form>
 </body>
 </html>

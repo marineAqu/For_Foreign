@@ -1,5 +1,10 @@
 package com.project.fofo.entity;
 
+/**
+ * 파일명: MemlistEntity
+ * 작성자: 김민정
+ **/
+
 import com.project.fofo.DTO.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
