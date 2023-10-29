@@ -1,5 +1,10 @@
 package com.project.fofo.DTO;
 
+/**
+ * 파일명: MemberDTO
+ * 작성자: 김민정
+ **/
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +23,7 @@ public class MemberDTO {
     private String uid;
 
     @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-    @Length(min=5, message = "비밀번호는 5자 이상입니다.")
+    @Length(min=5, message = "비밀번호는 8자 이상입니다.")
     private String password;
 
     @Builder

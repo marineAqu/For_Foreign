@@ -1,5 +1,10 @@
 package com.project.fofo.service;
 
+/**
+ * 파일명: OAuth2MemberService
+ * 작성자: 김민정
+ **/
+
 import com.project.fofo.auth.PrincipalDetails;
 import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.repository.MemberRepository;
