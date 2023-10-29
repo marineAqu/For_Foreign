@@ -1,5 +1,10 @@
 package com.project.fofo.entity;
 
+/**
+ * 파일명: VocalistEntity
+ * 작성자: 김도연
+ **/
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

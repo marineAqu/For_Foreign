@@ -1,5 +1,10 @@
 package com.project.fofo.service;
 
+/**
+ * 파일명: VocaService
+ * 작성자: 김도연
+ **/
+
 import com.project.fofo.entity.VocalistEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

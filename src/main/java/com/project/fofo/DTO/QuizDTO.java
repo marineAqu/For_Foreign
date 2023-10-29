@@ -1,5 +1,9 @@
 package com.project.fofo.DTO;
 
+/**
+ * 파일명: QuizDTO
+ * 작성자: 김도연
+ **/
 
 import com.project.fofo.entity.WordsEntity;
 import lombok.*;

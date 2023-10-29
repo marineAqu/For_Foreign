@@ -1,5 +1,10 @@
 package com.project.fofo.controller;
 
+/**
+ * 파일명: VocaController
+ * 작성자: 김도연
+ **/
+
 import com.project.fofo.service.QuizService;
 import com.project.fofo.service.VocaService;
 import jakarta.servlet.http.HttpSession;

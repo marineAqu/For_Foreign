@@ -1,5 +1,9 @@
 package com.project.fofo.controller;
 
+/**
+ * 파일명: QuizController
+ * 작성자: 김도연
+ **/
 
 import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.service.QuizService;

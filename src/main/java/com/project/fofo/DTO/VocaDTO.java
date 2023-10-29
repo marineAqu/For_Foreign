@@ -1,5 +1,10 @@
 package com.project.fofo.DTO;
 
+/**
+ * 파일명: VocaDTO
+ * 작성자: 김도연
+ **/
+
 import com.project.fofo.entity.VocalistEntity;
 import lombok.*;
 
