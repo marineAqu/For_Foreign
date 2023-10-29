@@ -1,5 +1,10 @@
 package com.project.fofo.entity;
 
+/**
+ * 파일명: WordsEntity
+ * 작성자: 김도연
+ **/
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

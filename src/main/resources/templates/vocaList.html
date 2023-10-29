@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:td="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!--
+작성자: 김도연
+파일명: BookLis
+설명: (8번) 소유한 단어장을 확인할 수 있는 페이지
+-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Word Book</title>
+    <style>
+
+    .BottomNavigation{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #F2E8D5;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+    align-items: center;
+    padding: 10px 0;
+    height: 5%;
+}
+
+.CameraButton{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate( -50%, -50% );
+}
+.TranslationButton{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate( -50%, -50% );
+}
+.HomeButton{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+}
+.QuizButton{
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate( -50%, -50% );
+}
+.WordBookButton{
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translate( -50%, -50% );
+}
+
+        #modal.modal-overlay {
+            width: 100%;
+            height: 100%;
+            /*position: absolute; : 아래로 스크롤해서 모달 열면 배경 어둡게가 잘려서 아래로 수정하여 해결*/
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 999;
+        }
+
+        #modal .modal-window {
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
+            display: block;
+            position: relative;
+        }
+
+        #modal .mod-x {
+            position: absolute;
+            top: 5%;
+            left: 6%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            width: 36px;
+        }
+
+        .base {
+            text-align: center;
+            /*position: relative;*/
+            /*padding:0 0;
+               margin: auto;*/
+        }
+
+        .belt {
+            position: absolute;
+            left: 50%;
+        }
+
+        .bookName {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            font-weight: bolder;
+        }
+
+        .bookdiv {
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .bookList {
+            /* display: grid;
+                grid-template-columns: repeat(2,1fr); */
+            overflow-y: scroll;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .bookList td {
+            margin: 0;
+            /* td 요소의 기본 여백 제거 */
+        }
+
+        .add-fold {
+            display: flex;
+            justify-content: flex-end;
+            /* 플렉스 박스를 사용하여 내부 요소들을 나란히 배치 */
+            align-items: center;
+            padding-right: 40px;
+            padding-top: 10px;
+            /* 요소들을 수직 가운데 정렬*/
+        }
+
+        .plus-img {
+            /*배경 없이 +이미지만 있을 적 css*/
+            display: inline-block;
+            box-shadow: 0 6px 6px rgba(0, 0, 0, 0.200);
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            line-height: 50%;
+            background: #4A7E67;
+        }
+
+        .add-btn {
+            position: absolute;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.249);
+            top: 83%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+            width: 75%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #4A7E67;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 55px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .modclos-img {
+            cursor: pointer;
+            position: absolute;
+            top: 43%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+        }
+
+        .bookNameBox {
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            outline: none;
+            font-size: 40px;
+            width: 40%;
+            white-space: pre-wrap;
+            border: none;
+            background: transparent;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+
+<body style="background-color: #F2E8D5">
+<div class="base">
+    <header>
+        <h1 style="font-size: 60px;">Word Book</h1>
+        <img src="images/Belt.png" style="width: 90%">
+    </header>
+
+    <div class="add-fold">
+        <span style="font-size: 40px;">Add folder</span>
+        <!--<div style="display: inline-block;">-->
+        <img id="foldAddBtn" style="width:9%; display: inline-block; margin-left: 15px;" src="images/AddFolder.png">
+        <!--</div>-->
+    </div>
+
+    <div>
+        <table class="bookList">
+            <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
+                <td>
+                    <div class="bookdiv" id="startButton">
+                        <img src="images/ClosedBook.png" class="closeBook">
+                        <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
+                    </div>
+                </td>
+                <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
+                    <div class="bookdiv">
+                        <img src="images/ClosedBook.png" class="closeBook">
+                        <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <nav class="BottomNavigation">
+        <a href="/camera">
+            <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
+        </a>
+        <a href="/translator">
+            <img class="TranslationButton" src="images/NotSelectedTranslation.png" style="width: 8%;">
+        </a>
+        <a href="/home">
+            <img class="HomeButton" src="images/NotSelectedHome.png" style="width: 11%;">
+        </a>
+        <a href="/BookLis">
+            <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
+        </a>
+        <a href="vocaList">
+            <img class="WordBookButton" src="images/WordBookButton.png" style="width: 6%;">
+        </a>
+    </nav>
+</div>
+
+<!--add folder 모달-->
+<div id="modal" class="modal-overlay">
+    <div class="modal-window">
+        <img style="display: block; width: 700px" src="images/TimeSettingBackGround2.png">
+        <img src="images/X.png" class="mod-x">
+
+        <img class="modclos-img" src="images/ClosedBook.png">
+
+        <!--<form action="save" method="post">-->
+        <textarea placeholder="Please enter a title" maxlength="20" class="bookNameBox" name="newVocaNm"
+                  id="modalInput" autofocus></textarea>
+        <!--<a class="add-btn" id="modAddBtn">To add</a>-->
+        <button class="add-btn" id="modAddBtn">To add</button>
+        </form>
+    </div>
+</div>
+
+</body>
+<script>
+    const modal = document.getElementById("modal")
+    const closeBtn = modal.querySelector(".mod-x")
+    const foldAddBtn = document.getElementById("foldAddBtn")
+
+    const modalInput = document.getElementById("modalInput")
+    const modAddBtn = document.getElementById("modAddBtn")
+
+    //Add folder 클릭 시 모달 띄움
+    foldAddBtn.addEventListener('click', function () {
+        modal.style.display = "flex"
+        document.body.style.overflow = "hidden";
+
+        var input = document.getElementById('modalInput');
+        input.focus();
+    });
+
+    //X버튼 클릭 시 모달 닫힘
+    closeBtn.addEventListener("click", e => {
+        modal.style.display = "none"
+        document.body.style.overflow = "upset";
+        modalInput.value='';
+    })
+
+    //X버튼 외에도 모달 밖 부분 터치하면 화면 닫힘
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if (evTarget.classList.contains("modal-overlay")) {
+            modal.style.display = "none"
+            document.body.style.overflow = "upset";
+            modalInput.value='';
+        }
+    })
+
+    //모달 내 to add 클릭 시
+    modAddBtn.addEventListener("click", e => {
+        var inputValue = modalInput.value.trim();
+
+        //길이가 1 이상 20 이하인지 체크
+        if (inputValue.length >= 1 && inputValue.length <= 20) {
+            //이미 존재하는 제목인지 체크
+            if (checkTitle() === false) {//중복이 아닐 경우 저장
+                //alert("저장하는 코드 실행")
+
+                $.ajax(
+                {
+                    type: "post",
+                    url: "saveVocaTit",
+                    data: {
+                        "inputValue": inputValue
+                    },
+                    success: function(res) {
+                        window.location.href = "/vocaList";
+                    },
+                    error: function(err) {
+                        alert("통신 상의 오류가 발생했습니다. 다시 시도해주세요.");
+                    }
+                });
+
+            } else {
+                //이미 존재하는 제목일 경우
+                alert("The title already exists.");
+            }
+        }
+        else { //글자수가 1 이하거나 20 초과일 때
+            alert("Please enter a title between 1 and 20 characters.");
+        }
+    })
+
+    //이미 존재하는 단어장인지 중복을 체크
+    function checkTitle() {
+        var enteredTitle = modalInput.value;
+
+        var tableRows = document.querySelectorAll(".bookList td");
+        for (var i = 0; i < tableRows.length; i++) {
+            var titleSpan = tableRows[i].querySelector(".bookName");
+            var titleText = titleSpan.textContent;
+
+            if (titleText === enteredTitle) {
+                return true;
+            }
+        }
+
+        // 일치하는 항목을 찾지 못한 경우 false 반환
+        return false;
+    }
+
+
+</script>
+
+</html>
