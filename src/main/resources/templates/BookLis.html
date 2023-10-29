@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:td="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
+<!--
+작성자: 김도연
+파일명: BookLis
+설명: (6번) 퀴즈를 풀기 위한 단어장이 뜨는 페이지
+-->
+
 <head>
   <meta charset="UTF-8">
   <title>퀴즈</title>
@@ -195,24 +201,6 @@
   </header>
 
   <div>
-    <!--
-         <table th:each="Movieinfo: ${movieList}">
-         <tr>
-              <td><img src="ClosedBook.png" class="closeBook"></td>
-              <td rowspan=4 th:href="@{review(movieNo=${Movieinfo.no})}" td:text="${Movieinfo.no}">영화 번호</td>
-         </tr>
-    </table>
-    -->
-    <!--
-            <table class="bookList" th:each="Vocalist: ${bookLis}">
-                    <td>
-                        <div class="bookdiv" id="startButton">
-                            <img src="images/ClosedBook.png" class="closeBook">
-                            <span class="bookName" th:text="${Vocalist.vocaName}">단어장 이름</span>
-                        </div>
-                    </td>
-            </table>
-    -->
 
     <table class="bookList">
       <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
