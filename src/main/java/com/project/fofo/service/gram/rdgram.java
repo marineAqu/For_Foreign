@@ -1,5 +1,9 @@
 package com.project.fofo.service.gram;
-
+//
+//파일명 : rdgram
+//작성자 : 정채빈
+//설명 : 매일 랜덤으로 문법을 가져온다
+//
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +11,6 @@ import java.sql.*;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.Date;
-
 
 @RestController
 public class rdgram { //랜덤으로 문법 가져오기

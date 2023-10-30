@@ -1,3 +1,9 @@
+//
+// 파일명 : callJava
+// 작성자 : 정채빈
+// 설명 : 자바를 호출해준다
+//
+
  function fetchRandomGrammar() {
         //자바호출
         fetch('/randgram')

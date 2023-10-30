@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
+
+<!--작성자 : 정채빈-->
+<!--파일명 : Camera-->
+<!--설명 : 갤러리 또는 찍은 사진은 ocr하는 페이지-->
+
 <style>
     h1{
     text-align: center;
     font-size: 5em;
     }
-    .body {
+    body {
             background-color: #F2E8D5;
-        }
+    }
     .img-text{
     margin-top:5%;
     font-size:3.5em;
@@ -117,7 +122,7 @@
 <div style="text-align:center" >
     <img id="cameraThumbnail" src="images/TakeWithCamera.png"  width="90%">
     <form id="camuploadForm" enctype="multipart/form-data" style="display: none;">
-        <input type="file" id="cameraCapture" name="image" capture="camera" accept="image/*" onchange="displayImage(event)">
+        <input type="file" id="cameraCapture" name="image" capture="camera" accept="image/*">
     </form>
 </div>
 <br>
@@ -128,72 +133,59 @@
 <br>
 <!--사진 파일 선택-->
 <div style="text-align:center" >
-    <img id="imageThumbnail" src="images/ImportFromAlbumButton.png"  width="90%">
+    <img id="imageThumbnail" src="images/ImportFromAlbum.png"  width="90%">
     <form id="uploadForm" enctype="multipart/form-data" style="display: none;">
-        <input type="file" id="imageInput" name="image" accept="image/*" onchange="displayImage(event)">
+        <input type="file" id="imageInput" name="image" accept="image/*" onchange="readURL(this)">
     </form>
 </div>
-<!--팝업창-->
-<div id="imagePopup">
-    <span id="closeButton" onclick="closePopup()" style="top:2px"><img src="images/Back.png"></span>
-    <div style="text-align:center; margin-top:10px;" >
-        <img src="images/BlurrySunCloud.png" width="30%"></div>
-    <div class="main_image;" style="text-align: center;"><img src="images/ImgBackGround.png" width="90%;"></div>
-    <div style="overflow:auto;">
-        <img id="popupImage" src="" class="pop_img">
-        <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>
-        <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>
-        <a href="javascript:void(0);" onclick="moveResultToImgTrans()" target="_blank">
-            <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>
-        </a>
-        <div class="main_image_text">
-            <div id="morphologyTable">
-                <table border="0" style="position:fixed;">
-                    <thead>
-                    <tr>
-                        <th>단어</th>
-                        <th>word interpretation</th>
-                        <th>add</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+<!--&lt;!&ndash;팝업창&ndash;&gt;-->
+<!--<div id="imagePopup">-->
+<!--    <span id="closeButton" onclick="closePopup()" style="top:2px"><img src="images/Back.png"></span>-->
+<!--    <div style="text-align:center; margin-top:10px;" >-->
+<!--        <img src="images/BlurrySunCloud.png" width="30%"></div>-->
+<!--    <div class="main_image;" style="text-align: center;"><img src="images/ImgBackGround.png" width="90%;"></div>-->
+<!--    <div style="overflow:auto;">-->
+<!--        <img id="popupImage" src="" class="pop_img">-->
+<!--        <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>-->
+<!--        <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>-->
+<!--        <a href="javascript:void(0);" onclick="moveResultToImgTrans()" target="_blank">-->
+<!--            <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>-->
+<!--        </a>-->
+<!--        <div class="main_image_text">-->
+<!--            <div id="morphologyTable">-->
+<!--                <table border="0" style="position:fixed;">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>단어</th>-->
+<!--                        <th>word interpretation</th>-->
+<!--                        <th>add</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <nav class="BottomNavigation" id="nav">
-    <a href="/camera" target="_blank">
+    <a href="/camera">
         <img class="CameraButton" src="images/NotSelectedCamera.png" id="cameraIcon" style="width: 9%;">
     </a>
-    <a href="/trans" target="_blank">
+    <a href="/trans">
         <img class="TranslationButton" src="images/NotSelectedTranslation.png" id="translationIcon" style="width: 8%;">
     </a>
-    <a href="index.html" target="_blank">
+    <a href="/home">
         <img class="HomeButton" src="images/HomeButton.png" id="homeIcon" style="width: 11%;">
     </a>
-    <a href="/quiz" target="_blank">
+    <a href="/quiz">
         <img class="QuizButton" src="images/NotSelectedQuiz.png" id="quizIcon" style="width: 7%;">
     </a>
-    <a href="/dict" target="_blank">
+    <a href="/dict">
         <img class="WordBookButton" src="images/NotSelectedWordBook.png" id="wordbookIcon" style="width: 6%;">
     </a>
 </nav>
-<script>
-    // 이미지ocr 결과를 imgtrans로 이동
-    function moveResultToImgTrans() {
-    var resultElement = document.getElementById('result');
-
-    // result 요소의 내용을 URL 매개변수로 인코딩하여 imgtrans.html로 이동
-    var resultValue = encodeURIComponent(resultElement.innerHTML);
-    var newWindow = window.open('/imgtrans?result=' + resultValue);
-
-    // 원래 페이지에서 result 요소 제거
-<!--    resultElement.parentNode.removeChild(resultElement);-->
-}
-</script>
 <script>
     // 이미지 선택시 동작
     document.getElementById('imageThumbnail').addEventListener('click', function () {
@@ -204,96 +196,33 @@
         document.getElementById('cameraCapture').click();
     });
     // 파일 선택 시 자동으로 스크립트 실행
-    document.getElementById('imageInput').addEventListener('change', function () {
-        const formData = new FormData();
+    document.getElementById('imageInput').addEventListener('change', (event) => {
+        const image = event.target.files[0]
 
-        // 선택된 파일을 formData에 추가
-        formData.append('image', this.files[0]);
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
 
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(result => {
-                document.getElementById('result').textContent = result;
-            });
+        reader.addEventListener('load',() =>{
+            localStorage.setItem('imageInput', reader.result);
+        });
+
+        window.location.href = '/nextcamera'; //현재 탭에서 nextcamera.html로 이동
     });
 
-    document.getElementById('cameraCapture').addEventListener('change', function () {
-        const formData = new FormData();
 
-        // 선택된 파일을 formData에 추가
-        formData.append('image', this.files[0]);
+    document.getElementById('cameraCapture').addEventListener('change', (event) => {
+        const image = event.target.files[0]
 
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(result => {
-                document.getElementById('result').textContent = result;
-            });
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+
+        reader.addEventListener('load',() =>{
+            localStorage.setItem('cameraCapture', reader.result);
+        });
+
+        window.location.href = '/nextcamera'; //현재 탭에서 nextcamera.html로 이동
     });
 
-        function displayImage(event) {
-                const fileInput = event.target;
-                const popupImage = document.getElementById('popupImage');
-                const imagePopup = document.getElementById('imagePopup');
-                const closeButton = document.getElementById('closeButton');
-
-                if (fileInput.files && fileInput.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        popupImage.src = e.target.result;
-                        imagePopup.style.display = 'block';
-                        hideIcons();
-                    };
-
-                    reader.readAsDataURL(fileInput.files[0]);
-
-                    // 팝업 창 닫기 버튼 설정
-                    closeButton.onclick = function () {
-                        imagePopup.style.display = 'none';
-                        showIcons();
-                    };
-                }
-            }
-            // 팝업 창 닫기 함수
-            function closePopup() {
-                const imagePopup = document.getElementById('imagePopup');
-                imagePopup.style.display = 'none';
-            }
-        function hideIcons() {
-            const cameraIcon = document.getElementById('cameraIcon');
-            const translationIcon = document.getElementById('translationIcon');
-            const homeIcon = document.getElementById('homeIcon');
-            const quizIcon = document.getElementById('quizIcon');
-            const wordbookIcon = document.getElementById('wordbookIcon');
-            const nav = document.getElementById('nav');
-            // 숨김 처리
-            cameraIcon.style.display = 'none';
-            translationIcon.style.display = 'none';
-            homeIcon.style.display = 'none';
-            quizIcon.style.display = 'none';
-            wordbookIcon.style.display = 'none';
-            nav.style.display='none';
-        }
-        function showIcons() {
-            const cameraIcon = document.getElementById('cameraIcon');
-            const translationIcon = document.getElementById('translationIcon');
-            const homeIcon = document.getElementById('homeIcon');
-            const quizIcon = document.getElementById('quizIcon');
-            const wordbookIcon = document.getElementById('wordbookIcon');
-                // 표시 처리
-                cameraIcon.style.display = '';
-                translationIcon.style.display = '';
-                homeIcon.style.display = '';
-                quizIcon.style.display = '';
-                wordbookIcon.style.display = '';
-                nav.style.display='';
-            }
 </script>
 </body>
 </html>

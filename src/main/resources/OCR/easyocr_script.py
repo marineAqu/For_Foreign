@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 from PIL import ImageFont, ImageDraw, Image
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+ #
+ # 파일명: easyocr_script
+ # 작성자: 정채빈
+ # 설명 : 이미지 ocr
 
 #추가: 받은 사진을 ocr하기 위해서.
 image_path = sys.argv[1]

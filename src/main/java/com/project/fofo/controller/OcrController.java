@@ -1,5 +1,8 @@
 package com.project.fofo.controller;
-
+/**
+ * 파일명: OcrController
+ * 작성자: 정채빈
+ **/
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.lang.*;
+
 @RestController
 @RequestMapping("/api")
 public class OcrController {
@@ -28,7 +32,6 @@ public class OcrController {
 
         // 이미지 저장
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
         String result = "오류 발생";
         // EasyOCR  호출
         try{
