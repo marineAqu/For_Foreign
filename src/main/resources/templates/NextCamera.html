@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--작성자 : 정채빈-->
+<!--파일명 : NextCamera-->
+<!--설명 : 사진 선택이 이동하는 페이지 선택한 사진을 보여줌 -->
+
+<style>
+    h1{
+    text-align: center;
+    font-size: 5em;
+    }
+    body {
+            background-color: #F2E8D5;
+    }
+    .pop_img{
+       position: absolute;
+       top: 250px;
+       left: 50%;
+       transform: translateX(-50%);
+       max-width: 80%;
+       max-height: 70%;
+    }
+    .img-text{
+    margin-top:5%;
+    font-size:3.5em;
+    }
+    .main_image_text {
+    position:absolute;
+    bottom:15%;
+    left: 10%;
+    right:17%;
+    font-size:2.5em;
+  }
+    .main_image {
+    position: relative;
+    margin-top:10%;
+    bottom:0;
+  }
+    #closeButton {
+            position: absolute;
+            top: 5%;
+            left:2%;
+            font-size: 80px;
+            color: black;
+    }
+    #morphologyTable {
+            text-align: center;
+            margin: 0 auto;
+            transform: translate(12%, 40%);
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body >
+<span id="closeButton" onclick="history.back()" style="top:2px"><img src="images/Back.png"></span>
+<div style="text-align:center; margin-top:10px;" >
+    <img src="images/BlurrySunCloud.png" width="30%"></div>
+<div class="main_image;" style="text-align: center;"><img src="images/ImgBackGround.png" width="90%;"></div>
+<div style="overflow:auto;">
+    <img id="savedimg" src="" class="pop_img">
+    <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>
+    <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>
+    <a href="javascript:void(0);" onclick="moveResultToImgTrans()">
+        <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>
+    </a>
+    <div class="main_image_text">
+        <div id="morphologyTable">
+            <table border="0" style="position:fixed;">
+                <thead>
+                <tr>
+                    <th>단어</th>
+                    <th>word interpretation</th>
+                    <th>add</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    // 이미지 가져오기
+    window.onload = function() {
+        const formData = new FormData();
+        const cameraCapture = localStorage.getItem('cameraCapture');
+        const savedimage = document.getElementById('savedimg');
+
+        if(cameraCapture) {
+            savedimage.setAttribute('src', cameraCapture);
+
+            // 이미지 요소의 Base64 데이터를 가져옴
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const image = new Image();
+
+        image.onload = function() {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0);
+            canvas.toBlob(function(blob) {
+                // Blob 형식으로 변환한 이미지를 FormData에 추가
+                formData.append('image', blob, 'image.jpg');
+
+                // 서버로 POST 요청 보내기
+                fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById('result').innerHTML = result;
+                });
+            });
+            };
+
+        image.src = cameraCapture;
+        } else if(imageInput){
+            savedimage.setAttribute('src', imageInput);
+
+            // 이미지 요소의 Base64 데이터를 가져옴
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const image = new Image();
+
+        image.onload = function() {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0);
+            canvas.toBlob(function(blob) {
+                // Blob 형식으로 변환한 이미지를 FormData에 추가
+                formData.append('image', blob, 'image.jpg');
+
+                // 서버로 POST 요청 보내기
+                fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById('result').innerHTML = result;
+                });
+            });
+            };
+
+        image.src = imageInput;
+        }else{
+            console.log('저장된 이미지가 없습니다.');
+        }
+    };
+</script>
+<script>
+    // 이미지ocr 결과를 imgtrans로 이동
+function moveResultToImgTrans() {
+    var resultElement = document.getElementById('result');
+    // result 요소의 내용을 URL 매개변수로 인코딩하여 imgtrans.html로 이동
+    var resultValue = encodeURIComponent(resultElement.innerHTML);
+
+    window.location.href = '/imgtrans?result=' + resultValue; //현재 탭에서 imgtrans.html로 이동
+
+    // 원래 페이지에서 result 요소 제거
+    <!--    resultElement.parentNode.removeChild(resultElement);-->
+}
+
+</script>
+</body>
+</html>
