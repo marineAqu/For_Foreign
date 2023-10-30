@@ -15,27 +15,33 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#bookmarkCheckbox').on('change', function() {
-                var isChecked = $(this).is(':checked');
-                var bookmarkValue = isChecked ? 'y' : 'n';
-                $.ajax({
-                    type: 'POST',
-                    url: '/updateBookmark', // 실제 업데이트를 처리할 엔드포인트 URL
-                    data: {
-                        bookmarked: bookmarkValue // 체크박스가 체크되었음을 서버에 전달
-                    },
-                    success: function(response) {
-                        // 업데이트가 성공했을 때 수행할 동작
-                        console.log('업데이트 성공');
-                    },
-                    error: function(error) {
-                        // 업데이트가 실패했을 때 수행할 동작
-                        console.log('업데이트 실패');
-                    }
-                });
+
+    $(document).ready(function() {
+        $("input[type='checkbox']").change(function() {
+            var isChecked = $(this).is(':checked');
+            var bookmarkValue = isChecked ? 'y' : 'n';
+            var no = $(this).data('no');
+            console.log(no);
+
+            $.ajax({
+                type: 'POST',
+                url: '/updateBookmark',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    bookmarked: bookmarkValue,
+                    no: no
+                }),
+                success: function(response) {
+                    console.log('업데이트 성공');
+                },
+                error: function(error) {
+                    console.log('업데이트 실패');
+                }
             });
         });
+    });
+
+
 
     </script>
 
@@ -138,7 +144,7 @@
                         </td>
 
                         <td>
-                            <input type="checkbox" id="bookmarkCheckbox" name="color" value="bookmark">
+                            <input type="checkbox" id="bookmarkCheckbox-${board.no}" name="color" value="bookmark" th:data-no="${board.no}">
                         </td>
                     </tr>
                     </tbody>

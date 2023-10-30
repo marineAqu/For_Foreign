@@ -1,18 +1,22 @@
 package com.project.fofo.controller;
 
-
+/**
+ * 파일명: BoardController
+ * 작성자: 김현지
+ **/
 
 import com.project.fofo.entity.WordsEntity;
 import com.project.fofo.repository.BoardRepository;
 import com.project.fofo.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -26,7 +30,6 @@ public class BoardController {
     public BoardController(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
-
 
     @GetMapping("/post")
     public String post() {
@@ -69,11 +72,19 @@ public class BoardController {
         //3.보여줄 페이지 설정
         return "Detail";
     }
-    @PostMapping("/updateBookmark")
-    public void updateBookmark(@RequestParam("bookmarked") String bookmarked, @RequestParam("postId") Long postId) {
-        // 문자열을 char로 변환하여 BoardService로 전달
+
+    @PostMapping(value = "/updateBookmark", consumes = "application/json")
+    public ResponseEntity<String> updateBookmark(@RequestBody Map<String, String> payload) {
+        String bookmarked = payload.get("bookmarked");
+        String noString = payload.get("no");
+
+        Long no = Long.parseLong(noString);
         char status = bookmarked.charAt(0);
-        boardService.updateBookmarkStatus(postId, status);
+
+        boardService.updateBookmarkStatus(no, status);
+
+        return ResponseEntity.ok("업데이트 성공");
     }
+
 
 }
