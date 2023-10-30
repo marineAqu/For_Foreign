@@ -1,5 +1,12 @@
 package com.project.fofo.service.trans;
 
+/**
+ * 파일명: AnalyzeTranslatedText
+ * 작성자: 김현지
+ * 설명: 형태소 분석 함수
+ **/
+
+
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
@@ -7,9 +14,12 @@ import kr.co.shineware.nlp.komoran.model.Token;
 
 import java.util.List;
 
+
 public class AnalyzeTranslatedText {
+
     public String analyzeTranslatedText(String translatedText) {
-        System.out.println("analyzeTranslatedText 시작");
+
+
         System.out.println("translatedText"+translatedText);
         Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
@@ -24,7 +34,10 @@ public class AnalyzeTranslatedText {
             }
             else analysisResult.append("");
         }
-        System.out.println("analyze 빠져나옴");
+
         return analysisResult.toString();
+
     }
+
+
 }

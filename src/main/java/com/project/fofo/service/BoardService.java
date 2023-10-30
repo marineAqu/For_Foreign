@@ -1,5 +1,10 @@
 package com.project.fofo.service;
 
+/**
+ * 파일명: BoardService
+ * 작성자: 김현지
+ **/
+
 import com.project.fofo.DTO.BoardDTO;
 import com.project.fofo.entity.WordsEntity;
 import com.project.fofo.repository.BoardRepository;
@@ -40,8 +45,8 @@ public class BoardService {
         }
 
         @Transactional
-        public void updateBookmarkStatus(Long postId, char status) {
-            WordsEntity wordsEntity = boardRepository.findById(postId).orElse(null);
+        public void updateBookmarkStatus(Long no, char status) {
+            WordsEntity wordsEntity = boardRepository.findById(no).orElse(null);
             if (wordsEntity != null) {
                 wordsEntity.setCheckStatus(status);
                 boardRepository.save(wordsEntity);

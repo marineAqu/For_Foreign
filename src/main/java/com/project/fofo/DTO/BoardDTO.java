@@ -1,5 +1,9 @@
 package com.project.fofo.DTO;
 
+/**
+ * 파일명: BoardDTO
+ * 작성자: 김현지
+ **/
 
 import lombok.*;
 

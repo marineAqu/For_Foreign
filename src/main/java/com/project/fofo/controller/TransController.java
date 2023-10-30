@@ -1,5 +1,10 @@
 package com.project.fofo.controller;
 
+/**
+ * 파일명: TransController
+ * 작성자: 김현지
+ **/
+
 import com.project.fofo.service.trans.AnalyzeTranslatedText;
 import com.project.fofo.service.trans.PapagoAPI;
 import jakarta.servlet.http.HttpServletRequest;

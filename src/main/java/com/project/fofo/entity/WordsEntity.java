@@ -70,9 +70,9 @@ public class WordsEntity {
                         .pronSymbol(pronSymbol)
                         .koSentence(koSentence)
                         .enSentence(enSentence)
-                        .checkStatus(checkStatus)
-                        .checkQuiz(checkQuiz)
+                        .checkStatus('n')
+                        .checkQuiz('n')
                         .build();
                 return build;
-        }
+    }
 }

@@ -1,5 +1,11 @@
 package com.project.fofo.service.trans;
 
+/**
+ * 파일명: PapagoAPI
+ * 작성자: 김현지
+ * 설명: papago API 사용하여 번역 실행 함수
+ **/
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
