@@ -186,10 +186,10 @@
                 url: "answerCheck",
                 data: {
                     "quizNum": quizNum,
-                    "tf": false
+                    "tf": tOrF.innerText
                 },
                 success: function (res) {
-                    if (nowIndex == totIndex) window.location.href = "/endOfQuiz";
+                    if (nowIndex == totIndex) window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
                     else window.location.href = "quizStart?vocaNo=" + parseInt(vocaNo) + "&setTimer=" + parseInt(setTimer) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
                 },
                 error: function (err) {

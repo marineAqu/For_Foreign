@@ -36,7 +36,7 @@ public class QuizDTO {
         quizDTO.setKoSentence(wordsEntity.getKoSentence());
         quizDTO.setEnSentence(wordsEntity.getEnSentence());
         quizDTO.setVocaNo(wordsEntity.getVocaNo());
-        //quizDTO.setPartSpeech(wordsEntity.getPartSpeech());
+        quizDTO.setPartSpeech(wordsEntity.getPartSpeech());
         quizDTO.setCheckStatus(wordsEntity.getCheckStatus());
         quizDTO.setCheckQuiz(wordsEntity.getCheckQuiz());
 

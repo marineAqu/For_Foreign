@@ -5,6 +5,7 @@ package com.project.fofo.entity;
  * 작성자: 김도연
  **/
 
+import com.project.fofo.DTO.QuizDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -74,5 +75,25 @@ public class WordsEntity {
                         .checkQuiz('n')
                         .build();
                 return build;
+    }
+
+    /**
+     * 함수: toQuizStates
+     * 작성자: 김도연
+     * 설명: 퀴즈에서 checkQuiz 필드의 상태를 변경하기 위한 함수
+     * */
+    public static WordsEntity toQuizStates(QuizDTO quizDTO) {
+        WordsEntity wordsEntity = new WordsEntity();
+        wordsEntity.setNo(quizDTO.getNo());
+        wordsEntity.setKoWord(quizDTO.getKoWord());
+        wordsEntity.setEnWord(quizDTO.getEnWord());
+        wordsEntity.setPartSpeech(quizDTO.getPartSpeech());
+        wordsEntity.setPronSymbol(quizDTO.getPronSymbol());
+        wordsEntity.setEnSentence(quizDTO.getEnSentence());
+        wordsEntity.setKoSentence(quizDTO.getKoSentence());
+        wordsEntity.setVocaNo(quizDTO.getVocaNo());
+        wordsEntity.setCheckStatus(quizDTO.getCheckStatus());
+        wordsEntity.setCheckQuiz(quizDTO.getCheckQuiz());
+        return wordsEntity;
     }
 }

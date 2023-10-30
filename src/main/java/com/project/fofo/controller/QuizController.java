@@ -6,6 +6,9 @@ package com.project.fofo.controller;
  **/
 
 import com.project.fofo.DTO.QuizDTO;
+import com.project.fofo.entity.VocalistEntity;
+import com.project.fofo.entity.WordsEntity;
+import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.QuizService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,7 @@ import java.util.Random;
 @Controller
 @RequiredArgsConstructor
 public class QuizController {
-
+    private final QuizRepository quizRepository;
     private final QuizService quizService;
     @GetMapping("/BookLis")
     public String BookLis(Model model){
@@ -31,7 +34,12 @@ public class QuizController {
     }
 
     @GetMapping("endOfQuiz")
-    public String endOfQuiz(){
+    public String endOfQuiz(Model model, @RequestParam("vocaNo") Long vocaNo){
+        //전체 문제, 맞은 개수
+        List<WordsEntity> wordsEntity = quizRepository.findByVocaNo(vocaNo);
+
+        model.addAttribute("totNum", wordsEntity.size()); //총 개수
+        model.addAttribute("correctNum", wordsEntity.stream().filter(entity -> String.valueOf(entity.getCheckQuiz()).equals("y")).count()); //맞은 개수
         return "endOfQuiz";
     }
 
@@ -155,22 +163,28 @@ public class QuizController {
     }
 
     @PostMapping("answerCheck")
-    public @ResponseBody void answerCheck(@RequestParam("quizNum") Long quizNum, @RequestParam("tf") boolean tf,
+    public @ResponseBody void answerCheck(@RequestParam("quizNum") Long quizNum, @RequestParam("tf") String tf,
                                           HttpSession session) {
+        System.out.println("tf값: " + tf);
 
-        //@RequestParam("tf") boolean tf 를 추가
-        //TOD O: 틀렸는지 맞았는지에 따라 check_quiz(체크)값 바꾸는 로직 추가 - if문으로 맞앗으면 quizDTO.setCh("y") 식으로: 160~161 코드
         QuizDTO quizDTO;
         quizDTO = quizService.SearchByNo(quizNum);
-        System.out.println("엔서체크 컨트롤러에서 quizDTO의 getEnWord:"+session.getAttribute(quizDTO.getEnWord())); //setCh 오류로 인한 테스트
-        //if(tf == true) quizDTO.setCh("y");
-        //else if(tf == false) quizDTO.setCh("n");
+        System.out.println("엔서체크 컨트롤러에서 quizDTO의 getEnWord:" + quizDTO.getEnWord()); //setCh 오류로 인한 테스트
 
+        if(tf.equals("O")) {
+            quizDTO.setCheckQuiz('y');
+            //y로 상태 변경
+            quizRepository.save(WordsEntity.toQuizStates(quizDTO));
+        }
+        else if(tf.equals("X")) {
+            quizDTO.setCheckQuiz('n');
+            //n로 상태 변경
+            quizRepository.save(WordsEntity.toQuizStates(quizDTO));
+        }
 
         Long nowQuizNum = quizNum + 1;
 
         System.out.println("answerCheck컨트롤러에서 quizNum = " + nowQuizNum);
         System.out.println(session.getAttribute("totIndex"));
     }
-
 }
