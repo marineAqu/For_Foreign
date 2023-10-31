@@ -1,7 +1,8 @@
 package com.project.fofo.controller;
 /**
  * 파일명: OcrController
- * 작성자: 정채빈
+ * 작성자: 김도연
+ * 유지보수: 정채빈
  **/
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
