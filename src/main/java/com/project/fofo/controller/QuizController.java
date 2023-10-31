@@ -33,6 +33,11 @@ public class QuizController {
         return "bookLis";
     }
 
+    @GetMapping("/QuizList")
+    public String QuizList(){
+        return "QuizList";
+    }
+
     @GetMapping("endOfQuiz")
     public String endOfQuiz(Model model, @RequestParam("vocaNo") Long vocaNo){
         //전체 문제, 맞은 개수
