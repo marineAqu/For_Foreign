@@ -135,55 +135,24 @@
 <div style="text-align:center" >
     <img id="imageThumbnail" src="images/ImportFromAlbum.png"  width="90%">
     <form id="uploadForm" enctype="multipart/form-data" style="display: none;">
-        <input type="file" id="imageInput" name="image" accept="image/*" onchange="readURL(this)">
+        <input type="file" id="imageInput" name="image" accept="image/*">
     </form>
 </div>
-<!--&lt;!&ndash;팝업창&ndash;&gt;-->
-<!--<div id="imagePopup">-->
-<!--    <span id="closeButton" onclick="closePopup()" style="top:2px"><img src="images/Back.png"></span>-->
-<!--    <div style="text-align:center; margin-top:10px;" >-->
-<!--        <img src="images/BlurrySunCloud.png" width="30%"></div>-->
-<!--    <div class="main_image;" style="text-align: center;"><img src="images/ImgBackGround.png" width="90%;"></div>-->
-<!--    <div style="overflow:auto;">-->
-<!--        <img id="popupImage" src="" class="pop_img">-->
-<!--        <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>-->
-<!--        <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>-->
-<!--        <a href="javascript:void(0);" onclick="moveResultToImgTrans()" target="_blank">-->
-<!--            <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>-->
-<!--        </a>-->
-<!--        <div class="main_image_text">-->
-<!--            <div id="morphologyTable">-->
-<!--                <table border="0" style="position:fixed;">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th>단어</th>-->
-<!--                        <th>word interpretation</th>-->
-<!--                        <th>add</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<nav class="BottomNavigation" id="nav">
+<nav class="BottomNavigation">
     <a href="/camera">
-        <img class="CameraButton" src="images/NotSelectedCamera.png" id="cameraIcon" style="width: 9%;">
+        <img class="CameraButton" src="images/CameraButton.png" style="width: 9%;">
     </a>
-    <a href="/trans">
-        <img class="TranslationButton" src="images/NotSelectedTranslation.png" id="translationIcon" style="width: 8%;">
+    <a href="/translator">
+        <img class="TranslationButton" src="images/NotSelectedTranslation.png" style="width: 8%;">
     </a>
     <a href="/home">
-        <img class="HomeButton" src="images/HomeButton.png" id="homeIcon" style="width: 11%;">
+        <img class="HomeButton" src="images/NotSelectedHome.png" style="width: 11%;">
     </a>
-    <a href="/quiz">
-        <img class="QuizButton" src="images/NotSelectedQuiz.png" id="quizIcon" style="width: 7%;">
+    <a href="/QuizList">
+        <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
     </a>
-    <a href="/dict">
-        <img class="WordBookButton" src="images/NotSelectedWordBook.png" id="wordbookIcon" style="width: 6%;">
+    <a href="vocaList">
+        <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
     </a>
 </nav>
 <script>
