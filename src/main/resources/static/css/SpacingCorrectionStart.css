@@ -1,0 +1,116 @@
+body {
+    background-color: #F2E8D5;
+    font-family: 'Nunito', sans-serif;
+}
+
+.base {
+    text-align: center;
+    position: relative;
+}
+
+.backImg {
+    width: 30px;
+}
+
+.SuCloud {
+    width: 163px;
+    height: 63px;
+}
+
+.timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.quizTitle {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.quizTitleIndex {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    transform: translate(-80%, 0%);
+}
+
+.quizTitleText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 80%;
+    font-size: 20px;
+}
+
+textarea{
+    width: 100%;
+    box-shadow: 0px 0px 7px 2px #e7e7e7 inset;
+    outline: none;
+    border-radius: 5px;
+    border: 0;
+    text-indent: 10px;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+button {
+    width: 90%;
+    border-radius: 7px;
+    border: none;
+    margin-top: 20px;
+    background-color: #4A7E67;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tOrF {
+    visibility: hidden;
+    display: inline;
+    font-size: 90px;
+    position: absolute;
+    font-weight: bolder;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+    z-index: 6;
+}
+
+.aniO {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1.3);
+    background-image: linear-gradient(to bottom, #52E5E7 10%, #130CB7 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.aniX {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1.3);
+    background-image: linear-gradient(to bottom, #F05F57 10%, #360940 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+input, textarea, button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}

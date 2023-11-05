@@ -10,6 +10,7 @@ import com.project.fofo.entity.VocalistEntity;
 import com.project.fofo.entity.WordsEntity;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.QuizService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ import java.util.Random;
 public class QuizController {
     private final QuizRepository quizRepository;
     private final QuizService quizService;
+
+
     @GetMapping("/BookLis")
     public String BookLis(Model model){
         //단어장DB에서 사용자 아이디를 검색해서 해당 사용자의 단어장만 보여줌

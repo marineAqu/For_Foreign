@@ -28,7 +28,6 @@ public class QuizService {
         //아직 로그인쪽이랑 연결 안했으니까 임시로 하드코딩
         userNm = 1L;
 
-
         List<VocalistEntity> vocalistEntityList = vocaRepository.findByUserNo(userNm);
 
         List<VocaDTO> reviewDTOList = new ArrayList<>();
