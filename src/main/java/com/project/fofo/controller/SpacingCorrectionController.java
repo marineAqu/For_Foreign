@@ -30,7 +30,6 @@ public class SpacingCorrectionController {
     @GetMapping("/spacingCorrectionStart")
     public String spacingCorrectionStartForm(@RequestParam("vocaNo") Long vocaNo,
                            @RequestParam(value = "quizNum", defaultValue = "-1") Long quizNum,
-                           @RequestParam("setTimer") int setTimer,
                            @RequestParam(value = "nowIndex", defaultValue= "-1" ) int nowIndex,
                            @RequestParam(value = "totIndex", defaultValue= "-1" ) int totIndex,
                            Model model, HttpSession session){
@@ -62,7 +61,6 @@ public class SpacingCorrectionController {
 
         model.addAttribute("corIndex", quizDTO.getKoSentence());
         //Q, 퀴즈 인덱스, 답안 버튼 보이기
-        model.addAttribute("setTimer", setTimer);
         model.addAttribute("nowIndex", nowIndex);
         model.addAttribute("totIndex", totIndex);
         model.addAttribute("vocaNo", vocaNo);
@@ -78,5 +76,4 @@ public class SpacingCorrectionController {
         session.setAttribute("quizNum", quizNum);
         return "SpacingCorrectionStart";
     }
-
 }

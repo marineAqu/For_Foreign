@@ -15,11 +15,11 @@
 <body>
     <img src="images/Back.png" class="backImg">
 
-    <!--시간-->
+    <!--시간
     <div class="base">
         <img src="images/SunCloud_0902fix4.png" class="SuCloud">
         <p class="timer" id="timer" th:text="${setTimer}"></p>
-    </div>
+    </div>-->
 
     <div class="form">
         <div class="quizTitle">
@@ -60,11 +60,9 @@
     const koSentence = document.getElementById('koSentence');
     koSentence.value = koSentence.value.replace(/\s/g, '');
 
-    const quizTitleText = document.getElementById('quizTitleText');
+    //const quizTitleText = document.getElementById('quizTitleText');
 
     const tOrF = document.getElementById('tOrF');
-
-    console.log(quizTitleText.offsetHeight);
 
     //다음 퀴즈로 넘어가는 함수
     function answerCheck() {
@@ -80,7 +78,7 @@
                 },
                 success: function (res) {
                     if (nowIndex == totIndex) window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
-                    else window.location.href = "spacingCorrectionStart?vocaNo=" + parseInt(vocaNo) + "&setTimer=" + parseInt(setTimer) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
+                    else window.location.href = "spacingCorrectionStart?vocaNo=" + parseInt(vocaNo) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
                 },
                 error: function (err) {
                     alert("통신 상의 에러가 발생했습니다. 다시 시도해주세요.");
@@ -89,9 +87,6 @@
     }
 
     function handleAnswerClickNext(event) {
-         //타이머 정지
-         clearInterval(timerInterval);
-
         if (corIndex == koSentence.value) {
             tOrF.innerText = "O";
             tOrF.classList.add("aniO");
@@ -100,7 +95,6 @@
             setTimeout(function () {
                 answerCheck();
             }, 2000);
-
         }
         else {
             tOrF.innerText = "X";
@@ -111,38 +105,6 @@
                 answerCheck();
             }, 2000);
         }
-    }
-
-    //이하 타이머 관련 코드
-    const timerElement = document.getElementById('timer');
-
-    let timeLeft = parseInt(timerElement.innerText); // 초기 타이머 시간 (초 단위)
-    const setTimer = timeLeft; //다음 퀴즈에도 타이머 숫자를 넘겨줘야 하므로. 설정된 타이머 값을 넘김
-    //타이머 설정
-    let timerInterval; // 타이머를 제어할 변수
-
-    function updateTimer() {
-        timerElement.textContent = timeLeft;
-        timeLeft--;
-
-        if (timeLeft < 0) {
-            clearInterval(timerInterval);
-
-            answerCheck();
-        }
-    }
-
-    // 이미 실행 중인 타이머가 있을 경우를 대비하여 clearInterval 실행
-    clearInterval(timerInterval);
-
-    //타이머가 0으로 설정되어 있으면 타이머를 설정하지 않음
-    if (parseInt(setTimer) === 0) {
-        timerElement.textContent = '';
-    }
-    else {
-        // 1초마다 updateTimer 함수를 호출하여 타이머 갱신
-        timerInterval = setInterval(updateTimer, 1000);
-        updateTimer(); // 타이머 시작시 한 번은 수동으로 업데이트
     }
 </script>
 </html>
