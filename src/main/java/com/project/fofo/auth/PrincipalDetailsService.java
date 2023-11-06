@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
-
     @Override
     public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
         MemlistEntity memlistEntity = memberRepository.findByUid(uid);

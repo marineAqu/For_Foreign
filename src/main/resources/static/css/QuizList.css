@@ -1,0 +1,83 @@
+body{
+    background-color: #F2E8D5;
+    font-family: 'Nunito', sans-serif;
+}
+
+.innerButton{
+    text-align: center;
+    margin-top: 20px;
+}
+
+button{
+    display: inline-block;
+    width: 37vw;
+    height: 25vh;
+    border: none;
+    border-radius: 5px;
+    font-size: 22px;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0.5px 5px 5px gray;
+}
+
+.guessingWord{
+    color: black;
+    background-color: #FFFFFF;
+}
+.spacingCorrection{
+    color: white;
+    background-color: #484848;
+    margin-left: 10px;
+}
+.guessSentence{
+    color: white;
+    background-color: #4F75FF;
+}
+.writeSentence{
+    color: white;
+    background-color: #EF6F5D;
+    margin-left: 10px;
+}
+
+.BottomNavigation{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #F2E8D5;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+    align-items: center;
+    padding: 10px 0;
+    height: 5%;
+}
+.CameraButton{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate( -50%, -50% );
+}
+.TranslationButton{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate( -50%, -50% );
+}
+.HomeButton{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+}
+.QuizButton{
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate( -50%, -50% );
+}
+.WordBookButton{
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translate( -50%, -50% );
+}

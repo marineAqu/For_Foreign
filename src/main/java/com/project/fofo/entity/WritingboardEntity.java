@@ -30,4 +30,22 @@ public class WritingboardEntity {
     @Column
     private Date creationDate; //작성일
 
+    @ManyToOne
+    @JoinColumn(name = "userNo", referencedColumnName = "no", insertable = false, updatable = false)
+    private MemlistEntity user;
+
+    /**
+     * 함수: toPostWriting
+     * 작성자: 김도연
+     * 설명: 작문 게시글 저장을 위한 함수. 게시글 내용, 날짜를 받고 유저 번호는 임시로 하드코딩함.
+     * */
+    public static WritingboardEntity toPostWriting(Long userNo, String topicContent, Date date) {
+        WritingboardEntity writingboardEntity = new WritingboardEntity();
+
+        writingboardEntity.setUserNo(userNo);
+        writingboardEntity.setContent(topicContent);
+        writingboardEntity.setCreationDate(date);
+
+        return writingboardEntity;
+    }
 }

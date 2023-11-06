@@ -25,9 +25,7 @@ public class QuizService {
     //유저번호에 해당하는 모든 단어장을 반환
     public List<VocaDTO> SearchVocaBook(Long userNm) {
 
-        //아직 로그인쪽이랑 연결 안했으니까 임시로 하드코딩
-        userNm = 1L;
-
+        //아직 로그인쪽이랑 연결 안했으니까 임시로 하드코딩 => 1106 하드코딩 X수정
 
         List<VocalistEntity> vocalistEntityList = vocaRepository.findByUserNo(userNm);
 
