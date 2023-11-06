@@ -167,6 +167,16 @@
             cursor: pointer;
         }
 
+        .bookNo {
+               position: absolute;
+               /*top: 60%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+               z-index:3;
+               */
+               display: none;
+          }
+
         .modclos-img {
             cursor: pointer;
             position: absolute;
@@ -212,15 +222,17 @@
         <table class="bookList">
             <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
                 <td>
-                    <div class="bookdiv" id="startButton">
+                    <div class="bookdiv" onclick="openBook(this)">
                         <img src="images/ClosedBook.png" class="closeBook">
                         <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
+                        <span class="bookNo" th:text="${vocalist.no}">no</span>
                     </div>
                 </td>
                 <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
-                    <div class="bookdiv">
+                    <div class="bookdiv" onclick="openBook(this)">
                         <img src="images/ClosedBook.png" class="closeBook">
                         <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
+                        <span class="bookNo" th:text="${bookLis[iterStat.index + 1].no}">no</span>
                     </div>
                 </td>
             </tr>
@@ -272,6 +284,16 @@
 
     const modalInput = document.getElementById("modalInput")
     const modAddBtn = document.getElementById("modAddBtn")
+
+    var bookNo;
+
+    function openBook(clickedDiv) {
+    bookNo = clickedDiv.querySelector(".bookNo").textContent;
+    console.log("클릭된 책 제목: " + bookNo);
+
+    //단어목록(9페이지)로 이동
+    window.location.href = 'board?vocaNo='+ bookNo;
+  }
 
     //Add folder 클릭 시 모달 띄움
     foldAddBtn.addEventListener('click', function () {
