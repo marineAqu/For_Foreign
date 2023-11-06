@@ -29,12 +29,11 @@ public class VocalistEntity {
      * 작성자: 김도연
      * 설명: 단어장 저장을 위한 함수. 단어장 제목을 받고 나머지는 임시로 하드코딩함.
      * */
-    public static VocalistEntity toVocaEntity(String newVocaTit) {
+    public static VocalistEntity toVocaEntity(String newVocaTit, Long userNo) {
         VocalistEntity vocalistEntity = new VocalistEntity();
         vocalistEntity.setBookTitle(newVocaTit);
-        //유저 번호는 일단 하드코딩함
-        //TOD O: 아래 코드 수정 필요(유저 번호 하드코딩)
-        vocalistEntity.setUserNo(1L);
+        //유저 번호는 일단 하드코딩함 => 1106 하드코딩X 수정
+        vocalistEntity.setUserNo(userNo);
         return vocalistEntity;
     }
 }
