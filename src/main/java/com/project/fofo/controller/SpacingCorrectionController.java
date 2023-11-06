@@ -1,5 +1,10 @@
 package com.project.fofo.controller;
 
+/**
+ * 파일명: SpacingCorrectionController
+ * 작성자: 김민정
+ **/
+
 import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.QuizService;
