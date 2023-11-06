@@ -10,10 +10,8 @@ import com.project.fofo.repository.WritingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.sql.Date;
-import java.util.Optional;
 
 /**
  * 파일명: WritingService
@@ -31,14 +29,15 @@ public class WritingService {
 
         List<WritingDTO> writingDTOList = new ArrayList<>();
         for(WritingboardEntity writingboardEntity : writingboardEntityList) writingDTOList.add(WritingDTO.toWritingDTO(writingboardEntity));
+        Collections.sort(writingDTOList, Comparator.comparingLong(WritingDTO::getNo).reversed()); //최신순 정렬
 
         System.out.println("WritingService에서: "+ writingDTOList);
 
         return writingDTOList;
     }
 
-    public void saveWritingTop(String topicContent, Date date) {
-        WritingboardEntity writingboardEntity = WritingboardEntity.toPostWriting(topicContent, date);
+    public void saveWritingTop(Long userNo, String topicContent, Date date) {
+        WritingboardEntity writingboardEntity = WritingboardEntity.toPostWriting(userNo, topicContent, date);
         System.out.println("saveWritingTop 함수 들어옴 (서비스):"+ writingboardEntity);
         writingRepository.save(writingboardEntity);
     }

@@ -4,7 +4,7 @@
 <!--
 작성자: 김도연
 파일명: WritingBoard
-설명: (28번) 작문 게시판
+설명: (28번) 작문 게시판 / (29번) 게시글 쓰기
 -->
 
 <head>
@@ -132,15 +132,13 @@
         <div class="postdiv">
           <img style="width: 90%;" src="images/ViewPosts.png">
           <span class="userName" th:text="${WritingPosts.userName}">유저아이디</span>
-          <span class="postContent" th:text="${WritingPosts.content}">내용 어쩌구저쩌구 샬라 샬라 샬라 샬라 어쩌구 ㅇㅣ렇구 저렇구
-                            ㄱ래서 이랬는데 저랬고
-                            그래서 저렇고 이렇고 이렇고</span>
+          <span class="postContent" th:text="${WritingPosts.content}"></span>
         </div>
       </td>
     </tr>
   </table>
 </div>
-
+<span id="isDouble" style="display: none;" th:text="${isDouble}"></span>
 <!--모달-->
 <div id="modal" class="modal-class">
   <div class="modHeadImg">
@@ -162,9 +160,17 @@
     const plusBtn = document.getElementById("boardAddBtn")
     const xbtn = document.getElementById("xbtn")
     const uploadBtn = document.getElementById("uploadBtn")
+    const isDouble = document.getElementById("isDouble").innerText;
+
 
     plusBtn.addEventListener('click', function () {
-        modal.style.display = "flex"
+        //이미 유저가 게시글을 작성했다면 alert를 띄우고 모달을 열지 않음
+        if(isDouble == 1) {
+          alert("작문 게시글은 하루에 한 번만 업로드할 수 있습니다.");
+        }
+        else {
+          modal.style.display = "flex"
+        }
         //document.body.style.overflow = "hidden";
     });
 
