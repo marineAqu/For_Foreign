@@ -60,7 +60,7 @@ public class BoardController {
         model.addAttribute("boardList", boardEntityList);
 
         // 3. 뷰 페이지를 설정
-        return "Index";
+        return "BoardList.html";
     }
 
 
