@@ -62,7 +62,7 @@
 
 <div class="container">
 
-    <a href="/board" class="image-button"></a>
+    <a class="image-button" onclick="goBack()"></a>
 
     <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
 
@@ -116,4 +116,27 @@
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    function addVocaNoToForm() {
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var vocaNo = urlParams.get("vocaNo");
+
+        var form = document.querySelector("form");
+        var vocaNoInput = document.createElement("input");
+        vocaNoInput.type = "hidden";
+        vocaNoInput.name = "vocaNo";
+        vocaNoInput.value = vocaNo;
+        form.appendChild(vocaNoInput);
+    }
+
+    // 폼 제출 이벤트에 함수를 연결
+    var form = document.querySelector("form");
+    form.addEventListener("submit", addVocaNoToForm);
+
+</script>
 </html>

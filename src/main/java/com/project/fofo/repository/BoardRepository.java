@@ -10,9 +10,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public interface BoardRepository extends CrudRepository<WordsEntity, Long> {
     @Override
     ArrayList<WordsEntity> findAll();
+
+    List<WordsEntity> findByVocaNo(Long vocaNo);
 }

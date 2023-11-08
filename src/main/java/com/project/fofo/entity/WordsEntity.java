@@ -57,6 +57,10 @@ public class WordsEntity {
        return no;
     }
 
+    public void setVocaNo(Long vocaNo) {
+        this.vocaNo = vocaNo;
+    }
+
     public void setPartSpeech(char  partSpeech) {
         this.partSpeech = partSpeech;
     }

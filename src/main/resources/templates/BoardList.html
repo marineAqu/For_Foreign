@@ -108,7 +108,7 @@
 
 <div class="container">
 
-    <a href="/board" class="image-button2"></a>
+    <a href="/vocaList" class="image-button2"></a>
 
 
     <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
@@ -121,7 +121,7 @@
     <div class="image-container">
         <img src="images/HalfOpenBook.png" alt="단어 리스트 이미지" style="width: 105%" >
         <div class="text-overlay">
-            <a href="/post" class="image-button"></a>
+            <a class="image-button"  onclick="post()" ></a>
             <div class="scrollable-container">
                 <table class="table">
                     <thead>
@@ -160,7 +160,13 @@
 
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+<script>
+    function post() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var vocaNo = urlParams.get("vocaNo");
+        window.location.href = '/post?vocaNo=' + vocaNo;
+    }
+</script>
 
 </body>
 </html>
