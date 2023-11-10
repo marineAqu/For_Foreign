@@ -97,11 +97,6 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/overallRank")
-    public String overallRank() {
-        return "OverallRank";
-    }
-
     @GetMapping("/join")
     public String joinPage() {
         return "Join";
