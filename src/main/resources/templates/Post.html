@@ -14,6 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
 
     <style>
+        body {
+            overflow-x: hidden;
+        }
         .image-container {
             position: relative;
             transform: translate(0%, 2%);
@@ -21,9 +24,8 @@
         .text-overlay {
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 55%;
             transform: translate(-50%, -50%);
-
             padding: 10px;
         }
         .image-container img {
@@ -60,7 +62,7 @@
 
 <div class="container">
 
-    <a href="/board" class="image-button"></a>
+    <a class="image-button" onclick="goBack()"></a>
 
     <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
 
@@ -70,19 +72,19 @@
 
 
     <div class="image-container">
-        <img src="/images/OpenBook.png" alt="단어 추가 이미지" style="width: 200%" >
+        <img src="/images/HalfOpenBook.png" alt="단어 추가 이미지" style="width: 105%" >
         <div class="text-overlay">
             <form action="/board" method="post" enctype="multipart/form-data">
                 <div>
                     <p style="font-size:20px">
                         <strong>Word</strong>
-                        <input type="text" name="enWord" >
+                        <input type="text" name="koWord" >
                     </p>
                 </div>
 
                 <p style="font-size:20px">
                     <strong>Meaning of a word</strong>
-                    <input type="text" name="koWord">
+                    <input type="text" name="enWord">
                 </p>
                 <p style="font-size:20px">
                     <strong>Pronunciation</strong>
@@ -114,4 +116,27 @@
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    function addVocaNoToForm() {
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var vocaNo = urlParams.get("vocaNo");
+
+        var form = document.querySelector("form");
+        var vocaNoInput = document.createElement("input");
+        vocaNoInput.type = "hidden";
+        vocaNoInput.name = "vocaNo";
+        vocaNoInput.value = vocaNo;
+        form.appendChild(vocaNoInput);
+    }
+
+    // 폼 제출 이벤트에 함수를 연결
+    var form = document.querySelector("form");
+    form.addEventListener("submit", addVocaNoToForm);
+
+</script>
 </html>

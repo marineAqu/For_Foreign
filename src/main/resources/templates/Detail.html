@@ -99,10 +99,17 @@
         }
     });
 
+    function goBack() {
+        window.history.back();
+    }
+
 
 </script>
 
     <style>
+         body {
+            overflow-x: hidden;
+        }
         .image-container {
             position: relative;
             display: inline-block;
@@ -182,7 +189,7 @@
 
 
 
-    <a href="/board" class="image-button"></a>
+    <a class="image-button" onclick="goBack()"></a>
 
     <div class="booklamp">
         <img src="/images/LampBooks.png">
