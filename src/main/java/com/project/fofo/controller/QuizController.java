@@ -9,6 +9,7 @@ import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.entity.VocalistEntity;
 import com.project.fofo.entity.WordsEntity;
+import com.project.fofo.repository.BoardRepository;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.MemberService;
 import com.project.fofo.service.QuizService;
@@ -32,6 +33,7 @@ public class QuizController {
     private final QuizRepository quizRepository;
     private final QuizService quizService;
     private final MemberService memberService;
+    private final BoardRepository boardRepository;
 
     @GetMapping("/BookLis")
     public String BookLis(Model model){
@@ -54,6 +56,10 @@ public class QuizController {
         //전체 문제, 맞은 개수
         List<WordsEntity> wordsEntity = quizRepository.findByVocaNo(vocaNo);
 
+        //단어리스트
+        model.addAttribute("boardList", boardRepository.findByVocaNo(vocaNo));
+
+        //모달
         model.addAttribute("totNum", wordsEntity.size()); //총 개수
         model.addAttribute("correctNum", wordsEntity.stream().filter(entity -> String.valueOf(entity.getCheckQuiz()).equals("y")).count()); //맞은 개수
         return "endOfQuiz";

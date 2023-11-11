@@ -11,50 +11,66 @@
     <meta charset="UTF-8">
     <title>퀴즈 종료</title>
     <style>
-    .BottomNavigation{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: #F2E8D5;
-    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
-    z-index: 1;
-    align-items: center;
-    padding: 10px 0;
-    height: 5%;
-}
+        .BottomNavigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background-color: #F2E8D5;
+            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
+            z-index: 1;
+            align-items: center;
+            padding: 10px 0;
+            height: 5%;
+        }
 
-.CameraButton{
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translate( -50%, -50% );
-}
-.TranslationButton{
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    transform: translate( -50%, -50% );
-}
-.HomeButton{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate( -50%, -50% );
-}
-.QuizButton{
-    position: absolute;
-    top: 50%;
-    left: 70%;
-    transform: translate( -50%, -50% );
-}
-.WordBookButton{
-    position: absolute;
-    top: 50%;
-    left: 90%;
-    transform: translate( -50%, -50% );
-}
+        .CameraButton {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+        }
+
+        .TranslationButton {
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+        }
+
+        .HomeButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .QuizButton {
+            position: absolute;
+            top: 50%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+        }
+
+        .WordBookButton {
+            position: absolute;
+            top: 50%;
+            left: 90%;
+            transform: translate(-50%, -50%);
+        }
+
+        .image-container {
+            position: relative;
+        }
+
+        .scrollable-container {
+            position: absolute;
+            top: 2%;
+            left: 20%;
+            font-size: 45px;
+            overflow: scroll;
+        }
 
         #modal.modal-overlay {
             width: 100%;
@@ -111,10 +127,31 @@
         }
     </style>
 </head>
-<body>
-원래 메인페이지로 돌아가야하는데 메인페이지 연결을 안 했으니까 임시로 요렇게 만듬
+
+<body style="background-color:#F2E8D5; margin: 0; overflow: hidden;">
+<div style="height: fit-content; padding-top: 30px; padding-bottom: 30px;">
+    <h1 style="font-size: 60px; text-align: center;">Review</h1>
+</div>
+
+
+<!--단어장-->
+<div class="image-container">
+    <img style="width: 100%;" src="images/HalfOpenBook_long_fixdo.png">
+
+    <div class="scrollable-container">
+        <table style="table-layout: fixed;">
+            <tr th:each="board : ${boardList}">
+                <td style="width: 45%;"><span th:text="${board.koWord}">바나나</span></td>
+                <td style="width: 45%;"><span th:text="${board.enWord}">banana</span></td>
+                <td><input type="checkbox" id="bookmarkCheckbox-${board.no}" style="zoom: 3;" name="color"
+                           value="bookmark" th:data-no="${board.no}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <!--모달-->
+
 <div id="modal" class="modal-overlay">
     <img src="images/X.png" class="mod-x">
     <div class="modal-window">
@@ -153,7 +190,7 @@
 </nav>
 </body>
 <script>
-        const closeBtn = modal.querySelector(".mod-x")
+    const closeBtn = modal.querySelector(".mod-x")
 
     //X이미지 누르면 모달 닫힘
     closeBtn.addEventListener("click", e => {
@@ -161,14 +198,6 @@
         document.body.style.overflow = "upset";
 
     })
-
-    //X버튼 외에도 모달 밖 부분 터치하면 화면 닫힘: 임시로 막아둠 (얘는 닫으면 다시 열 수 없어서 X버튼을 눌러야만 닫을 수 있는 걸로 하는 게 좋을 듯함)
-    //modal.addEventListener("click", e => {
-    //    const evTarget = e.target
-    //    if (evTarget.classList.contains("modal-overlay")) {
-    //        modal.style.display = "none"
-    //        document.body.style.overflow = "upset";
-    //    }
-    //})
 </script>
+
 </html>
