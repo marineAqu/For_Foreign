@@ -15,8 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+
 
 @Controller
 @Slf4j
@@ -70,13 +74,35 @@ public class BoardController {
     }
 
     @GetMapping("/Detail")      //상세보기 화면 localhost:8080/board/detail?id=1
-    public String show2(Model model, Long num){
+    public String show2(Model model, Long no){
 
-        model.addAttribute("board",boardService.getPost(num));
+        model.addAttribute("board",boardService.getPost(no));
 
         //3.보여줄 페이지 설정
         return "Detail";
     }
+
+    @GetMapping("/DetailModi")
+    public String detailModi(Model model, Long no){
+
+       model.addAttribute("board",boardService.getPost(no));
+
+       return "Detail_modi";
+    }
+
+    @RequestMapping(value = "/saveWord", method = RequestMethod.POST)
+    public String saveWord(@RequestParam("no") Long no,
+                           @RequestParam("korWord") String korWord,
+                           @RequestParam("pronSymbol") String pronSymbol,
+                           @RequestParam("engWord") String engWord,
+                           @RequestParam("koSentence") String koSentence,
+                           @RequestParam("enSentence") String enSentence,
+                           Model model) {
+        boardService.updateWord(no, korWord, pronSymbol, engWord, koSentence, enSentence);
+
+        return "redirect:/Detail?no=" + no;
+    }
+
 
     @PostMapping(value = "/updateBookmark", consumes = "application/json")
     public ResponseEntity<String> updateBookmark(@RequestBody Map<String, String> payload) {
@@ -90,6 +116,8 @@ public class BoardController {
 
         return ResponseEntity.ok("업데이트 성공");
     }
+
+
 
 
 }

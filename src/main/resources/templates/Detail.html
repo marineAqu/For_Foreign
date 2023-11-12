@@ -99,11 +99,6 @@
         }
     });
 
-    function goBack() {
-        window.history.back();
-    }
-
-
 </script>
 
     <style>
@@ -132,21 +127,32 @@
             display: block;
             margin: 0;
             padding: 0;
-            transform: translate(0px, -45px);
-            width: 400px;
-            height: 590px;
+            transform: translate(0%, -2%);
+            width: 100%;
+            height: 100%;
         }
         .image-button {
-        display: inline-flex;
-        align-items: center;
-        padding: 10px;
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        background-image: url('/images/Back.png');
-        background-size: cover;
-        text-decoration: none;
-    }
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-image: url('/images/Back.png');
+            background-size: cover;
+            text-decoration: none;
+        }
+        .pen-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-image: url('/images/WordCorrectionButton.png');
+            background-size: cover;
+            text-decoration: none;
+        }
     .speak-button {
         vertical-align: middle;
         display: inline-flex;
@@ -178,7 +184,6 @@
         position: relative;
         transform: translate(0%, -30%);
     }
-
     </style>
 
 </head>
@@ -187,23 +192,20 @@
 
 <div class="container">
 
-
-
-    <a class="image-button" onclick="goBack()"></a>
+    <a class="image-button" th:href="@{/board(vocaNo=${board.vocaNo})}"></a>
 
     <div class="booklamp">
         <img src="/images/LampBooks.png">
     </div>
 
-
     <div class="image-container">
-        <img src="/images/HalfOpenBook.png" alt="단어 상세 설명 이미지" style="width: 105%"  >
-
+        <img src="images/HalfOpenBook_long.png" alt="단어 상세 설명 이미지" style="width: 105%;"  >
         <div class="text-overlay">
-            <p id="korArea" style="font-size:50px" th:text="${board.koWord}"></p>
-            <p><br></p>
-            <img src="/images/TTSBig.png" style="height:auto; width:45px;" id="korButton" alt="단어 음성 듣기">
+            <a class="pen-button" th:href="@{/DetailModi(no=${board.no})}"></a>
 
+            <p id="korArea" style="font-size:50px" th:text="${board.koWord}"></p>
+            <img src="/images/TTSBig.png" style="height:auto; width:45px;" id="korButton" alt="단어 음성 듣기">
+            <p><br></p>
 
             <p style="font-size:20px; color:#808080" th:text="${board.pronSymbol}"> </p>
 
