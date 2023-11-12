@@ -141,7 +141,7 @@
     <div class="scrollable-container">
         <table style="table-layout: fixed;">
             <tr th:each="board : ${boardList}">
-                <td style="width: 45%;"><span th:text="${board.koWord}">바나나</span></td>
+                <td style="width: 45%;"><span th:text="${board.koWord}" th:style="${#strings.toString(board.checkQuiz) == 'n' ? 'color: #de4747;' : ''}">apple</span></td>
                 <td style="width: 45%;"><span th:text="${board.enWord}">banana</span></td>
                 <td><input type="checkbox" id="bookmarkCheckbox-${board.no}" style="zoom: 3;" name="color"
                            value="bookmark" th:data-no="${board.no}"></td>
