@@ -6,10 +6,14 @@ package com.project.fofo.controller;
  **/
 
 import com.project.fofo.DTO.QuizDTO;
+import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.repository.QuizRepository;
+import com.project.fofo.service.MemberService;
 import com.project.fofo.service.QuizService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +30,15 @@ import java.util.Random;
 public class ListeningQuizController {
     private final QuizRepository quizRepository;
     private final QuizService quizService;
+    private final MemberService memberService;
     @GetMapping("/ListeningBookLis")
     public String ListeningBookLis(Model model){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
         //단어장DB에서 사용자 아이디를 검색해서 해당 사용자의 단어장만 보여줌
-        model.addAttribute("bookLis", quizService.SearchVocaBook(1L));
+        model.addAttribute("bookLis", quizService.SearchVocaBook(user.getNo().longValue()));
         return "ListeningBookLis";
     }
 
