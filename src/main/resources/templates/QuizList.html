@@ -4,68 +4,35 @@
 <!--
 작성자: 김도연
 파일명: QuizList
-설명: (27번) 퀴즈 메뉴를 보여주는 페이지 (임시)
+설명: (27번) 퀴즈 메뉴를 보여주는 페이지, 김민정이 추가 디자인
 -->
-<style>
-a{
-font-size: 40px;
-}
 
-    .BottomNavigation{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: #F2E8D5;
-    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
-    z-index: 1;
-    align-items: center;
-    padding: 10px 0;
-    height: 5%;
-}
-.CameraButton{
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translate( -50%, -50% );
-}
-.TranslationButton{
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    transform: translate( -50%, -50% );
-}
-.HomeButton{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate( -50%, -50% );
-}
-.QuizButton{
-    position: absolute;
-    top: 50%;
-    left: 70%;
-    transform: translate( -50%, -50% );
-}
-.WordBookButton{
-    position: absolute;
-    top: 50%;
-    left: 90%;
-    transform: translate( -50%, -50% );
-}
-</style>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/QuizList.css">
     <title>QuizList</title>
-
 </head>
-<body>
-<a href="/BookLis">단어퀴즈</a>
-<a href="/spacingCorrectionList">띄어쓰기퀴즈</a>
-<a href="/BookLisLSW">받아적기퀴즈</a>
-<a href="/ListeningBookLis">듣기퀴즈</a>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+</style>
+
+<body>
+<div style="text-align: center;">
+    <h1>Quiz</h1>
+    <img src="/images/Belt.png" style="width: 90%">
+</div>
+
+<div class="innerButton">
+    <button onclick="location.href='/BookLis'" class="guessingWord">Guessing words</button>
+    <button onclick="location.href='/spacingCorrectionList'" class="spacingCorrection">Spacing Correction</button>
+</div>
+
+<div class="innerButton">
+    <button onclick="location.href='/ListeningBookLis'" class="guessSentence">Listen and guess the sentences</button>
+    <button class="writeSentence">Listen and write sentences</button>
+</div>
 <nav class="BottomNavigation">
     <a href="/camera">
         <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
@@ -83,6 +50,5 @@ font-size: 40px;
         <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
     </a>
 </nav>
-
 </body>
 </html>
