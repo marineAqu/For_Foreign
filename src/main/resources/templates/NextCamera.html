@@ -5,6 +5,7 @@
 <!--파일명 : NextCamera-->
 <!--설명 : 사진 선택이 이동하는 페이지 선택한 사진을 보여줌 -->
 
+<!--<%@taglib url="http://www.springframework.org/tags" prefix="spring"%>-->
 <style>
     h1{
     text-align: center;
@@ -32,12 +33,34 @@
     right:17%;
     font-size:2.5em;
   }
-    .main_image {
+   .main_image {
     position: relative;
-    margin-top:10%;
-    bottom:0;
+    width: 90%;
   }
-    #closeButton {
+  input.shadowed {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border: none;  테두리 제거
+        box-shadow: inset 1px 1px 5px 1px rgba(0.3, 0.3, 0.3, 0.3);
+        padding: 10px;
+    }
+    .btn-block {
+        position: absolute;
+        color: white;
+        display: block;
+        width:70%;
+        height:100px;
+        left:15%;
+        top:72%;
+        text-align: center;
+        font-size:3em;
+        border-radius: 8px;
+        background-color: #B6D0C3;
+        border: none;
+        box-shadow:0 5px 2px rgba(0, 0, 0, 0.2);
+    }
+    #backButton {
             position: absolute;
             top: 5%;
             left:2%;
@@ -54,72 +77,48 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body >
-<span id="closeButton" onclick="history.back()" style="top:2px"><img src="images/Back.png"></span>
+<body>
+<span id="backButton" onclick="history.back()" style="top:2px"><img src="images/Back.png"></span>
 <div style="text-align:center; margin-top:10px;" >
     <img src="images/BlurrySunCloud.png" width="30%"></div>
-<div class="main_image;" style="text-align: center;"><img src="images/ImgBackGround.png" width="90%;"></div>
-<div style="overflow:auto;">
-    <img id="savedimg" src="" class="pop_img">
+<div class="main_image;" ><div style="margin-left: 5%; background-color : #668F7A; border-radius: 15px; overflow : hidden; margin-top:5.5%; margin-bottom: 0; width: 90%; height: 90vh;"></div>
+    <img id="savedimg" src="" class="pop_img" style="display:none">
+<!--    <resources mapping="/images/**" location="file:///C:/trans/image"></resources>-->
+<!--    <img src="http://C://trans//image.png" class="pop_img">-->
+<!--    <img src="/display?name=${data.value.f._path}"/>-->
+<!--    <img src="<spring:url value='/images/image.png'/>" />-->
     <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>
     <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>
-    <a href="javascript:void(0);" onclick="moveResultToImgTrans()">
-        <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>
-    </a>
-    <div class="main_image_text">
-        <div id="morphologyTable">
-            <table border="0" style="position:fixed;">
-                <thead>
-                <tr>
-                    <th>단어</th>
-                    <th>word interpretation</th>
-                    <th>add</th>
-                </tr>
-                </thead>
-                <tbody>
+    <input type="button" class="btn-block" onclick="moveResultToImgTrans()" name="Go by Translator" value="Go by Translator">
+    <!--    <a href="javascript:void(0);" onclick="moveResultToImgTrans()">-->
+    <!--        <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>-->
+    <!--    </a>-->
+<!--    <div class="main_image_text">-->
+<!--        <div id="morphologyTable">-->
+<!--            <table border="0" style="position:fixed;">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>단어</th>-->
+<!--                    <th>word interpretation</th>-->
+<!--                    <th>add</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 <script>
     // 이미지 가져오기
     window.onload = function() {
         const formData = new FormData();
-        const cameraCapture = localStorage.getItem('cameraCapture');
+        const imageInput = localStorage.getItem('imageInput');
         const savedimage = document.getElementById('savedimg');
+        const ocrimage = document.getElementById('ocrimg');
 
-        if(cameraCapture) {
-            savedimage.setAttribute('src', cameraCapture);
-
-            // 이미지 요소의 Base64 데이터를 가져옴
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        const image = new Image();
-
-        image.onload = function() {
-            canvas.width = image.width;
-            canvas.height = image.height;
-            context.drawImage(image, 0, 0);
-            canvas.toBlob(function(blob) {
-                // Blob 형식으로 변환한 이미지를 FormData에 추가
-                formData.append('image', blob, 'image.jpg');
-
-                // 서버로 POST 요청 보내기
-                fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(result => {
-                    document.getElementById('result').innerHTML = result;
-                });
-            });
-            };
-
-        image.src = cameraCapture;
-        } else if(imageInput){
+        if(imageInput) {
             savedimage.setAttribute('src', imageInput);
 
             // 이미지 요소의 Base64 데이터를 가져옴
@@ -148,7 +147,7 @@
             };
 
         image.src = imageInput;
-        }else{
+        } else{
             console.log('저장된 이미지가 없습니다.');
         }
     };

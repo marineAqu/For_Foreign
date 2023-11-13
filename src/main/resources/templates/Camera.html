@@ -162,7 +162,7 @@
     });
     // 카메라 찍으면 동작
     document.getElementById('cameraThumbnail').addEventListener('click', function () {
-        document.getElementById('cameraCapture').click();
+        document.getElementById('imageInput').click();
     });
     // 파일 선택 시 자동으로 스크립트 실행
     document.getElementById('imageInput').addEventListener('change', (event) => {
@@ -178,19 +178,6 @@
         window.location.href = '/nextcamera'; //현재 탭에서 nextcamera.html로 이동
     });
 
-
-    document.getElementById('cameraCapture').addEventListener('change', (event) => {
-        const image = event.target.files[0]
-
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-
-        reader.addEventListener('load',() =>{
-            localStorage.setItem('cameraCapture', reader.result);
-        });
-
-        window.location.href = '/nextcamera'; //현재 탭에서 nextcamera.html로 이동
-    });
 
 </script>
 </body>
