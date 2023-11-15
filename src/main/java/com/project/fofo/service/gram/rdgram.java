@@ -49,7 +49,7 @@ public class rdgram { //랜덤으로 문법 가져오기
 
         String DB_URL = "jdbc:mysql://localhost:3306/pro_kor?useUnicode=true&characterEncoding=utf8";
         String DB_USER = "root";
-        String DB_PASSWORD = "carmel1028!";
+        String DB_PASSWORD = "1234";
 
         int n = 0;
         String query = "SELECT * FROM pro_kor.TodayGram";

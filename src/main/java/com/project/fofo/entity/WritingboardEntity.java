@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Setter
@@ -34,10 +35,14 @@ public class WritingboardEntity {
     @JoinColumn(name = "userNo", referencedColumnName = "no", insertable = false, updatable = false)
     private MemlistEntity user;
 
+    @OneToMany
+    @JoinColumn(name = "boardNo", referencedColumnName = "no", insertable = false, updatable = false)
+    private List<BoardlikeEntity> boardlikeEntities;
+
     /**
      * 함수: toPostWriting
      * 작성자: 김도연
-     * 설명: 작문 게시글 저장을 위한 함수. 게시글 내용, 날짜를 받고 유저 번호는 임시로 하드코딩함.
+     * 설명: 작문 게시글 저장을 위한 함수. 게시글 내용, 날짜를 받음
      * */
     public static WritingboardEntity toPostWriting(Long userNo, String topicContent, Date date) {
         WritingboardEntity writingboardEntity = new WritingboardEntity();

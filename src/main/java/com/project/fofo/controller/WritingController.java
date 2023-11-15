@@ -38,7 +38,7 @@ public class WritingController {
         String uid = ((UserDetails) principal).getUsername();
         MemlistEntity user = memberService.findByMember(uid);
 
-        List<WritingDTO> writingDTOList = writingService.SearchWritingPosts(date);
+        List<WritingDTO> writingDTOList = writingService.SearchWritingPosts(date, user.getNo());
 
         model.addAttribute("Writingboard", writingDTOList);
 
@@ -46,6 +46,7 @@ public class WritingController {
 
         System.out.println(writingDTOList);
 
+        //한 사용자가 같은 날 중복 작성할 수 없도록 이미 작성한 유저는 isDouble을 1로 설정
         for (WritingDTO writingDTO : writingDTOList) {
             if (user.getUserName().equals(writingDTO.getUserName())) {
                 model.addAttribute("isDouble", 1);
@@ -66,5 +67,16 @@ public class WritingController {
         System.out.println("saveVocaTit 함수 들어옴 (컨트롤러)");
 
         writingService.saveWritingTop(user.getNo().longValue(), inputValue, date);
+    }
+
+    @PostMapping("saveHeart")
+    public @ResponseBody void saveHeart(@RequestParam("noIndex") Long noIndex, @RequestParam("heartChk") int heartChk) {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
+        writingService.saveIlikeIt(user.getNo(), noIndex, heartChk);
+
     }
 }

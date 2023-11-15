@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+
 /**
  * 파일명: BoardlikeEntity
  * 작성자: 김도연
@@ -24,5 +26,19 @@ public class BoardlikeEntity {
 
     @Column
     private Long userNo; //유저 번호
+
+    /**
+     * 함수: toBoardlikeEntity
+     * 작성자: 김도연
+     * 설명: 좋아요 내역을 저장하기 위한 함수
+     * */
+    public static BoardlikeEntity toBoardlikeEntity(Long boardNo, Long userNo) {
+        BoardlikeEntity boardlikeEntity = new BoardlikeEntity();
+
+        boardlikeEntity.setBoardNo(boardNo);
+        boardlikeEntity.setUserNo(userNo);
+
+        return boardlikeEntity;
+    }
 
 }
