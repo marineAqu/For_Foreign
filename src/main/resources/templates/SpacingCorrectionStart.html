@@ -22,12 +22,6 @@
 <body>
     <img src="images/Back.png" class="backImg">
 
-    <!--시간
-    <div class="base">
-        <img src="images/SunCloud_0902fix4.png" class="SuCloud">
-        <p class="timer" id="timer" th:text="${setTimer}"></p>
-    </div>-->
-
     <div class="form">
         <div class="quizTitle">
             <div id="tOrF" class="tOrF">O</div>
@@ -84,7 +78,7 @@
                     "tf": tOrF.innerText
                 },
                 success: function (res) {
-                    if (nowIndex == totIndex) window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
+                    if (nowIndex == totIndex) window.location.href = "/endOfSpacingCorrection?vocaNo=" + parseInt(vocaNo);
                     else window.location.href = "spacingCorrectionStart?vocaNo=" + parseInt(vocaNo) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
                 },
                 error: function (err) {

@@ -7,6 +7,8 @@ package com.project.fofo.controller;
 
 import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.entity.MemlistEntity;
+import com.project.fofo.entity.WordsEntity;
+import com.project.fofo.repository.BoardRepository;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.MemberService;
 import com.project.fofo.service.QuizService;
@@ -30,6 +32,7 @@ public class SpacingCorrectionController {
     private final QuizRepository quizRepository;
     private final QuizService quizService;
     private final MemberService memberService;
+    private final BoardRepository boardRepository;
 
     @GetMapping("/spacingCorrectionList")
     public String spacingCorrectionList(Model model){
@@ -54,7 +57,7 @@ public class SpacingCorrectionController {
 
         //이하 인덱스에 대한 로직
         if(totIndex == -1) { //첫 문제인 경우
-            quizList = quizService.findVocaList(vocaNo); //해당 단어장의 단어들 모두 가져오기
+            quizList = quizService.findVocaListSentence(vocaNo); //해당 단어장의 단어들 모두 가져오기
             totIndex = quizList.size();
             nowIndex = 0;
             quizNum = quizList.get(nowIndex).getNo(); //1번째는 현재 했으니 2번째 단어로
@@ -89,5 +92,19 @@ public class SpacingCorrectionController {
     public String spacingCorrectionStart(@RequestParam("quizNum") Long quizNum, HttpSession session, Model model) {
         session.setAttribute("quizNum", quizNum);
         return "SpacingCorrectionStart";
+    }
+
+    @GetMapping("/endOfSpacingCorrection")
+    public String endOfQuiz(Model model, @RequestParam("vocaNo") Long vocaNo){
+        //전체 문제, 맞은 개수
+        List<QuizDTO> wordsEntity = quizService.findVocaListSentence(vocaNo);
+
+        //단어리스트
+        model.addAttribute("boardList", wordsEntity);
+
+        //모달
+        model.addAttribute("totNum", wordsEntity.size()); //총 개수
+        model.addAttribute("correctNum", wordsEntity.stream().filter(entity -> String.valueOf(entity.getCheckQuiz()).equals("y")).count()); //맞은 개수
+        return "EndOfSpacingCorrection";
     }
 }

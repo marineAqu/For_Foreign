@@ -68,6 +68,18 @@ public class QuizService {
         return quizDTOList;
     }
 
+    public List<QuizDTO> findVocaListSentence(Long vocaNo) {
+        List<WordsEntity> wordsEntityList = quizRepository.findByVocaNo(vocaNo);
+        List<QuizDTO> quizDTOList = new ArrayList<>();
+
+        for (WordsEntity wordsEntity : wordsEntityList) {
+            if(!wordsEntity.getKoSentence().isBlank() && !wordsEntity.getEnSentence().isBlank()) {
+                quizDTOList.add(QuizDTO.toQuizDTO(wordsEntity));
+            }
+        }
+        return quizDTOList;
+    }
+
     public List<Long> findIdList() {
         //모든 id를 찾아 반환하는 메소드 (퀴즈 오답 버튼 만드는 데 사용)
         //1118수정사항: 다른 유저, 다른 단어장의 단어도 포함했는데 사용자가 선택한 해당 단어장에서만 단어를 가져오도록 수정 (사용하지 않음)
