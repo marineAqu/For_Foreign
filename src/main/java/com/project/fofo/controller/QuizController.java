@@ -71,7 +71,7 @@ public class QuizController {
                             @RequestParam("setTimer") int setTimer,
                             @RequestParam(value = "nowIndex", defaultValue= "-1" ) int nowIndex,
                             @RequestParam(value = "totIndex", defaultValue= "-1" ) int totIndex,
-                            Model model, HttpSession session) {
+                            Model model) {
 
         //int 리스트를 만들어서 맞는 것들의 번호, 틀린 것들의 번호로 나누어야 할 듯
         QuizDTO quizDTO;
@@ -120,7 +120,9 @@ public class QuizController {
         System.out.println("get에서:"+quizNum);
         quizDTO = quizService.SearchByNo(quizNum);
 
-        List<Long> idList = quizService.findIdList(); //모든 단어 번호를 찾아 저장
+        //List<Long> idList = quizService.findIdList(); //모든 단어 번호를 찾아 저장 -> 1118 주석처리 (다른 단어장, 다른 유저 거 가져오면 안됨)
+        List<Long> idList = new ArrayList<>();
+        for (int i = 0; i < quizList.size(); i++) idList.add(quizList.get(i).getNo()); // 1118 추가: 현재 단어장의 것만으로 오답 버튼 생성
         //0924 주석처리: get으로 id 찾으면 되니까 딱히 필요 없을거라고 생각했는데 오답처리 로직때문에 잇어야할듯 시간 좀 걸릴까봐 걱정
 
         //System.out.println("id리스트 검증:");
@@ -160,7 +162,6 @@ public class QuizController {
 
         //Q, 퀴즈 인덱스, 답안 버튼 보이기
         model.addAttribute("quizTitle", quizDTO.getEnWord());
-        //model.addAttribute("quizIndex", nowIndex+" / "+totIndex);
         model.addAttribute("setTimer", setTimer);
         model.addAttribute("nowIndex", nowIndex);
         model.addAttribute("totIndex", totIndex);
@@ -182,6 +183,15 @@ public class QuizController {
 
         //return "quizStart?quizNum="+quizNum;
         return "quizStart";
+    }
+
+    @PostMapping("checkEmpty")
+    public @ResponseBody Boolean checkEmpty(@RequestParam("vocaNo") Long vocaNo) {
+
+        System.out.println("checkEmpty 함수에서 단어장에 단어 몇 개 들어있는지: "+boardRepository.findByVocaNo(vocaNo).size());
+
+        if(boardRepository.findByVocaNo(vocaNo).size() < 3) return false;
+        else return true;
     }
 
     @PostMapping("answerCheck")
