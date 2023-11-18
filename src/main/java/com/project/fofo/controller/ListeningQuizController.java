@@ -60,7 +60,7 @@ public class ListeningQuizController {
         //이하 인덱스에 대한 로직
         //첫 문제일 경우
         if(totIndex == -1) { //첫문제인 경우
-            quizList = quizService.findVocaList(vocaNo); //해당 단어장의 단어들 모두 가져오기
+            quizList = quizService.findVocaListSentence(vocaNo); //해당 단어장의 단어들 모두 가져오기
             totIndex = quizList.size();
             nowIndex = 0;
             quizNum = quizList.get(nowIndex).getNo(); //1번째는 현재 했으니 2번째 단어로
@@ -75,7 +75,7 @@ public class ListeningQuizController {
 
         }
         else {  //첫 문제가 아닌 경우
-            quizList = quizService.findVocaList(vocaNo); //임시로이렇게해두겟는데 알고리즘 수정해야할듯함
+            quizList = quizService.findVocaListSentence(vocaNo); //임시로이렇게해두겟는데 알고리즘 수정해야할듯함
             quizNum = quizList.get(nowIndex).getNo();
             System.out.println("else문의 quizNum에서 outOfBound 오류가 남 대체왜:" + quizNum);
 
@@ -93,7 +93,7 @@ public class ListeningQuizController {
         System.out.println("get에서:"+quizNum);
         quizDTO = quizService.SearchByNo(quizNum);
 
-        List<Long> idList = quizService.findIdList(); //모든 단어 번호를 찾아 저장
+        List<Long> idList = quizService.ListeningfindIdList(); //예문이 있는 단어 번호를 찾아 저장
         //0924 주석처리: get으로 id 찾으면 되니까 딱히 필요 없을거라고 생각했는데 오답처리 로직때문에 잇어야할듯 시간 좀 걸릴까봐 걱정
 
         //System.out.println("id리스트 검증:");
@@ -155,4 +155,5 @@ public class ListeningQuizController {
         //return "quizStart?quizNum="+quizNum;
         return "Listeningquizstart";
     }
+
 }

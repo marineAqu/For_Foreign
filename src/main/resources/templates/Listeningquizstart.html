@@ -224,7 +224,7 @@
                     "tf": tOrF.innerText
                 },
                 success: function (res) {
-                    if (nowIndex == totIndex) window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
+                    if (nowIndex == totIndex) window.location.href = "/endOfSpacingCorrection?vocaNo=" + parseInt(vocaNo);
                     else window.location.href = "Listeningquizstart?vocaNo=" + parseInt(vocaNo) +  "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
                 },
                 error: function (err) {
