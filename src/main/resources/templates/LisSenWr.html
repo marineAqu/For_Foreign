@@ -172,7 +172,7 @@
 </head>
 
 <body style="background-color: #F2E8D5">
-<img src="images/Back.png" class="backImg" href="/BookLisLSW">
+<img src="images/Back.png" class="backImg" onclick="goBack()">
 <div class="form">
     <div class="quizTitle">
         <div id="tOrF" class="tOrF">O</div>
@@ -211,6 +211,20 @@
     const totIndex = document.getElementById('totIndex').innerText;
 
     const tOrF = document.getElementById('tOrF');
+
+    // 페이지 로딩 시 실행되는 스크립트
+    window.onload = function() {
+        // 페이지 로딩 시 totIndex 값이 0이면 퀴즈 종료 페이지로 이동
+        if (parseInt(totIndex) === 0) {
+            window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
+            return;
+        }
+
+        // 다른 초기화 작업 등을 수행할 수 있음
+
+        // 여기에 다른 초기화 코드를 추가할 수 있습니다.
+    };
+
 
     //다음 퀴즈로 넘어가는 함수
     function answerCheck() {
@@ -307,6 +321,11 @@
         }
 
     });
+
+
+    function goBack() {
+        window.history.back();
+    }
 
 </script>
 </html>

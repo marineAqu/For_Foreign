@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,22 +53,24 @@ public class LSWQuizController {
                            Model model, HttpSession session) {
 
         QuizDTO quizDTO;
-        List<QuizDTO> quizList = new ArrayList<>();
+        List<QuizDTO> quizList;
 
         if (totIndex == -1) {
-            quizList = quizService.findVocaList(vocaNo);
+            quizList = quizService.findVocaListWithKoSentence(vocaNo);
             //Collections.shuffle(quizList);
             totIndex = quizList.size();
             nowIndex = 0;
             quizNum = quizList.get(nowIndex).getNo();
         } else {
-            quizList = quizService.findVocaList(vocaNo);
+            quizList = quizService.findVocaListWithKoSentence(vocaNo);
             quizNum = quizList.get(nowIndex).getNo();
         }
 
         nowIndex++;
 
         quizDTO = quizService.SearchByNo(quizNum);
+
+
 
         model.addAttribute("quizTitle", quizDTO.getKoSentence());
         model.addAttribute("nowIndex", nowIndex);
