@@ -2,16 +2,23 @@ package com.project.fofo.controller;
 
 /**
  * 파일명: TransController
- * 작성자: 김현지
+ * 작성자: 김현지 * 일부 김도연 작성(translator내 코드만)
  **/
 
+import com.project.fofo.entity.MemlistEntity;
+import com.project.fofo.service.MemberService;
+import com.project.fofo.service.QuizService;
 import com.project.fofo.service.trans.AnalyzeTranslatedText;
 import com.project.fofo.service.trans.PapagoAPI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,10 +29,20 @@ import java.util.Map;
 import static java.lang.System.out;
 @Controller
 @Slf4j
+@RequiredArgsConstructor //김도연 추가
 public class TransController {
+    private final MemberService memberService; //김도연 추가
+    private final QuizService quizService; //김도연 추가
 
     @GetMapping("/translator")
-    public String translator() {
+    public String translator(Model model) {
+        //translator 함수 코드 작성: 김도연
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
+        model.addAttribute("bookLis", quizService.SearchVocaBook(user.getNo().longValue()));
+
         return "Trans";
     }
 

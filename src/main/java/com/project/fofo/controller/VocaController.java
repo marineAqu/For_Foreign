@@ -53,4 +53,15 @@ public class VocaController {
         return true;
     }
 
+    //번역 탭에서 뜬 단어를 저장
+    @PostMapping("saveTransWord")
+    public @ResponseBody void saveTransWord(@RequestParam("vocaNo") Long vocaNo, @RequestParam("koWord") String koWord, @RequestParam("enWord") String enWord) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
+        System.out.println("saveVocaTit 함수 들어옴 (컨트롤러)");
+
+        vocaService.saveTransWord(vocaNo, koWord, enWord);
+    }
 }

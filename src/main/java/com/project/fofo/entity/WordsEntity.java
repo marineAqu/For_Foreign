@@ -100,4 +100,20 @@ public class WordsEntity {
         wordsEntity.setCheckQuiz(quizDTO.getCheckQuiz());
         return wordsEntity;
     }
+
+    /**
+     * 함수: toSaveTransWord
+     * 작성자: 김도연
+     * 설명: 번역탭, 카메라탭에서 뜨는 단어 리스트를 단어장에 추가할 때 사용
+     * */
+    public static WordsEntity toSaveTransWord(Long vocaNo, String enWord, String koWord) {
+        WordsEntity wordsEntity = new WordsEntity();
+
+        wordsEntity.setKoWord(koWord);
+        wordsEntity.setEnWord(enWord);
+        wordsEntity.setVocaNo(vocaNo);
+        wordsEntity.setCheckStatus('n');
+        wordsEntity.setCheckQuiz('n');
+        return wordsEntity;
+    }
 }
