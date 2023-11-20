@@ -103,6 +103,14 @@
     <div class="main_image_text2" style="top:45%; font-size: 2.3em;" ><span>if you want to go to My page, please </span><span><a class="click" href="/myPage">click here</a></span></div>
 </div>
 
+<!--김도연 작성(작문 게시판으로 가는 아이콘)-->
+<div style="text-align: center; position: relative;" onclick="goToBoard()">
+    <img src="images/HomeBoardButton.png" style="width: 95%;">
+    <span style="font-weight:bold; color: #4A7E67; font-size: 50px; position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%);">writing board</span>
+    <span style="font-size: 35px; position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);" th:text="${topic}">당신이 가장 좋아하는 음식은?</span>
+</div>
+<!--김도연 끝-->
+
 <div class="main_image" style="margin-top:3%">
     <div style="text-align: center;"><img src="images/OpenBook.png" width="92%"></div>
     <div class="main_image_text" style="overflow:auto;" ><div id="output1"></div></div>
@@ -150,6 +158,11 @@
 }
 
 document.addEventListener("DOMContentLoaded", fetchRandomGrammar);
+
+//김도연 작성: 작문 게시판으로 이동
+function goToBoard(){
+    window.location.href = 'WritingBoard';
+}
 </script>
 </body>
 </html>
