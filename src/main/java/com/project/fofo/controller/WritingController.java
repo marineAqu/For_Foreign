@@ -3,6 +3,8 @@ package com.project.fofo.controller;
 import com.mysql.cj.Session;
 import com.project.fofo.DTO.WritingDTO;
 import com.project.fofo.entity.MemlistEntity;
+import com.project.fofo.entity.TodaytopicEntity;
+import com.project.fofo.repository.TodaytopicRepository;
 import com.project.fofo.service.MemberService;
 import com.project.fofo.service.WritingService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -28,6 +32,7 @@ import java.util.List;
 public class WritingController {
     private final WritingService writingService;
     private final MemberService memberService;
+    private final TodaytopicRepository todaytopicRepository;
     long miliseconds = System.currentTimeMillis();
     Date date = new Date(miliseconds);
 
@@ -54,6 +59,12 @@ public class WritingController {
                 break;
             }
         }
+
+        //날짜를 계산하여 하루 단위로 다른 오늘의 주제를 띄움
+        long daysDifference = ChronoUnit.DAYS.between(LocalDate.of(2023, 11, 19), LocalDate.now());
+
+        TodaytopicEntity todaytopicEntity= todaytopicRepository.findByNo(daysDifference);
+        model.addAttribute("topic", todaytopicEntity.getTopic());
 
         return "WritingBoard";
     }
