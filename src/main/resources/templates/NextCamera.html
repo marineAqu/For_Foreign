@@ -75,7 +75,7 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Show Ocr Image</title>
 </head>
 <body>
 <span id="backButton" onclick="history.back()" style="top:2px"><img src="images/Back.png"></span>
@@ -83,16 +83,12 @@
     <img src="images/BlurrySunCloud.png" width="30%"></div>
 <div class="main_image;" ><div style="margin-left: 5%; background-color : #668F7A; border-radius: 15px; overflow : hidden; margin-top:5.5%; margin-bottom: 0; width: 90%; height: 90vh;"></div>
     <img id="savedimg" src="" class="pop_img" style="display:none">
-<!--    <resources mapping="/images/**" location="file:///C:/trans/image"></resources>-->
-<!--    <img src="http://C://trans//image.png" class="pop_img">-->
-<!--    <img src="/display?name=${data.value.f._path}"/>-->
-<!--    <img src="<spring:url value='/images/image.png'/>" />-->
-    <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>
-    <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>
+    <img id="ocrImage" class="pop_img" style="display:none">
+<!--    <img src="/upload/image.jpg" class="pop_img" >-->
+
+<!--    <div style="position: absolute; left:10%; right:10%; top:45%; font-size:3em;" id="result"></div>-->
+<!--    <div style="position: absolute; left:10%; right:10%; top:50%; font-size:3em;" id="transText"></div>-->
     <input type="button" class="btn-block" onclick="moveResultToImgTrans()" name="Go by Translator" value="Go by Translator">
-    <!--    <a href="javascript:void(0);" onclick="moveResultToImgTrans()">-->
-    <!--        <div style="position: absolute; border-radius: 8px; background-color: #B6D0C3; width:70%; height:100px; left:15%; top:72%;"><span style="font-size:3em; top:45px;">Go by Translator</span></div>-->
-    <!--    </a>-->
 <!--    <div class="main_image_text">-->
 <!--        <div id="morphologyTable">-->
 <!--            <table border="0" style="position:fixed;">-->
@@ -121,7 +117,7 @@
         if(imageInput) {
             savedimage.setAttribute('src', imageInput);
 
-            // 이미지 요소의 Base64 데이터를 가져옴
+        // 이미지 요소의 Base64 데이터를 가져옴
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         const image = new Image();
@@ -142,14 +138,17 @@
                 .then(response => response.text())
                 .then(result => {
                     document.getElementById('result').innerHTML = result;
+                    //이미지 표시
+                    document.getElementById('ocrImage').setAttribute('src','/upload/image.jpg');
+                    document.getElementById('ocrImage').style.display = 'block';
                 });
             });
             };
-
         image.src = imageInput;
         } else{
             console.log('저장된 이미지가 없습니다.');
         }
+
     };
 </script>
 <script>

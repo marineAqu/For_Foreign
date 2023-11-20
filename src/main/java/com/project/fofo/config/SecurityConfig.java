@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/join").permitAll()
                         .requestMatchers("/css/**", "/images/**", "/javascript/**").permitAll()
+                        .requestMatchers("/upload/**").permitAll()
                         .anyRequest().authenticated()
                 );
         http
