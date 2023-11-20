@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<!--작성자 : 정채빈-->
+<!--작성자 : 정채빈 / 김도연(단어 리스트에서 플러스 버튼 눌렀을 때 뜨는 modal, 단어장에 추가하는 js 코드 작성)-->
 <!--파일명 : imgtrans-->
 <!--설명 : ocr 번역한 페이지-->
 <head>
@@ -43,6 +43,10 @@
   <script>
     // 전역변수 txt 선언
     var txt;
+
+    var koreanWordTmp; //김도연 작성
+var enWordTmp; //김도연 작성
+var bookNo; //김도연 작성
 
     // 페이지 로딩 시 실행되는 함수
     $(function () {
@@ -133,8 +137,32 @@
 
                                 // 버튼에 대한 클릭 이벤트 추가
                                 imgButton.on("click", function() {
-                                    // 버튼이 클릭되었을 때 수행할 작업을 여기에 추가
-                                    console.log("버튼이 클릭되었습니다.");
+                                    //*
+                                    //imgButton.on 내 코드 김도연 작성: 플러스 버튼을 누르면 해당 정보를 가지고 단어장에 저장하도록 함
+                                    //*
+
+                                            // 현재 클릭된 이미지가 속한 행을 찾음
+                                            var clickedRow = $(this).closest("tr");
+
+                                            // 행의 첫 번째 셀(td) 내용(한글 단어)을 가져옴
+                                            var koreanWordInRow = clickedRow.find("td:first").text();
+
+                                            // 행의 두 번째 셀(td) 내용(영어 단어)을 가져옴
+                                            var englishWordInRow = clickedRow.find("td:eq(1)").text();
+
+                                            //모달 열기
+                                            document.getElementById("modal").style.display = "flex";
+                                            //스크롤 방지
+                                            document.body.style.overflow = "hidden";
+
+                                            // 가져온 내용을 콘솔에 출력
+                                            console.log("한글 단어:", koreanWordInRow);
+                                            console.log("영어 단어:", englishWordInRow);
+
+                                            koreanWordTmp = koreanWordInRow; //단어장 클릭은 외부 함수이므로 전역변수에 저장
+                                            enWordTmp = englishWordInRow; // 동일
+
+                                            console.log("버튼이 클릭되었습니다.");
                                 });
 
                                 // 옆 열에 버튼 추가
@@ -233,6 +261,36 @@
             }
 
         });
+
+        //김도연 작성: x 클릭 시 madal display: none으로 수정
+            function xBtn() {
+                document.getElementById("modal").style.display = "none";
+            }
+
+
+            //김도연 작성: 단어장 클릭 시 저장하고 나서 modal을 닫음
+            function openBook(clickedDiv) {
+                bookNo = clickedDiv.querySelector(".bookNo").textContent;
+                console.log("클릭된 책 제목: " + bookNo);
+
+                //저장
+                $.ajax({
+                    type: "post",
+                    url: "saveTransWord",
+                    data: {
+                        "vocaNo": bookNo,
+                        "koWord": koreanWordTmp,
+                        "enWord": enWordTmp
+                    },
+                    success: function (res) {
+                        alert("단어가 성공적으로 저장되었습니다.");
+                        document.getElementById("modal").style.display = "none";
+                    },
+                    error: function (err) {
+                        alert("통신 상의 에러가 발생했습니다. 다시 시도해주세요.");
+                    }
+                });
+            }
 
   </script>
 
@@ -360,6 +418,61 @@
           transform: translate( -50%, -50% );
       }
 
+      /*이하 김도연 추가*/
+        .base {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #F2E8D5;
+            text-align: center;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .bookName {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            font-weight: bolder;
+        }
+
+        .headText{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+        }
+
+        .bookdiv {
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .bookList {
+            position: absolute;
+            top: 1%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            overflow-y: scroll;
+            width: 90%;
+            border-collapse: collapse;
+        }
+
+        .bookList td {
+            margin: 0; /* td 요소의 기본 여백 제거 */
+        }
+
+        .bookNo{
+            display: none;
+        }
+
   </style>
 </head>
 <body>
@@ -421,5 +534,42 @@
 
 </div>
 
+
+
+<!--이하 김도연 작성: 단어장 추가 버튼 눌렀을 때 모달-->
+<div class="base" id="modal">
+    <header>
+        <img src="images/X.png" style="width: 7%; margin-top: 5px; margin-left: 5px; float: left;" onclick="xBtn()">
+        <img src="images/BlurrySunCloud.png" style="width: 30%; margin: 0 auto;">
+        <img style="float: right;">
+
+        <div style="position: relative;">
+            <img src="images/ChooseWordBookTop.png" style="width: 90%">
+            <span class="headText">Choose a word book to put the words in</span>
+        </div>
+    </header>
+
+    <div style="position: relative;">
+        <img src="images/ChooseWordBookBottom.png" style="width: 90%">
+        <table class="bookList">
+            <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
+                <td>
+                    <div class="bookdiv" onclick="openBook(this)">
+                        <img src="images/ClosedBook.png" style="width: 90%">
+                        <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
+                        <span class="bookNo" th:text="${vocalist.no}">no</span>
+                    </div>
+                </td>
+                <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
+                    <div class="bookdiv" onclick="openBook(this)">
+                        <img src="images/ClosedBook.png" style="width: 90%">
+                        <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
+                        <span class="bookNo" th:text="${bookLis[iterStat.index + 1].no}">no</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>
