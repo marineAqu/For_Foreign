@@ -167,7 +167,7 @@
         </div>
     </div>
 </div>
-
+<a id="additionalPoints" th:text="${additionalPoints}"></a>
 <nav class="BottomNavigation">
     <a href="/camera">
         <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
@@ -187,6 +187,11 @@
 </nav>
 </body>
 <script>
+    document.getElementById("additionalPoints").style.display = "none";
+    var additionalPoints = document.getElementById('additionalPoints').innerText;
+    console.log(additionalPoints);
+    alert('I got ' + additionalPoints + ' points');
+
     const closeBtn = modal.querySelector(".mod-x")
 
     //X이미지 누르면 모달 닫힘

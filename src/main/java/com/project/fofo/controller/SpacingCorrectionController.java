@@ -115,6 +115,8 @@ public class SpacingCorrectionController {
 
         quizService.givingPoint(user, 10, correctNum);
 
+        model.addAttribute("additionalPoints", 10*correctNum);
+
         return "EndOfSpacingCorrection";
     }
 }
