@@ -9,6 +9,7 @@ import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.entity.WordsEntity;
 import com.project.fofo.repository.BoardRepository;
+import com.project.fofo.repository.MemberRepository;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.service.MemberService;
 import com.project.fofo.service.QuizService;
@@ -32,6 +33,7 @@ public class SpacingCorrectionController {
     private final QuizRepository quizRepository;
     private final QuizService quizService;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
 
     @GetMapping("/spacingCorrectionList")
@@ -96,6 +98,10 @@ public class SpacingCorrectionController {
 
     @GetMapping("/endOfSpacingCorrection")
     public String endOfQuiz(Model model, @RequestParam("vocaNo") Long vocaNo){
+        // 현재 사용자
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
         //전체 문제, 맞은 개수
         List<QuizDTO> wordsEntity = quizService.findVocaListSentence(vocaNo);
 
@@ -105,6 +111,10 @@ public class SpacingCorrectionController {
         //모달
         model.addAttribute("totNum", wordsEntity.size()); //총 개수
         model.addAttribute("correctNum", wordsEntity.stream().filter(entity -> String.valueOf(entity.getCheckQuiz()).equals("y")).count()); //맞은 개수
+        long correctNum = wordsEntity.stream().filter(entity -> String.valueOf(entity.getCheckQuiz()).equals("y")).count();
+
+        quizService.givingPoint(user, 10, correctNum);
+
         return "EndOfSpacingCorrection";
     }
 }

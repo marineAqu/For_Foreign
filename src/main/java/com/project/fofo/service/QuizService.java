@@ -7,8 +7,10 @@ package com.project.fofo.service;
 
 import com.project.fofo.DTO.QuizDTO;
 import com.project.fofo.DTO.VocaDTO;
+import com.project.fofo.entity.MemlistEntity;
 import com.project.fofo.entity.VocalistEntity;
 import com.project.fofo.entity.WordsEntity;
+import com.project.fofo.repository.MemberRepository;
 import com.project.fofo.repository.QuizRepository;
 import com.project.fofo.repository.VocaRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuizService {
+    private final MemberRepository memberRepository;
     private final VocaRepository vocaRepository;
     private final QuizRepository quizRepository;
 
@@ -123,4 +126,11 @@ public class QuizService {
             .collect(Collectors.toList());
     }
 
+    public void givingPoint(MemlistEntity currentUser, int givingScore, long correctNum) {
+        int point = currentUser.getUserPoint();
+        int newPoint = point + ((int) correctNum * givingScore);
+
+        currentUser.setUserPoint(newPoint);
+        memberRepository.save(currentUser);
+    }
 }
