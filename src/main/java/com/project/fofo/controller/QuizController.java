@@ -219,4 +219,13 @@ public class QuizController {
         System.out.println("answerCheck컨트롤러에서 quizNum = " + nowQuizNum);
         System.out.println(session.getAttribute("totIndex"));
     }
+
+    @PostMapping("studyPointWordQ")
+    public @ResponseBody void studyPointWordQ(@RequestParam("correctNum") int correctNum) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = ((UserDetails) principal).getUsername();
+        MemlistEntity user = memberService.findByMember(uid);
+
+        quizService.givingPoint(user, 5, correctNum);
+    }
 }

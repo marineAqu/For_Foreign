@@ -10,6 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Quiz</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .BottomNavigation {
             position: fixed;
@@ -164,7 +165,7 @@
             <span style="font-size: 75px; font-weight:500;">Your score is</span>
         </div>
         <div class="show-sco">
-            <span style="font-size: 120px; font-weight:540;" th:text="${correctNum}">2</span>
+            <span id="correctNum" style="font-size: 120px; font-weight:540;" th:text="${correctNum}">2</span>
             <span style="font-size: 120px; font-weight:540;">/</span>
             <span style="font-size: 120px; font-weight:540;" th:text="${totNum}">10</span>
         </div>
@@ -190,6 +191,82 @@
 </nav>
 </body>
 <script>
+//체크박스 관련
+$(document).ready(function () {
+        restoreCheckboxState();
+
+        $("input[type='checkbox']").change(function () {
+            var isChecked = $(this).is(':checked');
+            var bookmarkValue = isChecked ? 'y' : 'n';
+            var no = $(this).data('no');
+            console.log(no);
+
+            $.ajax({
+                type: 'POST',
+                url: '/updateBookmark',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    bookmarked: bookmarkValue,
+                    no: no
+                }),
+                success: function (response) {
+                    console.log('업데이트 성공');
+                    saveCheckboxState(no, isChecked);
+                },
+                error: function (error) {
+                    console.log('업데이트 실패');
+                }
+            });
+        });
+
+        function restoreCheckboxState() {
+            $("input[type='checkbox']").each(function () {
+                var no = $(this).data('no');
+                var savedState = getSavedCheckboxState(no);
+
+                if (savedState !== null) {
+                    $(this).prop('checked', savedState);
+                }
+            });
+        }
+
+        function saveCheckboxState(no, isChecked) {
+            localStorage.setItem('checkbox_' + no, isChecked);
+        }
+
+        function getSavedCheckboxState(no) {
+            var savedState = localStorage.getItem('checkbox_' + no);
+            return savedState === 'true';
+        }
+    });
+
+    function post() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var vocaNo = urlParams.get("vocaNo");
+        window.location.href = '/post?vocaNo=' + vocaNo;
+    }
+
+
+//이하 학습포인트 지급 로직
+var correctNum = parseInt(document.getElementById("correctNum").innerText); //맞은 개수
+
+$.ajax(
+            {
+                type: "post",
+                url: "studyPointWordQ",
+                data: {
+                    "correctNum": correctNum
+                },
+                success: function (res) {
+                    alert("You have earned "+ correctNum*5 + "points.");
+                },
+                error: function (err) {
+                    alert("학습포인트가 정상적으로 지급되지 않았습니다.");
+                }
+            });
+// 학습포인트 지급 로직 끝
+
+
     const closeBtn = modal.querySelector(".mod-x")
 
     //X이미지 누르면 모달 닫힘
