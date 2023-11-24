@@ -240,7 +240,7 @@
                 "tf": tOrF.innerText
             },
             success: function (res) {
-                if (nowIndex == totIndex) window.location.href = "/endOfQuiz?vocaNo=" + parseInt(vocaNo);
+                if (nowIndex == totIndex) window.location.href = "/endOfLSW?vocaNo=" + parseInt(vocaNo);
                 else window.location.href = "LisSenWr?vocaNo=" + parseInt(vocaNo) + "&nowIndex=" + parseInt(nowIndex) + "&totIndex=" + parseInt(totIndex);
             },   //http://localhost:8080/quizStart?vocaNo=2&quizNum=1&setTimer=20
             error: function (err) {
