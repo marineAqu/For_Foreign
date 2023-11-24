@@ -10,6 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>End Of Spacing Correction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .BottomNavigation {
             position: fixed;
@@ -161,13 +162,13 @@
             <span style="font-size: 75px; font-weight:500;">Your score is</span>
         </div>
         <div class="show-sco">
-            <span style="font-size: 120px; font-weight:540;" th:text="${correctNum}">2</span>
+            <span id="correctNum" style="font-size: 120px; font-weight:540;" th:text="${correctNum}">2</span>
             <span style="font-size: 120px; font-weight:540;">/</span>
             <span style="font-size: 120px; font-weight:540;" th:text="${totNum}">10</span>
         </div>
     </div>
 </div>
-<a id="additionalPoints" th:text="${additionalPoints}"></a>
+
 <nav class="BottomNavigation">
     <a href="/camera">
         <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
@@ -187,10 +188,63 @@
 </nav>
 </body>
 <script>
-    document.getElementById("additionalPoints").style.display = "none";
-    var additionalPoints = document.getElementById('additionalPoints').innerText;
-    console.log(additionalPoints);
-    alert('I got ' + additionalPoints + ' points');
+    //체크박스 관련
+    $(document).ready(function () {
+        restoreCheckboxState();
+
+        $("input[type='checkbox']").change(function () {
+            var isChecked = $(this).is(':checked');
+            var bookmarkValue = isChecked ? 'y' : 'n';
+            var no = $(this).data('no');
+            console.log(no);
+
+            $.ajax({
+                type: 'POST',
+                url: '/updateBookmark',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    bookmarked: bookmarkValue,
+                    no: no
+                }),
+                success: function (response) {
+                    console.log('업데이트 성공');
+                    saveCheckboxState(no, isChecked);
+                },
+                error: function (error) {
+                    console.log('업데이트 실패');
+                }
+            });
+        });
+
+        function restoreCheckboxState() {
+            $("input[type='checkbox']").each(function () {
+                var no = $(this).data('no');
+                var savedState = getSavedCheckboxState(no);
+
+                if (savedState !== null) {
+                    $(this).prop('checked', savedState);
+                }
+            });
+        }
+
+        function saveCheckboxState(no, isChecked) {
+            localStorage.setItem('checkbox_' + no, isChecked);
+        }
+
+        function getSavedCheckboxState(no) {
+            var savedState = localStorage.getItem('checkbox_' + no);
+            return savedState === 'true';
+        }
+    });
+
+    function post() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var vocaNo = urlParams.get("vocaNo");
+        window.location.href = '/post?vocaNo=' + vocaNo;
+    }
+
+    var correctNum = document.getElementById('correctNum').innerText;
+    alert('You have earned "+ correctNum * 10 + "points.');
 
     const closeBtn = modal.querySelector(".mod-x")
 
