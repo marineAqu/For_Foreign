@@ -5,8 +5,10 @@ package com.project.fofo.controller;
  * 작성자: 김현지
  **/
 
+import com.project.fofo.entity.VocalistEntity;
 import com.project.fofo.entity.WordsEntity;
 import com.project.fofo.repository.BoardRepository;
+import com.project.fofo.repository.VocaRepository;
 import com.project.fofo.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
+import java.util.Optional;
 
 
 @Controller
@@ -29,6 +30,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private VocaRepository vocaRepository;
 
     @Autowired
     public BoardController(BoardRepository boardRepository) {
@@ -71,6 +75,23 @@ public class BoardController {
 
         // 3. 뷰 페이지를 설정
         return "BoardList";
+    }
+
+    @GetMapping("/getBookTitle")
+    public ResponseEntity<Map<String, String>> getBookTitle(@RequestParam Long vocaNo) {
+        Optional<VocalistEntity> vocalistEntityOptional = vocaRepository.findByNo(vocaNo);
+
+        if (vocalistEntityOptional.isPresent()) {
+            VocalistEntity vocalistEntity = vocalistEntityOptional.get();
+            String bookTitle = vocalistEntity.getBookTitle();
+
+            Map<String, String> response = new HashMap<>();
+            response.put("bookTitle", bookTitle);
+
+            return ResponseEntity.ok().body(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/Detail")      //상세보기 화면 localhost:8080/board/detail?id=1
@@ -116,8 +137,5 @@ public class BoardController {
 
         return ResponseEntity.ok("업데이트 성공");
     }
-
-
-
 
 }
