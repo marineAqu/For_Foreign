@@ -101,14 +101,18 @@ public class QuizService {
 
         return idList;
     }
-
+    
+    //김민정 추가
     public List<QuizDTO> findVocaListSentence(Long vocaNo) {
         List<WordsEntity> wordsEntityList = quizRepository.findByVocaNo(vocaNo);
         List<QuizDTO> quizDTOList = new ArrayList<>();
 
         for (WordsEntity wordsEntity : wordsEntityList) {
-            if(!wordsEntity.getKoSentence().isBlank() && !wordsEntity.getEnSentence().isBlank()) {
+            if(wordsEntity.getKoSentence()!=null && !wordsEntity.getKoSentence().isBlank() && wordsEntity.getEnSentence()!=null && !wordsEntity.getEnSentence().isBlank()) {
                 quizDTOList.add(QuizDTO.toQuizDTO(wordsEntity));
+            }
+            else {
+                System.out.println(wordsEntity);
             }
         }
         return quizDTOList;
