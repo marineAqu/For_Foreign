@@ -2,7 +2,7 @@ package com.project.fofo.controller;
 
 /**
  * 파일명: MemberController
- * 작성자: 김민정
+ * 작성자: 김민정 / 김도연(@GetMapping("/myPage") 내 랭킹에 대하여)
  **/
 
 import com.project.fofo.DTO.MemberDTO;
@@ -58,6 +58,10 @@ public class MemberController {
         MemlistEntity user = memberService.findByMember(uid);
 
         model.addAttribute("user", user);
+
+        //김도연 작성
+        model.addAttribute("myRank", memberRepository.findUserRank(user.getNo()));
+
         return "MyPage";
     }
 
