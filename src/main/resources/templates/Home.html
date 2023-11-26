@@ -10,6 +10,7 @@
     body {
         font-family: 'Nunito', sans-serif;
         background-color: #F2E8D5;
+        padding-bottom: 140px;
     }
     h1{
         text-align: center;
@@ -103,6 +104,7 @@
     <div class="main_image_text2" style="top:45%; font-size: 2.3em;" ><span>if you want to go to My page, please </span><span><a class="click" href="/myPage">click here</a></span></div>
 </div>
 
+
 <!--김도연 작성(작문 게시판으로 가는 아이콘)-->
 <div style="text-align: center; position: relative;" onclick="goToBoard()">
     <img src="images/HomeBoardButton.png" style="width: 95%;">
@@ -119,24 +121,6 @@
     <div style="text-align: center;"><img src="images/OpenBook.png" width="92%" ></div>
     <div class="main_image_text" style="overflow:auto;"><div id="output2" ></div></div>
 </div>
-
-<nav class="BottomNavigation">
-    <a href="/camera">
-        <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
-    </a>
-    <a href="/translator">
-        <img class="TranslationButton" src="images/NotSelectedTranslation.png" style="width: 8%;">
-    </a>
-    <a href="/home">
-        <img class="HomeButton" src="images/HomeButton.png" style="width: 11%;">
-    </a>
-    <a href="/QuizList">
-        <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
-    </a>
-    <a href="vocaList">
-        <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
-    </a>
-</nav>
 <script>
     function fetchRandomGrammar() {
     fetch('/randgram')
@@ -165,4 +149,24 @@ function goToBoard(){
 }
 </script>
 </body>
+
+<footer>
+    <nav class="BottomNavigation">
+        <a href="/camera">
+            <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
+        </a>
+        <a href="/translator">
+            <img class="TranslationButton" src="images/NotSelectedTranslation.png" style="width: 8%;">
+        </a>
+        <a href="/home">
+            <img class="HomeButton" src="images/HomeButton.png" style="width: 11%;">
+        </a>
+        <a href="/QuizList">
+            <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
+        </a>
+        <a href="vocaList">
+            <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
+        </a>
+    </nav>
+</footer>
 </html>
