@@ -37,233 +37,245 @@ var koreanWordTmp; //김도연 작성
 var enWordTmp; //김도연 작성
 var bookNo; //김도연 작성
 
-            // 전역변수 txt 선언
-            var txt;
+    // 전역변수 txt 선언
+    var txt;
 
-            // 페이지 로딩 시 실행되는 함수
-            $(function () {
+    // 페이지 로딩 시 실행되는 함수
+    $(function () {
 
-                var source = "en";
-                var target = "ko";
-                // 번역하기 버튼을 클릭하면 번역 요청을 보냄
-                $("#translator").on("click", function () {
+        var source = "en";
+        var target = "ko";
+        // 번역하기 버튼을 클릭하면 번역 요청을 보냄
+        $("#translator").on("click", function () {
 
-                    var inputText = $("#inputText").val(); // 사용자가 입력한 텍스트 가져오기
+            var inputText = $("#inputText").val(); // 사용자가 입력한 텍스트 가져오기
 
-                    var data = {
-                        "text": inputText,
-                        "source": source,
-                        "target": target
+            var data = {
+                "text": inputText,
+                "source": source,
+                "target": target
+            }
+            console.log("transword컨트롤러로 감");
+
+            $.ajax({
+                url: "/transword",
+                type: "GET",
+                data: data,
+                dataType: "text",
+                success: function (translationResult) {
+                    $("#transText").val(translationResult);
+                    console.log("translationResult의 값 ",translationResult);
+
+                    var analyzeText;
+
+                    // if 문을 통해 analyzeText 값 설정
+                    if (source == "en") {
+                        analyzeText = translationResult;
+                    } else {
+                        analyzeText = inputText;
                     }
-                    console.log("transword컨트롤러로 감");
 
+                    // 번역된 내용을 형태소 분석하는 요청
                     $.ajax({
-                        url: "/transword",
-                        type: "GET",
-                        data: data,
-                        dataType: "text",
-                        success: function (translationResult) {
-                            $("#transText").val(translationResult);
-                            console.log("translationResult의 값 ",translationResult);
+                        url: "/analyze",
+                        type: "POST",
+                        data: JSON.stringify({ "translatedText": analyzeText }), // JSON 형식으로 데이터 보내기
+                        contentType: "application/json", // 데이터 형식 설정
+                        success: function (response) {//컨트롤러에서 결과값 받아옴
+                            console.log("형태소 분석 성공:", response);
 
-                            var analyzeText;
+                            // 번역 이미지 버튼 요소 가져오기
+                            //const translateButton = document.getElementById("translateButton");
 
-                            // if 문을 통해 analyzeText 값 설정
-                            if (source == "en") {
-                                analyzeText = translationResult;
-                            } else {
-                                analyzeText = inputText;
+                            // 테이블의 tbody 요소를 선택
+                            var tableBody = $("#morphologyTable tbody");
+                            tableBody.empty(); // 기존 내용을 비워줌
+
+                            // response.first는 형태소 분석 결과, analysisResult.second는 영어 번역 결과
+                            var analysisResult = response.first;
+                            var translatedText = response.second;
+
+
+                            console.log("전달받은 형태소 analysisResult:", analysisResult);
+                            console.log("전달받은 영어 번역 translatedText:", translatedText);
+
+                            console.log(analysisResult.length, translatedText.length);
+
+                            var wordsToAdd = analysisResult.split(',');
+                            var EwordsToAdd = translatedText.split(',');
+
+                            var wordsToAdd = analysisResult.split(',');
+                            var EwordsToAdd = translatedText.split(',');
+
+                            for (var i = 0; i < Math.max(wordsToAdd.length, EwordsToAdd.length); i++) {
+                                var koreanWord = wordsToAdd[i] ? wordsToAdd[i].trim() : '';
+                                var englishWord = EwordsToAdd[i] ? EwordsToAdd[i].trim() : '';
+
+                                var row = $("<tr><td>" + koreanWord + "</td><td>" + englishWord + "</td></tr>");
+                                tableBody.append(row);
+
+                                var imgButton = $("<img src='images/Plus.png' alt='버튼 이미지'>");
+
+                                imgButton.css({
+                                    width: '20px',
+                                    height: '20px'
+                                });
+
+                                imgButton.on("click", function() {
+                                    //*
+                                    //imgButton.on 내 코드 김도연 작성: 플러스 버튼을 누르면 해당 정보를 가지고 단어장에 저장하도록 함
+                                    //*
+
+                                    // 현재 클릭된 이미지가 속한 행을 찾음
+                                    var clickedRow = $(this).closest("tr");
+
+                                    // 행의 첫 번째 셀(td) 내용(한글 단어)을 가져옴
+                                    var koreanWordInRow = clickedRow.find("td:first").text();
+
+                                    // 행의 두 번째 셀(td) 내용(영어 단어)을 가져옴
+                                    var englishWordInRow = clickedRow.find("td:eq(1)").text();
+
+                                    //모달 열기
+                                    document.getElementById("modal").style.display = "flex";
+                                    //스크롤 방지
+                                    document.body.style.overflow = "hidden";
+
+                                    // 가져온 내용을 콘솔에 출력
+                                    console.log("한글 단어:", koreanWordInRow);
+                                    console.log("영어 단어:", englishWordInRow);
+
+                                    koreanWordTmp = koreanWordInRow; //단어장 클릭은 외부 함수이므로 전역변수에 저장
+                                    enWordTmp = englishWordInRow; // 동일
+
+                                    console.log("버튼이 클릭되었습니다.");
+                                });
+
+                                var buttonCell = $("<td></td>");
+                                buttonCell.append(imgButton);
+                                row.append(buttonCell);
                             }
 
-                            // 번역된 내용을 형태소 분석하는 요청
-                            $.ajax({
-                                url: "/analyze",
-                                type: "POST",
-                                data: JSON.stringify({ "translatedText": analyzeText }), // JSON 형식으로 데이터 보내기
-                                contentType: "application/json", // 데이터 형식 설정
-                                success: function (response) {//컨트롤러에서 결과값 받아옴
-                                    console.log("형태소 분석 성공:", response);
-
-                                    // 번역 이미지 버튼 요소 가져오기
-                                    //const translateButton = document.getElementById("translateButton");
-
-                                    // 테이블의 tbody 요소를 선택
-                                    var tableBody = $("#morphologyTable tbody");
-                                    tableBody.empty(); // 기존 내용을 비워줌
-
-                                    // response.first는 형태소 분석 결과, analysisResult.second는 영어 번역 결과
-                                    var analysisResult = response.first;
-                                    var translatedText = response.second;
-
-
-                                    console.log("전달받은 형태소 analysisResult:", analysisResult);
-                                    console.log("전달받은 영어 번역 translatedText:", translatedText);
-
-                                    console.log(analysisResult.length, translatedText.length);
-
-                                    var wordsToAdd = analysisResult.split(',');
-                                    var EwordsToAdd = translatedText.split(',');
-
-                                    var wordsToAdd = analysisResult.split(',');
-                                    var EwordsToAdd = translatedText.split(',');
-
-                                    for (var i = 0; i < Math.max(wordsToAdd.length, EwordsToAdd.length); i++) {
-                                        var koreanWord = wordsToAdd[i] ? wordsToAdd[i].trim() : '';
-                                        var englishWord = EwordsToAdd[i] ? EwordsToAdd[i].trim() : '';
-
-                                        var row = $("<tr><td>" + koreanWord + "</td><td>" + englishWord + "</td></tr>");
-                                        tableBody.append(row);
-
-                                        var imgButton = $("<img src='images/Plus.png' alt='버튼 이미지'>");
-
-                                        imgButton.css({
-                                            width: '20px',
-                                            height: '20px'
-                                        });
-
-                                        imgButton.on("click", function() {
-                                            //*
-                                            //imgButton.on 내 코드 김도연 작성: 플러스 버튼을 누르면 해당 정보를 가지고 단어장에 저장하도록 함
-                                            //*
-
-                                            // 현재 클릭된 이미지가 속한 행을 찾음
-                                            var clickedRow = $(this).closest("tr");
-
-                                            // 행의 첫 번째 셀(td) 내용(한글 단어)을 가져옴
-                                            var koreanWordInRow = clickedRow.find("td:first").text();
-
-                                            // 행의 두 번째 셀(td) 내용(영어 단어)을 가져옴
-                                            var englishWordInRow = clickedRow.find("td:eq(1)").text();
-
-                                            //모달 열기
-                                            document.getElementById("modal").style.display = "flex";
-                                            //스크롤 방지
-                                            document.body.style.overflow = "hidden";
-
-                                            // 가져온 내용을 콘솔에 출력
-                                            console.log("한글 단어:", koreanWordInRow);
-                                            console.log("영어 단어:", englishWordInRow);
-
-                                            koreanWordTmp = koreanWordInRow; //단어장 클릭은 외부 함수이므로 전역변수에 저장
-                                            enWordTmp = englishWordInRow; // 동일
-
-                                            console.log("버튼이 클릭되었습니다.");
-                                        });
-
-                                        var buttonCell = $("<td></td>");
-                                        buttonCell.append(imgButton);
-                                        row.append(buttonCell);
-                                    }
-
-                                },
-                                error: function (error) {
-                                    console.error("형태소 분석 오류:", error);
-                                }
-                            });
-                            },
-
-                    error: function (error) {
-                    console.error("번역 오류:", error);
-                    }
+                        },
+                        error: function (error) {
+                            console.error("형태소 분석 오류:", error);
+                        }
                     });
-                });
+                    },
 
-                // 스위치 버튼 JavaScript 코드
-                $(document).ready(function () {
-                    $("#switchButton").click(function () {
-                        var temp = source;
-                        source = target;
-                        target = temp;
+            error: function (error) {
+            console.error("번역 오류:", error);
+            }
+            });
+        });
 
-                        //sourceLanguage와 targetLanguage를 바꿈
-                        var sourceLang = $("#sourceLanguage").text();
-                        var targetLang = $("#targetLanguage").text();
+        // 스위치 버튼 JavaScript 코드
+        $(document).ready(function () {
+            $("#switchButton").click(function () {
+                var temp = source;
+                source = target;
+                target = temp;
 
-                        $("#sourceLanguage").text(targetLang);
-                        $("#targetLanguage").text(sourceLang);
-                    });
+                //sourceLanguage와 targetLanguage를 바꿈
+                var sourceLang = $("#sourceLanguage").text();
+                var targetLang = $("#targetLanguage").text();
 
-                });
-
+                $("#sourceLanguage").text(targetLang);
+                $("#targetLanguage").text(sourceLang);
             });
 
-            document.addEventListener("DOMContentLoaded", function() {
-                const inputText = document.getElementById("inputText");
-                const inputBoxButton = document.getElementById("inputBoxButton");
+        });
 
+    });
 
-                inputBoxButton.addEventListener("click", function() {
-                    const textToSpeak = inputText.value;
-                    console.log(textToSpeak);
-                    speak(textToSpeak, {
-                        rate: 1,
-                        pitch: 1.2,
-                        lang: "en-US"
-                    });
-                });
+    //tts 관련 코드
+    document.addEventListener("DOMContentLoaded", function() {
+        let inputLanguage = "en-US";
+        let transLanguage = "ko-KO";
 
-                const transText = document.getElementById("transText");
-                const transBoxButton = document.getElementById("transBoxButton");
+        const inputText = document.getElementById("inputText");
+        const inputBoxButton = document.getElementById("inputBoxButton");
 
-                transBoxButton.addEventListener("click", function() {
-                    const textToSpeak = transText.value;
-                    console.log(textToSpeak);
-                    speak(textToSpeak, {
-                        rate: 1,
-                        pitch: 1.2,
-                        lang: "ko-KO"
-                    });
-                });
-
-                function speak(text, opt_prop) {
-                    if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
-                        alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
-                        return;
-                    }
-
-                    window.speechSynthesis.cancel();
-
-                    const prop = opt_prop || {};
-
-                    const speechMsg = new SpeechSynthesisUtterance();
-                    speechMsg.rate = prop.rate || 1;
-                    speechMsg.pitch = prop.pitch || 1;
-                    speechMsg.lang = prop.lang || "ko-KR";
-                    speechMsg.text = text;
-
-                    window.speechSynthesis.speak(speechMsg);
-                }
-
+        inputBoxButton.addEventListener("click", function() {
+            const textToSpeak = inputText.value;
+            console.log(textToSpeak);
+            speak(textToSpeak, {
+                rate: 1,
+                pitch: 1.2,
+                lang: inputLanguage
             });
+        });
 
-            //김도연 작성: x 클릭 시 madal display: none으로 수정
-            function xBtn() {
+        const transText = document.getElementById("transText");
+        const transBoxButton = document.getElementById("transBoxButton");
+
+        transBoxButton.addEventListener("click", function() {
+            const textToSpeak = transText.value;
+            console.log(textToSpeak);
+            speak(textToSpeak, {
+                rate: 1,
+                pitch: 1.2,
+                lang: transLanguage
+            });
+        });
+
+        function speak(text, opt_prop) {
+            if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+                alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+
+            const prop = opt_prop || {};
+
+            const speechMsg = new SpeechSynthesisUtterance();
+            speechMsg.rate = prop.rate || 1;
+            speechMsg.pitch = prop.pitch || 1;
+            speechMsg.lang = prop.lang || "ko-KR";
+            speechMsg.text = text;
+
+            window.speechSynthesis.speak(speechMsg);
+        }
+
+        // 스위치 버튼
+        $(document).ready(function () {
+            $("#switchButton").click(function () {
+                inputLanguage = (inputLanguage === "ko-KR") ? "en-US" : "ko-KR";
+                transLanguage = (transLanguage === "en-US") ? "ko-KR" : "en-US";
+                console.log("inputLanguage:", inputLanguage);
+                console.log("transLanguage:", transLanguage);
+            });
+        });
+    });
+
+    //김도연 작성: x 클릭 시 madal display: none으로 수정
+    function xBtn() {
+        document.getElementById("modal").style.display = "none";
+    }
+
+    //김도연 작성: 단어장 클릭 시 저장하고 나서 modal을 닫음
+    function openBook(clickedDiv) {
+        bookNo = clickedDiv.querySelector(".bookNo").textContent;
+        console.log("클릭된 책 제목: " + bookNo);
+
+        //저장
+        $.ajax({
+            type: "post",
+            url: "saveTransWord",
+            data: {
+                "vocaNo": bookNo,
+                "koWord": koreanWordTmp,
+                "enWord": enWordTmp
+            },
+            success: function (res) {
+                alert("단어가 성공적으로 저장되었습니다.");
                 document.getElementById("modal").style.display = "none";
+            },
+            error: function (err) {
+                alert("통신 상의 에러가 발생했습니다. 다시 시도해주세요.");
             }
-
-            //김도연 작성: 단어장 클릭 시 저장하고 나서 modal을 닫음
-            function openBook(clickedDiv) {
-                bookNo = clickedDiv.querySelector(".bookNo").textContent;
-                console.log("클릭된 책 제목: " + bookNo);
-
-                //저장
-                $.ajax({
-                    type: "post",
-                    url: "saveTransWord",
-                    data: {
-                        "vocaNo": bookNo,
-                        "koWord": koreanWordTmp,
-                        "enWord": enWordTmp
-                    },
-                    success: function (res) {
-                        alert("단어가 성공적으로 저장되었습니다.");
-                        document.getElementById("modal").style.display = "none";
-                    },
-                    error: function (err) {
-                        alert("통신 상의 에러가 발생했습니다. 다시 시도해주세요.");
-                    }
-                });
-            }
+        });
+    }
     </script>
 </head>
 

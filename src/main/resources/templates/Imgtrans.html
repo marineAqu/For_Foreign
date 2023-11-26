@@ -206,61 +206,65 @@ var bookNo; //김도연 작성
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-            const inputText = document.getElementById("inputText");
-            const inputBoxButton = document.getElementById("inputBoxButton");
-            // const sourceLang = document.getElementById("sourceLang").textContent.trim(); // sourceLang의 값을 얻어옴
+        let inputLanguage = "ko-KO";
+        let transLanguage = "en-US";
 
-            inputBoxButton.addEventListener("click", function() {
-                const textToSpeak = inputText.value;
-                // const userLanguage = window.navigator.language;  // 사용자 브라우저 설정의 언어를 가져옴
-                console.log(textToSpeak);
-                // 언어에 따라 음성 합성 언어 설정
-<!--                    let lang;-->
-<!--                    if (sourceLang  === "English") {-->
-<!--                        lang = "en-US"; // 영어인 경우-->
-<!--                    } else {-->
-<!--                        lang = "ko-KO"; // 다른 언어인 경우 기본값으로 설정-->
-<!--                    }-->
-                speak(textToSpeak, {
-                    rate: 1,
-                    pitch: 1.2,
-                    lang: "ko-KO"
-                });
+        const inputText = document.getElementById("inputText");
+        const inputBoxButton = document.getElementById("inputBoxButton");
+
+        inputBoxButton.addEventListener("click", function() {
+            const textToSpeak = inputText.value;
+            console.log(textToSpeak);
+            speak(textToSpeak, {
+                rate: 1,
+                pitch: 1.2,
+                lang: inputLanguage
             });
+        });
 
-            const transText = document.getElementById("transText");
-            const transBoxButton = document.getElementById("transBoxButton");
+        const transText = document.getElementById("transText");
+        const transBoxButton = document.getElementById("transBoxButton");
 
-            transBoxButton.addEventListener("click", function() {
-                const textToSpeak = transText.value;
-                console.log(textToSpeak);
-                speak(textToSpeak, {
-                    rate: 1,
-                    pitch: 1.2,
-                    lang: "en-US"
-                });
+        transBoxButton.addEventListener("click", function() {
+            const textToSpeak = transText.value;
+            console.log(textToSpeak);
+            speak(textToSpeak, {
+                rate: 1,
+                pitch: 1.2,
+                lang: transLanguage
             });
+        });
 
-            function speak(text, opt_prop) {
-                if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
-                    alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
-                    return;
-                }
-
-                window.speechSynthesis.cancel();
-
-                const prop = opt_prop || {};
-
-                const speechMsg = new SpeechSynthesisUtterance();
-                speechMsg.rate = prop.rate || 1;
-                speechMsg.pitch = prop.pitch || 1;
-                speechMsg.lang = prop.lang || "ko-KR";
-                speechMsg.text = text;
-
-                window.speechSynthesis.speak(speechMsg);
+        function speak(text, opt_prop) {
+            if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+                alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+                return;
             }
 
+            window.speechSynthesis.cancel();
+
+            const prop = opt_prop || {};
+
+            const speechMsg = new SpeechSynthesisUtterance();
+            speechMsg.rate = prop.rate || 1;
+            speechMsg.pitch = prop.pitch || 1;
+            speechMsg.lang = prop.lang || "ko-KR";
+            speechMsg.text = text;
+
+            window.speechSynthesis.speak(speechMsg);
+        }
+
+        // 스위치 버튼
+        $(document).ready(function () {
+            $("#switchButton").click(function () {
+                inputLanguage = (inputLanguage === "en-US") ? "ko-KR" : "en-US";
+                transLanguage = (transLanguage === "ko-KR") ? "en-US" : "ko-KR";
+                console.log("inputLanguage:", inputLanguage);
+                console.log("transLanguage:", transLanguage);
+            });
         });
+
+    });
 
         //김도연 작성: x 클릭 시 madal display: none으로 수정
             function xBtn() {
