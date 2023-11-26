@@ -10,8 +10,10 @@
 <head>
     <meta charset="UTF-8" />
     <title>Translator</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
+<!--    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">-->
+    <link rel="stylesheet" href="/css/Trans.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- tesseract.js CDN -->
     <script src='https://unpkg.com/tesseract.js@2.1.4/dist/tesseract.min.js'></script>
@@ -262,228 +264,40 @@ var bookNo; //김도연 작성
                     }
                 });
             }
-        </script>
-    <style>
-        body {
-            overflow-x: hidden;
-        }
-        a{
-            font-size: 40px;
-        }
-        .container {
-            position: relative;
-            display: block;
-            width: 100%
-            height: 100%
-        }
-        .text-overlay {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, 0%);
-            padding: 10px;
-        }
-        .image-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px;
-            display: inline-block;
-            width: 5%;
-            height: 5%;
-            background-image: url('images/Plus.png');
-            background-size: cover;
-            text-decoration: none;
-            transform: translate(300%, 10%);
-        }
-        input.shadowed {
-            appearance: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            border: none;  테두리 제거
-            box-shadow: inset 1px 1px 5px 1px rgba(0.3, 0.3, 0.3, 0.3);
-            padding: 10px; /* 내용과 테두리 사이 여백 */
-        }
-        .btn-block {
-            color: white;
-            display: block;
-            padding-top: 5%;
-            padding-bottom: 5%;
-            text-align: center;
-            border-radius: 8px;
-            background-color: #4A7E67;
-            border: none;
-            box-shadow:0 5px 2px rgba(0, 0, 0, 0.2);
-        }
-        #morphologyTable {
-            text-align: center;
-            margin: 0 auto;
-            transform: translate(0%, 40%);
-            margin-bottom: 100%;
-        }
-        #morphologyTable td,
-        #morphologyTable th {
-            width: 30vw;
-        }
-         .switch-button {
-            width: 35px;
-            height: auto;
-            cursor: pointer;
-            transform: translate(420%, 125%);
-        }
-        .TTSInput {
-            width: 35px;
-            height: auto;
-            cursor: pointer;
-            transform: translate(170%, 150%);
-        }
-        .Button {
-            width: 35px;
-            height: auto;
-            cursor: pointer;
-            transform: translate(280%, 130%);
-        }
-        .BottomNavigation{
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background-color: #F2E8D5;
-            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.25);
-            z-index: 1;
-            align-items: center;
-            padding: 10px 0;
-            height: 6%;
-        }
-        .CameraButton{
-            position: absolute;
-            top: 50%;
-            left: 10%;
-            transform: translate( -50%, -50% );
-        }
-        .TranslationButton{
-            position: absolute;
-            top: 50%;
-            left: 30%;
-            transform: translate( -50%, -50% );
-        }
-        .HomeButton{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate( -50%, -50% );
-        }
-        .QuizButton{
-            position: absolute;
-            top: 50%;
-            left: 70%;
-            transform: translate( -50%, -50% );
-        }
-        .WordBookButton{
-            position: absolute;
-            top: 50%;
-            left: 90%;
-            transform: translate( -50%, -50% );
-        }
-
-/*이하 김도연 추가*/
-        .base {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #F2E8D5;
-            text-align: center;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            z-index: 10;
-        }
-
-        .bookName {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 13px;
-            font-weight: bolder;
-        }
-
-        .headText{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 13px;
-        }
-
-        .bookdiv {
-            position: relative;
-            margin-top: 30px;
-        }
-
-        .bookList {
-            position: absolute;
-            top: 1%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            overflow-y: scroll;
-            width: 90%;
-            border-collapse: collapse;
-        }
-
-        .bookList td {
-            margin: 0; /* td 요소의 기본 여백 제거 */
-        }
-
-        .bookNo{
-            display: none;
-        }
-    </style>
+    </script>
 </head>
-<body style="background-color:#F2E8D5;">
 
-<div class="container">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+</style>
 
-    <br>
-
-    <p style="text-align: center; font-size:200%"><b>Translator</b></p>
-
-    <div style="text-align : center;">
+<body style="background-color:#F2E8D5; padding-bottom: 100px;">
+    <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+        <p style="font-size:200%; margin-bottom: 20px;"><b>Translator</b></p>
         <img src="images/Belt.png" style="width: 90%">
     </div>
 
-
     <div class="text-overlay">
-
-        <img src="/images/Switch.png" class="switch-button" id="switchButton" alt="Switch Button" style="cursor: pointer;">
-
-        <img src="/images/TTSSmall.png" class="TTSInput" style="cursor: pointer;" id="inputBoxButton" alt="단어 음성 듣기">
-
-        <div>
-            <p style="font-size:25px"><strong id="sourceLanguage">English</strong></p>
+        <!--영어 부분-->
+        <div style="display: flex;">
+            <h2><b id="sourceLanguage">English</b></h2>
+            <img src="/images/TTSSmall.png" class="TTSInput" style="cursor: pointer;" id="inputBoxButton" alt="단어 음성 듣기">
+            <img src="/images/Switch.png" class="switch-button" id="switchButton" alt="Switch Button">
         </div>
 
-        <p>
-            <input type="text" id="inputText" class="shadowed" placeholder="Please enter your text" style="width:83vw;height:15vh;font-size:15px;">
-        </p>
+        <input type="text" id="inputText" class="shadowed" placeholder="Please enter your text" style="width:83vw;height:15vh;font-size:17px;">
 
-
-        <img src="/images/TTSSmall.png" class="Button" style="cursor: pointer;" id="transBoxButton" alt="단어 음성 듣기">
-
-        <div>
-            <p style="font-size:25px"><strong id="targetLanguage">Korean</strong></p>
+        <!--한국어 부분-->
+        <div style="display: flex; margin-top: 15px;">
+            <h2><b id="targetLanguage">Korean</b></h2>
+            <img src="/images/TTSSmall.png" class="Button" style="cursor: pointer;" id="transBoxButton" alt="단어 음성 듣기">
         </div>
 
-        <p>
-            <input type="text" id="transText" class="shadowed" placeholder="Translation" style="width:83vw;height:15vh;font-size:15px;">
-        </p>
+        <input type="text" id="transText" class="shadowed" placeholder="Translation" style="width:83vw;height:15vh;font-size:17px;">
 
-
-
-        <input type="button" class="btn-block" id="translator" name="translator" value="Translate">
-
-        <br>
+        <div style="text-align: center; margin-top: 15px; margin-bottom: 15px;">
+            <input type="button" class="btn-block" id="translator" name="translator" value="Translate">
+        </div>
 
         <div id="morphologyTable">
             <table border="0" style="position:fixed;">
@@ -491,67 +305,66 @@ var bookNo; //김도연 작성
 
                 </tbody>
             </table>
-
         </div>
-
     </div>
 
-<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
-<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-</div>
-<nav class="BottomNavigation">
-    <a href="/camera">
-        <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
-    </a>
-    <a href="/translator">
-        <img class="TranslationButton" src="images/TranslationButton.png" style="width: 8%;">
-    </a>
-    <a href="/home">
-        <img class="HomeButton" src="images/NotSelectedHome.png" style="width: 11%;">
-    </a>
-    <a href="/QuizList">
-        <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
-    </a>
-    <a href="vocaList">
-        <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
-    </a>
-</nav>
+    <!--이하 김도연 작성: 단어장 추가 버튼 눌렀을 때 모달-->
+    <div class="base" id="modal">
+        <header>
+            <img src="images/X.png" style="width: 7%; margin-top: 5px; margin-left: 5px; float: left;" onclick="xBtn()">
+            <img src="images/BlurrySunCloud.png" style="width: 30%; margin: 0 auto;">
+            <img style="float: right;">
 
-<!--이하 김도연 작성: 단어장 추가 버튼 눌렀을 때 모달-->
-<div class="base" id="modal">
-    <header>
-        <img src="images/X.png" style="width: 7%; margin-top: 5px; margin-left: 5px; float: left;" onclick="xBtn()">
-        <img src="images/BlurrySunCloud.png" style="width: 30%; margin: 0 auto;">
-        <img style="float: right;">
+            <div style="position: relative;">
+                <img src="images/ChooseWordBookTop.png" style="width: 90%">
+                <span class="headText">Choose a word book to put the words in</span>
+            </div>
+        </header>
 
         <div style="position: relative;">
-            <img src="images/ChooseWordBookTop.png" style="width: 90%">
-            <span class="headText">Choose a word book to put the words in</span>
+            <img src="images/ChooseWordBookBottom.png" style="width: 90%">
+            <table class="bookList">
+                <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
+                    <td>
+                        <div class="bookdiv" onclick="openBook(this)">
+                            <img src="images/ClosedBook.png" style="width: 90%">
+                            <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
+                            <span class="bookNo" th:text="${vocalist.no}">no</span>
+                        </div>
+                    </td>
+                    <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
+                        <div class="bookdiv" onclick="openBook(this)">
+                            <img src="images/ClosedBook.png" style="width: 90%">
+                            <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
+                            <span class="bookNo" th:text="${bookLis[iterStat.index + 1].no}">no</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
-    </header>
-
-    <div style="position: relative;">
-        <img src="images/ChooseWordBookBottom.png" style="width: 90%">
-        <table class="bookList">
-            <tr th:each="vocalist, iterStat : ${bookLis}" th:if="${iterStat.index % 2 == 0}">
-                <td>
-                    <div class="bookdiv" onclick="openBook(this)">
-                        <img src="images/ClosedBook.png" style="width: 90%">
-                        <span class="bookName" th:text="${vocalist.bookTitle}">title</span>
-                        <span class="bookNo" th:text="${vocalist.no}">no</span>
-                    </div>
-                </td>
-                <td th:if="${iterStat.index + 1 &lt; bookLis.size()}">
-                    <div class="bookdiv" onclick="openBook(this)">
-                        <img src="images/ClosedBook.png" style="width: 90%">
-                        <span class="bookName" th:text="${bookLis[iterStat.index + 1].bookTitle}">title</span>
-                        <span class="bookNo" th:text="${bookLis[iterStat.index + 1].no}">no</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
     </div>
-</div>
 </body>
+
+<footer>
+    <nav class="BottomNavigation">
+        <a href="/camera">
+            <img class="CameraButton" src="images/NotSelectedCamera.png" style="width: 9%;">
+        </a>
+        <a href="/translator">
+            <img class="TranslationButton" src="images/TranslationButton.png" style="width: 8%;">
+        </a>
+        <a href="/home">
+            <img class="HomeButton" src="images/NotSelectedHome.png" style="width: 11%;">
+        </a>
+        <a href="/QuizList">
+            <img class="QuizButton" src="images/NotSelectedQuiz.png" style="width: 7%;">
+        </a>
+        <a href="vocaList">
+            <img class="WordBookButton" src="images/NotSelectedWordBook.png" style="width: 6%;">
+        </a>
+    </nav>
+</footer>
 </html>
