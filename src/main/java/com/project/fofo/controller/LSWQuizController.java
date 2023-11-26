@@ -90,10 +90,9 @@ public class LSWQuizController {
     @GetMapping("/endOfLSW")
     public String endOfLSW(Model model, @RequestParam("vocaNo") Long vocaNo){
         //전체 문제, 맞은 개수
-        List<WordsEntity> wordsEntity = quizRepository.findByVocaNo(vocaNo);
-
+        List<QuizDTO> wordsEntity = quizService.findVocaListWithKoSentence(vocaNo);
         //단어리스트
-        model.addAttribute("boardList", boardRepository.findByVocaNo(vocaNo));
+        model.addAttribute("boardList", wordsEntity);
 
         //모달
         model.addAttribute("totNum", wordsEntity.size()); //총 개수
