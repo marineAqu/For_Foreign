@@ -75,7 +75,7 @@ public class ListeningQuizController {
 
         }
         else {  //첫 문제가 아닌 경우
-            quizList = quizService.findVocaListSentence(vocaNo); //임시로이렇게해두겟는데 알고리즘 수정해야할듯함
+            quizList = quizService.findVocaListSentence(vocaNo);
             quizNum = quizList.get(nowIndex).getNo();
             System.out.println("else문의 quizNum에서 outOfBound 오류가 남 대체왜:" + quizNum);
 

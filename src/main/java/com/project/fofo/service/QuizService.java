@@ -93,7 +93,7 @@ public class QuizService {
 
         int i=0;
         for (WordsEntity wordsEntity : wordsEntityList) {
-            if(!wordsEntity.getKoSentence().isBlank() && !wordsEntity.getEnSentence().isBlank()) {
+            if(wordsEntity.getKoSentence()!=null && !wordsEntity.getKoSentence().isBlank() && wordsEntity.getEnSentence()!=null && !wordsEntity.getEnSentence().isBlank()) {
                 idList.add(wordsEntityList.get(i).getNo());
                 i++;
             }
