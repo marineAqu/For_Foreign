@@ -114,6 +114,9 @@ public class WordsEntity {
         wordsEntity.setVocaNo(vocaNo);
         wordsEntity.setCheckStatus('n');
         wordsEntity.setCheckQuiz('n');
+        wordsEntity.setEnSentence(""); //퀴즈에서 예문이 비었는지 검사할 때 편의를 위해 null이 아닌 블랭크 삽입
+        wordsEntity.setKoSentence(""); //퀴즈에서 예문이 비었는지 검사할 때 편의를 위해 null이 아닌 블랭크 삽입
+        wordsEntity.setPronSymbol(""); //퀴즈에서 예문이 비었는지 검사할 때 편의를 위해 null이 아닌 블랭크 삽입
         return wordsEntity;
     }
 }
