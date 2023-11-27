@@ -39,8 +39,9 @@
             align-items: center;
             padding: 10px;
             display: inline-block;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
+            margin-top: 5px;
             background-image: url('images/Back.png');
             background-size: cover;
             text-decoration: none;
@@ -48,12 +49,21 @@
         .btn-block {
             color: white;
             display: block;
-            padding-top: 5%;
-            padding-bottom: 5%;
+            padding-top: 7px;
+            padding-bottom: 7px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 5px;
             background-color: #11264F;
             border: none;
+        }
+        input[type="text"]{
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            border: none;
+            outline: none;
+            box-shadow: 0px 0px 7px 2px #e7e7e7 inset;
+            padding: 5px;
         }
     </style>
 
@@ -64,12 +74,10 @@
 
     <a class="image-button" onclick="goBack()"></a>
 
-    <p style="text-align: center; font-size:200%"><b>Basic  (Hard)</b></p>
-
     <div style="text-align : center;">
+        <h1>Basic(Hard)</h1>
         <img src="images/Belt.png" style="width: 90%">
     </div>
-
 
     <div class="image-container">
         <img src="/images/HalfOpenBook.png" alt="단어 추가 이미지" style="width: 105%" >
@@ -92,6 +100,7 @@
                 </p>
                 <p style="font-size:20px">
                     <strong>Part of speech</strong>
+                    <div></div>
                     <input type="checkbox" name="partSpeech" value="1">noun
                     <input type="checkbox" name="partSpeech" value="2">verb
                     <input type="checkbox" name="partSpeech" value="3">adjective
