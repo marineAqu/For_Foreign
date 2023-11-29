@@ -22,30 +22,35 @@ public class rdgram { //랜덤으로 문법 가져오기
     static int randomnum=1;
     @GetMapping("/randgram")
     public String randgram() throws Exception {
-        Date currentDate = new Date();
-
-        if (lastFetchedDate1 == null || !isSameDay(lastFetchedDate1, currentDate)) {
-            // Fetch new random grammar if it's a new day
-            RandomGrammar = fetchrandgram();
-            lastFetchedDate1 = currentDate;
-        }
+//        Date currentDate = new Date();
+//
+//        if (lastFetchedDate1 == null || !isSameDay(lastFetchedDate1, currentDate)) {
+//            // Fetch new random grammar if it's a new day
+//            RandomGrammar = fetchrandgram();
+//            lastFetchedDate1 = currentDate;
+//        }
+        RandomGrammar = fetchrandgram();
 
         return RandomGrammar;
     }
     @GetMapping("/examples")
     public String examples() throws Exception {
-        Date currentDate1 = new Date();
+//        Date currentDate1 = new Date();
+//
+//        if (lastFetchedDate2 == null || !isSameDay(lastFetchedDate2, currentDate1)) {
+//            // Fetch new random grammar if it's a new day
+//            fetchrandgram();
+//            examplenow = examplestr;
+//            lastFetchedDate2 = currentDate1;
+//        }
+        fetchrandgram();
+        examplenow = examplestr;
 
-        if (lastFetchedDate2 == null || !isSameDay(lastFetchedDate2, currentDate1)) {
-            // Fetch new random grammar if it's a new day
-            fetchrandgram();
-            examplenow = examplestr;
-            lastFetchedDate2 = currentDate1;
-        }
         return examplenow;
     }
     private String fetchrandgram() throws Exception {
         Random rd = new Random();
+        Date currentDate = new Date();
 
         String DB_URL = "jdbc:mysql://localhost:3306/pro_kor?useUnicode=true&characterEncoding=utf8";
         String DB_USER = "root";
@@ -63,7 +68,11 @@ public class rdgram { //랜덤으로 문법 가져오기
             while (rs.next()) {
                 n++;
             }
-            randomnum = rd.nextInt(n) + 1;
+            if (lastFetchedDate1 == null || !isSameDay(lastFetchedDate1, currentDate)){
+                randomnum = rd.nextInt(n) + 1;
+                lastFetchedDate1 = currentDate;
+            }
+
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
             StringBuilder stringBuilder1 = new StringBuilder();
