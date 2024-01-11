@@ -65,11 +65,17 @@
             box-shadow: 0px 0px 7px 2px #e7e7e7 inset;
             padding: 5px;
         }
+        .insert {
+            border: none;
+            color: white;
+            border-radius: 5px;
+            background-color: #11264F;
+            margin-bottom: 5px;
+            display: none;
+        }
     </style>
-
 </head>
 <body style="background-color:#F2E8D5;">
-
 <div class="container">
 
     <a class="image-button" onclick="goBack()"></a>
@@ -86,7 +92,7 @@
                 <div>
                     <p style="font-size:20px">
                         <strong>Word</strong>
-                        <input type="text" name="koWord" >
+                        <input type="text" name="koWord" id="koWord" onchange='addSentence()'>
                     </p>
                 </div>
 
@@ -107,11 +113,12 @@
                 </p>
                 <p style="font-size:20px">
                     <strong>Korean sentence</strong>
-                    <input type="text" name="koSentence">
+                    <button class="insert" id="insertButton">Insert</button>
+                    <input type="text" name="koSentence" id="koSentence" onchange='Spelling()'>
                 </p>
                 <p style="font-size:20px">
                     <strong>English sentence</strong>
-                    <input type="text" name="enSentence">
+                    <input type="text" name="enSentence" id="enSentence">
                 </p>
 
                 <p>
@@ -131,12 +138,12 @@
     }
 
     function addVocaNoToForm() {
-
         var urlParams = new URLSearchParams(window.location.search);
         var vocaNo = urlParams.get("vocaNo");
 
         var form = document.querySelector("form");
         var vocaNoInput = document.createElement("input");
+
         vocaNoInput.type = "hidden";
         vocaNoInput.name = "vocaNo";
         vocaNoInput.value = vocaNo;
@@ -147,5 +154,63 @@
     var form = document.querySelector("form");
     form.addEventListener("submit", addVocaNoToForm);
 
+    // 이하 chatGPT로 자동 문장 생성
+    const koSentence = document.getElementById('koSentence');
+    const enSentence = document.getElementById('enSentence');
+    const insertButton = document.getElementById('insertButton');
+
+    function addSentence() {
+        const koWord = document.getElementById('koWord').value;
+        askChatGPTSentence(koWord);
+    }
+
+    function askChatGPTSentence(koWord){
+        $.ajax({
+            url: "/chatgptGeneration",
+            data: "koWord=" + koWord,
+            type: "POST",
+            success : function(data){
+                //koSentence.value = data[0];
+                //enSentence.value = data[1];
+                koSentence.placeholder = data[0];
+                enSentence.placeholder = data[1];
+                insertButton.style.display = "flex"
+            },
+            error : function(){
+                console.log("에러");
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $("#insertButton").click(function(event) {
+
+            $("#koSentence").val($("#koSentence").attr("placeholder"));
+            $("#enSentence").val($("#enSentence").attr("placeholder"));
+
+            event.preventDefault();
+        });
+    });
+
+    // 이하 chatGPT로 맞춤법 검사
+    function Spelling() {
+        const koSentenceValue = document.getElementById('koSentence').value;
+        askChatGPTSpelling(koSentenceValue);
+    }
+
+    function askChatGPTSpelling(koSentenceValue){
+        $.ajax({
+            url: "/chatgptSpelling",
+            data: "koSentenceValue=" + koSentenceValue,
+            type: "POST",
+            success : function(data){
+                koSentence.value = data[0];
+                enSentence.value = data[1];
+            },
+            error : function(){
+                console.log("에러");
+            }
+        });
+    }
 </script>
 </html>
