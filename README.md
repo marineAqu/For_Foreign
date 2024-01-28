@@ -12,6 +12,8 @@
 
 > 개발 환경: intellij idea community
 
+> 기타: notion 등
+
 ### 팀원
 * 김도연 (팀장)
      * DB 설계
